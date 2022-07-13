@@ -1,0 +1,8 @@
+<ul>
+  <li *ngFor="let technicien of techniciens$ | async">
+      <p>{{technicien.id}}</p>
+      <p>{{technicien.nom}}</p>
+      <p>{{technicien.prenom}}</p>
+      <br/>
+  </li>
+</ul>
