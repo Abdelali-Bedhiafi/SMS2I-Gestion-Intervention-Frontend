@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { BackendService } from './backend.service';
 import { Technicien } from './technicien';
 
@@ -7,13 +6,15 @@ import { Technicien } from './technicien';
   providedIn: 'root'
 })
 export class TechnicienService {
+  techniciens: Map<number,Technicien>;
 
-  constructor(private backend: BackendService) { }
-
-
-  getAll():Observable<Technicien[]>{
-    return  this.backend.sendGetRequest<Technicien[]>("technicien");
+  constructor(private backend: BackendService) {
+    this.techniciens = new Map<number,Technicien>();
+    this.backend.sendGetRequest<Technicien[]>("technicien").subscribe(list=>{
+      list.forEach(technicien=>{
+        this.techniciens.set(technicien.id,technicien);
+      });
+    });
   }
-
 
 }

@@ -12,47 +12,18 @@ import { TechnicienService } from '../technicien.service';
   styleUrls: ['./test.component.css']
 })
 export class TestComponent implements OnInit {
-  techniciens!: Technicien[];
-  ordresMission!: OrdreMission[];
-  clients!: Client[];
-  selectedTechnicienId!:number;
-  selectedOrdreMissionId!:number;
 
 
-  constructor(private technicien: TechnicienService,
-              private ordreMission: OrdreMissionService,
-              private client: ClientService
+
+  constructor(public technicien: TechnicienService,
+              public ordreMission: OrdreMissionService,
+              public client: ClientService
             ) { }
 
   ngOnInit(): void {
-    this.technicien.getAll().subscribe(data => {
-      this.techniciens=data;
-      this.selectedTechnicienId=data[0].id;
-    });
-    this.ordreMission.getAll().subscribe(data => {
-      this.ordresMission=data;
-      this.selectedOrdreMissionId=data[0].id;
-    });
-    this.client.getAll().subscribe(data=>{
-      this.clients=data;
-    })
+
   }
 
-  affecter(){
-    if(this.selectedTechnicienId  && this.selectedOrdreMissionId){
-      console.log("test");
-      /*let param = new HttpParams().appendAll({"missionId":this.selectedOrdreMissionId,"technicienId":this.selectedTechnicienId});
-      this.http.post<OrdreMission>("http://localhost:8080/mission/affecter",null,{params:param})
-      .subscribe(ordreMission=>{
-        console.log(ordreMission.id);
-      });*/
-      this.ordreMission.affecter(this.selectedOrdreMissionId,this.selectedTechnicienId).subscribe(mission=>{
-        console.log(mission);
-        this.ordreMission.getAll().subscribe(data=>{
-          this.ordresMission=data;
-        })
-      });
-    }
-  }
+
 
 }

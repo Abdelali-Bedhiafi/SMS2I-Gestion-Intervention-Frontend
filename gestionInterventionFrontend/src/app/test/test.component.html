@@ -1,5 +1,5 @@
 <ul>
-  <li *ngFor="let technicien of techniciens">
+  <li *ngFor="let technicien of technicien.techniciens.values()">
       <p>{{technicien.id}}</p>
       <p>{{technicien.nom}}</p>
       <p>{{technicien.prenom}}</p>
@@ -7,7 +7,7 @@
   </li>
 </ul>
 <ul>
-  <li *ngFor="let ordreMission of ordresMission">
+  <li *ngFor="let ordreMission of ordreMission.ordresMission.values()">
       <p>{{ordreMission.id}}</p>
       <p>{{ordreMission.dateMission}}</p>
       <p>{{ordreMission.client | json}}</p>
@@ -17,17 +17,13 @@
 </ul>
 
 <ul>
-  <li *ngFor="let client of clients">
+  <li *ngFor="let client of client.clients.values()">
     <p>{{client.id}}</p>
     <p>{{client.nom}}</p>
     <p>{{client.address}}</p>
   </li>
 </ul>
-<input [(ngModel)]="selectedTechnicienId">
-<h2>selected technicien{{ selectedTechnicienId }}</h2>
-
-<input [(ngModel)]="selectedOrdreMissionId">
-<h2>selected technicien{{ selectedOrdreMissionId }}</h2>
-
-<button (click)="affecter()" ></button>
-
+<input [matDatepicker]="basicDatepicker">
+<mat-datepicker-toggle [for]="basicDatepicker"></mat-datepicker-toggle>
+<mat-datepicker #basicDatepicker></mat-datepicker>
+<app-detail-test></app-detail-test>

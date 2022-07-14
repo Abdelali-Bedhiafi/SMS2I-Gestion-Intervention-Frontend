@@ -8,17 +8,23 @@ import { OrdreMission } from './ordre-mission';
   providedIn: 'root'
 })
 export class OrdreMissionService {
+  ordresMission: Map<number,OrdreMission>;
 
-  constructor(private backend: BackendService) { }
+  constructor(private backend: BackendService) {
+    this.ordresMission = new Map<number,OrdreMission>();
+    this.backend.sendGetRequest<OrdreMission[]>("mission").subscribe(list=> {
+      console.log(list);
+      list.forEach(mission=> this.ordresMission.set(mission.id,mission));
+    });
+   }
 
-getAll():Observable<OrdreMission[]>{
-  return this.backend.sendGetRequest<OrdreMission[]>("mission");
-}
-
-affecter(missionId: number, technicienId: number):Observable<OrdreMission>{
-
-  let params: HttpParams = new HttpParams().append("missionId",missionId).append("technicienId",technicienId);
-  return this.backend.sendPostRequest<OrdreMission>("mission/affecter",params);
+affecter(missionId: number, technicienId: number){
+  if(missionId in this.ordresMission.keys()){
+    const params: HttpParams = new HttpParams().append("missionId",missionId).append("technicienId",technicienId);
+    this.backend.sendPostRequest<OrdreMission>("mission/affecter",{},params).subscribe(mission=>{
+      this.ordresMission.set(missionId,mission);
+    });
+  }
 }
 
 }

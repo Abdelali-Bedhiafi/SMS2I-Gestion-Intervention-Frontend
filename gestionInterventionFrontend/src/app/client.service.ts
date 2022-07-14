@@ -7,10 +7,16 @@ import { Client } from './client';
   providedIn: 'root'
 })
 export class ClientService {
+  clients: Map<number,Client>;
 
-  constructor(private backend: BackendService) { }
-
-  getAll():Observable<Client[]>{
-    return this.backend.sendGetRequest("client");
+  constructor(private backend: BackendService) {
+    this.clients = new Map<number,Client>();
+    this.backend.sendGetRequest<Client[]>("client").subscribe(list=>{
+      console.log(list);
+      list.forEach(client=>{
+        this.clients.set(client.id,client);
+      });
+    })
   }
+
 }
