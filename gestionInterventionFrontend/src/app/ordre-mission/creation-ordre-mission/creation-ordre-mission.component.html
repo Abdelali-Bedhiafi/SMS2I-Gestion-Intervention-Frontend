@@ -1,1 +1,27 @@
+<form [formGroup]="creationOrdreForm">
 
+  <label for="date-demande">Date Demande: </label>
+  <input matInput [matDatepicker]="picker" id="date-demande" type="text" formControlName="dateDemande">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker><br>
+
+
+  <label for="client">Client: </label>
+  <select formControlName="client">
+    <option *ngFor="let client of client$.clients.values()" [ngValue]="client">{{client.nom}}</option>
+  </select><br>
+
+  <label for="superviseur">Superviseur: </label>
+  <select formControlName="superviseur">
+    <option *ngFor="let superviseur of superviseur$.superviseurs.values()" [ngValue]="superviseur">{{superviseur.nom}}</option>
+  </select><br>
+
+  <label for="description-demande">Description Demande: </label>
+  <input id="description-demande" type="text" formControlName="DescriptionDemande"><br>
+
+</form>
+
+<form [formGroup]= "creationOrdreForm" (ngSubmit)="onSubmit()"></form>
+
+<button type="submit" [disabled]="!creationOrdreForm.valid">Valider</button>
+{{creationOrdreForm.value.superviseur| json}}

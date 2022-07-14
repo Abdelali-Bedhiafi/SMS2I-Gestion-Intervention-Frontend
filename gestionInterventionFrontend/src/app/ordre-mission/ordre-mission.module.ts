@@ -19,6 +19,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     ReactiveFormsModule,
     OrdreMissionRoutingModule,
     MatDatepickerModule
+  ],
+  exports:[
+    CreationOrdreMissionComponent
   ]
 })
 export class OrdreMissionModule { }
