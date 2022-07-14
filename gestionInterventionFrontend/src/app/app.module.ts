@@ -14,6 +14,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import { OrdreMissionModule } from './ordre-mission/ordre-mission.module';
 
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -28,6 +29,7 @@ import { OrdreMissionModule } from './ordre-mission/ordre-mission.module';
     MatNativeDateModule,
     OrdreMissionModule,
     MatDatepickerModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule
