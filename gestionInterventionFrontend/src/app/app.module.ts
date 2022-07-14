@@ -4,29 +4,29 @@ import { HttpClientModule } from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-<<<<<<< HEAD
-import { HomeComponent } from './home/home.component';
 
-=======
-import { TestComponent } from './test/test.component';
+import { HomeComponent } from './home/home.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
->>>>>>> e80cb01766898cf5d6948010333f1ecaabbb1c77
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [
     AppComponent,
-<<<<<<< HEAD
-    HomeComponent,
-  
-=======
-    TestComponent
->>>>>>> e80cb01766898cf5d6948010333f1ecaabbb1c77
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
