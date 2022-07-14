@@ -9,6 +9,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
 import {MatListModule} from '@angular/material/list';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 
@@ -27,8 +28,11 @@ import {MatListModule} from '@angular/material/list';
     MatGridListModule,
     OrdreMissionRoutingModule,
     MatListModule,
-    MatSelectModule
-
+    MatSelectModule,
+    MatDatepickerModule
+  ],
+  exports:[
+    CreationOrdreMissionComponent
   ]
 })
 export class OrdreMissionModule { }
