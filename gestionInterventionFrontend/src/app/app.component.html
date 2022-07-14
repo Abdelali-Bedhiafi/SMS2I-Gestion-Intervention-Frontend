@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-
 <p>Date demande</p>
 
 
@@ -13,10 +10,7 @@
 
 
     <select matNativeControl required>
-      <option value="volvo">Volvo</option>
-      <option value="saab">Saab</option>
-      <option value="mercedes">Mercedes</option>
-      <option value="audi">Audi</option>
+      <option *ngFor="let client of client.clients.values()" value="client">{{client.nom}}</option>
     </select>
 
     <h4>Superviseur</h4>
@@ -24,9 +18,7 @@
 
     <select matNativeControl required>
       <option value="volvo">Volvo</option>
-      <option value="saab">Saab</option>
-      <option value="mercedes">Mercedes</option>
-      <option value="audi">Audi</option>
+
     </select>
 
 
