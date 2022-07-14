@@ -1,4 +1,3 @@
-import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BackendService } from './backend.service';
@@ -16,10 +15,5 @@ export class TechnicienService {
     return  this.backend.sendGetRequest<Technicien[]>("technicien");
   }
 
-  affecter(missionId: number, technicienId: number):void{
-    let params: HttpParams = new HttpParams();
-    params.append("missionId",missionId);
-    params.append("technicienId",technicienId);
-    this.backend.sendPostRequest("mission/affecter",params);
-  }
+
 }
