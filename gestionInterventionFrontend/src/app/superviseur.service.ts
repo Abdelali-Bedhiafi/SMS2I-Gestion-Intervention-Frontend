@@ -7,6 +7,7 @@ import { Superviseur } from './superviseur';
 })
 export class SuperviseurService {
   superviseurs: Map<number,Superviseur>
+
   constructor(private backend: BackendService ) {
     this.superviseurs=new Map<number,Superviseur>();
     this.backend.sendGetRequest<Superviseur[]>("superviseur").subscribe(list=>{
