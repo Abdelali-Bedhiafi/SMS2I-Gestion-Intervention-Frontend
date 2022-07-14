@@ -5,7 +5,7 @@ import { OrdreMissionRoutingModule } from './ordre-mission-routing.module';
 
 
 @NgModule({
-  declarations: [],
+
   imports: [
     CommonModule,
     OrdreMissionRoutingModule
