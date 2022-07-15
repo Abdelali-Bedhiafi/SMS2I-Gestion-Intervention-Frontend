@@ -7,7 +7,6 @@ const routes: Routes = [
   { path: "details", component: DetailOrdreMissionComponent },
   { path: "creation", component: CreationOrdreMissionComponent }
 ];
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

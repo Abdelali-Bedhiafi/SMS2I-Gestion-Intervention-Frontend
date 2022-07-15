@@ -1,24 +1,15 @@
-
-
-
 <form [formGroup]="creationOrdreForm">
   <label for="date-demande">Date Demande: </label>
-  <input
-    matInput
-    [matDatepicker]="picker"
-    id="date-demande"
-    type="text"
-    formControlName="dateDemande"
-  />
+  <input matInput [matDatepicker]="picker" id="date-demande" type="Date" formControlName="dateMission" />
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker><br />
-
+  <mat-datepicker #picker></mat-datepicker>
+  <br />
   <label for="client">Client: </label>
   <select id="client" formControlName="client">
     <option *ngFor="let client of client$.clients.values()" [ngValue]="client">
       {{ client.nom }}
-    </option></select
-  ><br />
+    </option></select>
+  <br />
 
   <label for="superviseur">Superviseur: </label>
   <select id="superviseur" formControlName="superviseur">
@@ -36,7 +27,7 @@
     <textarea
       id="description-demande"
       type="text"
-      formControlName="descriptionDemande"
+      formControlName="descriptionMission"
     >
     </textarea>
   </mat-form-field>
@@ -46,4 +37,4 @@
 <form [formGroup]="creationOrdreForm" (ngSubmit)="onSubmit()"></form>
 
 <button type="submit" [disabled]="!creationOrdreForm.valid">Valider</button>
-{{ creationOrdreForm.value.descriptionDemande }}
+{{ creationOrdreForm.value.descriptionMission }}
