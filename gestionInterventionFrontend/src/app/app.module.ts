@@ -15,13 +15,17 @@ import { FormsModule } from '@angular/forms';
 import { OrdreMissionModule } from './ordre-mission/ordre-mission.module';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { FooterComponent } from './footer/footer.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    FooterComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
