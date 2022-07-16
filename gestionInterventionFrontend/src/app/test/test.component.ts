@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import {OrdreMissionService} from "../ordre-mission.service";
 
 @Component({
   selector: 'app-test',
@@ -7,11 +8,12 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./test.component.css']
 })
 export class TestComponent implements OnInit {
-  name = new FormControl('test');
 
-  constructor() { }
+  missionReady = false;
+  constructor(public mission$: OrdreMissionService) { }
 
   ngOnInit(): void {
+    this.mission$.ready.then( ready=> this.missionReady=ready);
   }
 
 }

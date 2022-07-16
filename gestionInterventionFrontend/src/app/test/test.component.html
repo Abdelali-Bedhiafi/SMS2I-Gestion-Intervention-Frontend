@@ -1,5 +1,5 @@
-<label for="name">Name: </label>
-<input id="name" type="text" [formControl]="name">
 
 
-<p>Value: {{ name.value }}</p>
+<ul *ngIf="missionReady">
+    <li *ngFor="let mission of mission$.ordresMission.values()">{{mission| json}}</li>
+</ul>
