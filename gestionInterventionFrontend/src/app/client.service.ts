@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { BackendService } from './backend.service';
 import { Client } from './client';
 
@@ -8,15 +7,17 @@ import { Client } from './client';
 })
 export class ClientService {
   clients: Map<number,Client>;
-
+  ready : Promise<boolean>;
   constructor(private backend: BackendService) {
     this.clients = new Map<number,Client>();
-    this.backend.sendGetRequest<Client[]>("client").subscribe(list=>{
-      console.log(list);
-      list.forEach(client=>{
-        this.clients.set(client.id,client);
-      });
-    })
+    this.ready = new Promise<boolean>((resolve)=>{
+      this.backend.sendGetRequest<Client[]>("client")
+        .subscribe(list=>{
+          list.forEach(client => this.clients.set(client.id,client));
+          resolve(true);
+        });
+    });
+
   }
 
 }

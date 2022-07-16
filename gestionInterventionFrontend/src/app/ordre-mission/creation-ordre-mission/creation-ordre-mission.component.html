@@ -1,40 +1,38 @@
-<form [formGroup]="creationOrdreForm">
+
+
+<form [formGroup]="creationOrdreForm" (ngSubmit)="onSubmit()">
+
   <label for="date-demande">Date Demande: </label>
-  <input matInput [matDatepicker]="picker" id="date-demande" type="Date" formControlName="dateMission" />
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
-  <br />
+  <input matInput [matDatepicker]="picker" id="date-demande" type="Date" formControlName="dateMission"/>
+  <mat-datepicker #picker>
+    <!--mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle-->
+  </mat-datepicker>
+  <br/>
+
+
   <label for="client">Client: </label>
-  <select id="client" formControlName="client">
+  <select *ngIf="client_ready" id="client" formControlName="client">
     <option *ngFor="let client of client$.clients.values()" [ngValue]="client">
       {{ client.nom }}
     </option></select>
-  <br />
+  <br/>
 
   <label for="superviseur">Superviseur: </label>
-  <select id="superviseur" formControlName="superviseur">
-    <option
-      *ngFor="let superviseur of superviseur$.superviseurs.values()"
-      [ngValue]="superviseur"
-    >
+  <select *ngIf="sup_ready" id="superviseur" formControlName="superviseur">
+    <option *ngFor="let superviseur of superviseur$.superviseurs.values()" [ngValue]="superviseur">
       {{ superviseur.nom }}
-    </option></select
-  ><br />
+    </option>
+  </select>
+  <br/>
+
 
   <label for="description-demande">Description Demande: </label>
-
-  <mat-form-field class="example-full-width" appearance="fill">
-    <textarea
-      id="description-demande"
-      type="text"
-      formControlName="descriptionMission"
-    >
+    <textarea id="description-demande" type="text" formControlName="descriptionMission">
     </textarea>
-  </mat-form-field>
-  <br />
+  <br/>
+
+  <button type="submit" [disabled]="!creationOrdreForm.valid">Valider</button>
 </form>
 
-<form [formGroup]="creationOrdreForm" (ngSubmit)="onSubmit()"></form>
 
-<button type="submit" [disabled]="!creationOrdreForm.valid">Valider</button>
-{{ creationOrdreForm.value.descriptionMission }}
+

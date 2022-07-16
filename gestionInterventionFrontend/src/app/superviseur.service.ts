@@ -6,14 +6,18 @@ import { Superviseur } from './superviseur';
   providedIn: 'root'
 })
 export class SuperviseurService {
-  superviseurs: Map<number,Superviseur>
+
+  superviseurs: Map<number,Superviseur>;
+  ready: Promise< boolean>;
 
   constructor(private backend: BackendService ) {
-    this.superviseurs=new Map<number,Superviseur>();
-    this.backend.sendGetRequest<Superviseur[]>("superviseur").subscribe(list=>{
-      list.forEach(superviseur=>{
-        this.superviseurs.set(superviseur.id,superviseur);
-      })
+    this.superviseurs = new Map<number,Superviseur>();
+    this.ready = new Promise<boolean>((resolve) =>{
+      this.backend.sendGetRequest<Superviseur[]>("superviseur")
+        .subscribe(list=>{
+          list.forEach(superviseur => this.superviseurs.set(superviseur.id,superviseur));
+          resolve(true);
+        });
     });
    }
 }

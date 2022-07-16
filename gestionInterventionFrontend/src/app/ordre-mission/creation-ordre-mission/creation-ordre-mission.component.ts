@@ -10,10 +10,14 @@ import {OrdreMissionCreation} from "../ordre-mission-creation";
 })
 export class CreationOrdreMissionComponent implements OnInit {
   creationOrdreForm!: FormGroup<OrdreMissionCreation>;
+  sup_ready = false;
+  client_ready = false;
   constructor(public client$ : ClientService,
                public superviseur$ : SuperviseurService) { }
 
   ngOnInit(): void {
+    this.superviseur$.ready.then( ready => this.sup_ready = ready );
+    this.client$.ready.then(ready => this.client_ready = ready );
     this.creationOrdreForm = new FormGroup<OrdreMissionCreation>({
       dateMission: new FormControl(new Date()),
       client: new FormControl({id:0,nom:"select",address:""}),
@@ -24,7 +28,7 @@ export class CreationOrdreMissionComponent implements OnInit {
 
   onSubmit() {
     // TODO: Use EventEmitter with form value
-    console.warn(this.creationOrdreForm.value);
+    console.log(this.creationOrdreForm.value);
   }
 
 
