@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BackendService } from './backend.service';
-import { OrdreMission } from './ordre-mission';
+import { OrdreMission } from '../model/ordre-mission';
 
 @Injectable({
   providedIn: 'root'
