@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {CheckListService} from "../service/check-list.service";
 import {CheckList} from "../model/check-list";
 import {Software} from "../model/software";
-import {SoftwareService} from "../service/software.service";
 import {SoftwareCategorieService} from "../service/software-categorie.service";
 import {FormControl} from "@angular/forms";
 
@@ -87,9 +86,4 @@ export class TestComponent implements OnInit {
   }
 
 
-}
-
-interface Categorie{
-  id: number;
-  nom: string;
 }
