@@ -77,13 +77,18 @@ export class CheckListDetailComponent implements OnInit {
 
   selectSoftware(categorie: string){
     let selectedSoftware =this.softwareMap.get(categorie)?.input.value;
+    // valider input
     if (selectedSoftware != undefined){
+      // cree une copy
       const newChecklist:CheckList = { id:this.checklist.id,materiels:this.checklist.materiels,softwares:[],model:this.checklist.model};
       this.checklist.softwares.forEach(software =>newChecklist.softwares.push(software));
+      // ajouter le software
       newChecklist.softwares.push(selectedSoftware);
+      // envoyer la requette
       this.checkList$.update(this.checklist.id,newChecklist).subscribe(checkList => {
+        // en cas de validation (software ajoutee)
         if (this.checklist.softwares.length < checkList.softwares.length) {
-          console.log("here");
+          // MAJ liste des categorie a remplir et checklist
           this.softwareMap.delete(categorie);
           this.checklist=checkList;
         }
