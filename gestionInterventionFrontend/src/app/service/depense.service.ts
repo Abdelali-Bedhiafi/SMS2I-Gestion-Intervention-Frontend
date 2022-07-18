@@ -8,12 +8,13 @@ import { BackendService } from './backend.service';
 })
 export class DepenseService {
 
-  depenses!: Depense[];
-  ready=false;
-  constructor(private backend: BackendService) {
-    this.backend.sendGetRequest<Depense[]>("DepencesDeplacement/getAll").subscribe( list => {this.depenses=list; this.ready=true});
-  }
 
+
+  constructor(private backend: BackendService) { }
+
+  getAll():Observable<Depense[]>{
+    return this.backend.sendGetRequest<Depense[]>("DepencesDeplacement");
+  }
   update(){
 
   }
