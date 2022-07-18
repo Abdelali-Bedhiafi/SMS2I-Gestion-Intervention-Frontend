@@ -1,0 +1,16 @@
+.page{
+  background-color: #d9d9d9;
+  width: 85%;
+  margin: auto;
+}
+.demo-table {
+  width: 100%;
+}
+
+.demo-button-container {
+  padding-bottom: 16px;
+}
+
+.demo-button + .demo-button {
+  margin-left: 8px;
+}
