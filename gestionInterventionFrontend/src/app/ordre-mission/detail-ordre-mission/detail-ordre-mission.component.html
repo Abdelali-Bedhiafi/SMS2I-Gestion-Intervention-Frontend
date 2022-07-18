@@ -1,187 +1,151 @@
-<mat-card class="ordre">
-  <mat-card-title>Ordre Mission</mat-card-title>
-  <br>
-
+<mat-card class="ordre" *ngIf="ready">
+  <mat-card-header>
+    <mat-card-title>Ordre Mission: {{ordreMission.id}} </mat-card-title>
+  </mat-card-header>
   <mat-card-content>
-  <br>
-  <div class="client">
-      <mat-card-title>Client</mat-card-title>
-      <mat-card-subtitle></mat-card-subtitle>
-        <input type="text">
-
-  </div>
-
-  <div class="client">
+    <mat-grid-list cols="4" rowHeight="10:6" gutterSize="5px">
+      <mat-grid-tile >
+          <mat-grid-tile-header>Client</mat-grid-tile-header>
+            {{ordreMission.client.nom}}
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-grid-tile-header>Etat</mat-grid-tile-header>
+            {{ordreMission.etat}}
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-grid-tile-header>Superviseur</mat-grid-tile-header>
+        {{ordreMission.superviseur?.nom+" "+ordreMission.superviseur?.prenom}}
+      </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="4" rowHeight="10:6" gutterSize="5px">
+      <mat-grid-tile>
+        <mat-grid-tile-header>Date demande</mat-grid-tile-header>
+        {{ordreMission.dateMission|date}}
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-grid-tile-header>Date debut estimee</mat-grid-tile-header>
+        {{ordreMission.dateDebutEstime|date}}
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-grid-tile-header>Duree estimee</mat-grid-tile-header>
+        {{ordreMission.dureeEstime+" h"}}
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-grid-tile-header>
+          Checklist
+          <span class="spacer"></span>
+          <button *ngIf="!ordreMission.checkList"> <mat-icon>add_circle</mat-icon></button>
+        </mat-grid-tile-header>
+        <!--div *ngIf="ordreMission.checkList!=null; else listeModel ">
+          <a>details</a>
+        </div>
+        <ng-template #listeModel>
+          <mat-select>
+            <mat-option *ngFor="let model of models | async" [value]="model" >{{model.nom}}</mat-option>
+          </mat-select>
+        </ng-template-->
+      </mat-grid-tile>
+    </mat-grid-list>
     <mat-card>
-      <mat-card-title>Etat</mat-card-title>
-      <mat-card-subtitle></mat-card-subtitle>
-        <input type="text">
-      </mat-card>
-  </div>
-
-  <div class="client">
-    <mat-card>
-       <mat-card-title>Superviseur</mat-card-title>
-      <mat-card-subtitle></mat-card-subtitle>
-        <input type="text">
-      </mat-card>
-
-  </div>
-
-  <div class="client">
-    <mat-card>
-      <mat-card-title>Date demande</mat-card-title>
-      <mat-card-subtitle></mat-card-subtitle>
-        <input type="text">
-      </mat-card>
-  </div>
-  <div class="client">
-    <mat-card>
-      <mat-card-title>Date debut estime</mat-card-title>
-      <mat-card-subtitle></mat-card-subtitle>
-        <input type="text">
-      </mat-card>
-
-  </div>
-
-  <div class="client">
-    <mat-card>
-
-      <mat-card-title>Duree estime</mat-card-title>
-      <mat-card-subtitle></mat-card-subtitle>
-        <input type="text">
-      </mat-card>
-
-  </div>
-
-  <div>
-    <h1>Check List</h1>
-    <mat-form-field appearance="fill">
-      <mat-label>CheckList</mat-label>
-      <mat-select>
-        <mat-option >
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-  <div>
-    <mat-card>
-      <mat-card-title>Description</mat-card-title>
-        <textarea name="ameliorer" id="ameliorer" rows="10" cols="100"></textarea>
+      <mat-card-header>
+        <mat-card-title>Description</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        {{ordreMission.descriptionMission}}
+      </mat-card-content>
     </mat-card>
-  </div>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Objet Mission</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="objetMission">
+          <mat-form-field appearance="fill">
+            <mat-label>Action</mat-label>
+            <mat-select formControlName="actions"  multiple>
+              <mat-option *ngFor="let action of action$|async" [value]="action">
+                {{action.titre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Reseau</mat-label>
+            <mat-select formControlName="reseaux" multiple>
+              <mat-option *ngFor="let reseau of reseau$|async" [value]="reseau">
+                {{reseau.titre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Technologie</mat-label>
+            <mat-select formControlName="technologies" multiple>
+              <mat-option *ngFor="let technologie of technologie$|async" [value]="technologie">
+                {{technologie.titre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Reclamation Client</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>This card indeterminates progress bar.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Techniciens</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-grid-list cols="4" rowHeight="10:6" gutterSize="5px" >
+          <mat-grid-tile *ngFor="let technicien  of ordreMission.techniciens">
+            <mat-grid-tile-header>
+              {{technicien.nom+" "+technicien.prenom}}
+            </mat-grid-tile-header>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Deplacement</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-grid-list cols="4" rowHeight="10:6" gutterSize="5px" >
+          <mat-grid-tile *ngFor="let deplacement  of ordreMission.deplacements">
+            <mat-grid-tile-header>
+              {{deplacement.date}}<br>
+              {{deplacement.heureDebut}}<br>
+              {{deplacement.heureFin}}
+            </mat-grid-tile-header>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-grid-list cols="4" rowHeight="2:1" gutterSize="5px">
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-label>accompte</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-label>retour</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list>
 
 </mat-card-content>
 
 </mat-card>
 
-<div class="container">
-
-  <mat-card class="objet">
-    <h1>Objet Mission</h1>
-    <div class="containers">
-      <div class="object">
-        <h1>Action</h1>
-        <mat-form-field appearance="fill">
-          <mat-label>Action</mat-label>
-          <mat-select>
-            <mat-option >
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <br>
-
-      <div class="object">
-        <h1>Reseau</h1>
-        <mat-form-field appearance="fill">
-          <mat-label>Reseau</mat-label>
-          <mat-select>
-            <mat-option >
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <br>
-
-      <div class="object">
-        <h1>Technologie</h1>
-        <mat-form-field appearance="fill">
-          <mat-label>Technologie</mat-label>
-          <mat-select>
-            <mat-option >
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
-  </mat-card>
-
-</div>
-
-  <div>
-    <mat-card class="recla">
-      <mat-card-title>Reclamation Client</mat-card-title>
-      <mat-card-content>
-
-        <textarea name="recla" id="recla" rows="10" cols="100"></textarea>
-
-        <button mat-stroked-button class="btn">Modifier</button>
-
-
-      </mat-card-content>
-    </mat-card>
-
-  </div>
-  <br>
-  <mat-card class="tech">
-    <h1>Technicien</h1>
-  </mat-card>
-
-
-    <mat-list class="item" role="list">
-      <mat-list-item role="listitem">Item 1</mat-list-item>
-      <mat-list-item role="listitem">Item 2</mat-list-item>
-      <mat-list-item role="listitem">Item 3</mat-list-item>
-    </mat-list>
-
-
-      <mat-card class="dep"><h1>Deplacement</h1> </mat-card>
-
-      <div>
-        <mat-list role="list">
-          <mat-list-item role="listitem">Item 1</mat-list-item>
-          <mat-list-item role="listitem">Item 2</mat-list-item>
-          <mat-list-item role="listitem">Item 3</mat-list-item>
-        </mat-list>
-      </div>
-
-    <br>
-
-    <div >
-      <mat-card class="example-card">
-        <mat-card-title> Accompte </mat-card-title>
-        <mat-card-subtitle></mat-card-subtitle>
-        <mat-card-content>
-          <p></p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <br>
-
-    <div >
-      <mat-card class="example-card">
-        <mat-card-title>Retour Accompte</mat-card-title>
-        <mat-card-subtitle></mat-card-subtitle>
-        <mat-card-content>
-          <p></p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <br>
-
-    <div >
-      <button class="btns" mat-stroked-button >Valider
-      </button>
-    </div>

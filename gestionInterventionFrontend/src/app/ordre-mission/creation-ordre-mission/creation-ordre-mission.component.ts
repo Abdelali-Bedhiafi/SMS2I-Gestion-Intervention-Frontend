@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ClientService } from 'src/app/service/client.service';
 import { SuperviseurService } from 'src/app/service/superviseur.service';
-import {OrdreMissionCreation} from "../ordre-mission-creation";
+import {OrdreMissionCreation} from "../model/ordre-mission-creation";
 @Component({
   selector: 'app-creation-ordre-mission',
   templateUrl: './creation-ordre-mission.component.html',

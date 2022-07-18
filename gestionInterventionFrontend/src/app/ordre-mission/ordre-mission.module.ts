@@ -17,12 +17,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from "@angular/material/input";
 import { MatNativeDateModule } from "@angular/material/core";
 import {MatButtonModule} from "@angular/material/button";
-import { DetailBonInterventionComponent } from './detail-bon-intervention/detail-bon-intervention.component';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatIconModule} from '@angular/material/icon';
-
-
+import {MatIconModule} from "@angular/material/icon";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 
 
@@ -32,8 +28,7 @@ import {MatIconModule} from '@angular/material/icon';
 
   declarations: [
     CreationOrdreMissionComponent,
-    DetailOrdreMissionComponent,
-    DetailBonInterventionComponent
+    DetailOrdreMissionComponent
   ],
   imports: [
     CommonModule,
@@ -50,9 +45,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatNativeDateModule,
     MatInputModule,
     MatButtonModule,
-    MatAutocompleteModule,
-    MatChipsModule,
-    MatIconModule
+    MatIconModule,
+    MatAutocompleteModule
   ]
 })
 export class OrdreMissionModule { }

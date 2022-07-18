@@ -26,7 +26,7 @@ export class CheckListDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params=>{
-      let id: number = Number.parseInt(<string>params.get("id"));
+      let id = Number.parseInt(<string>params.get("id"));
       this.checkList$.getById(id).subscribe(checklist=>{
         this.checklist=checklist;
         this.checkCategorie(checklist.model);
