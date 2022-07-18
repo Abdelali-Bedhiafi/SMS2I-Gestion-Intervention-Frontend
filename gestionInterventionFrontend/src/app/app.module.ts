@@ -21,6 +21,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { CheckListDetailComponent } from './check-list-detail/check-list-detail.component';
 import { MatSelectModule } from "@angular/material/select";
 import { ReactiveFormsModule } from "@angular/forms";
+import { DepenseComponent } from './depense/depense.component';
+import {MatTableModule} from '@angular/material/table';
 
 
 
@@ -30,7 +32,8 @@ import { ReactiveFormsModule } from "@angular/forms";
     HomeComponent,
     FooterComponent,
     NavbarComponent,
-    CheckListDetailComponent
+    CheckListDetailComponent,
+    DepenseComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { ReactiveFormsModule } from "@angular/forms";
     MatCardModule,
     MatGridListModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
