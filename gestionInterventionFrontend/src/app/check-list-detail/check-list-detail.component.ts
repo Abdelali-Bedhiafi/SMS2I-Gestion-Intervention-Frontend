@@ -5,6 +5,8 @@ import {FormControl} from "@angular/forms";
 import {CheckListService} from "../service/check-list.service";
 import {SoftwareCategorieService} from "../service/software-categorie.service";
 import {ActivatedRoute} from "@angular/router";
+import {Material} from "../model/material";
+import {CheckListModel} from "../model/check-list-model";
 
 @Component({
   selector: 'app-check-list-detail',
@@ -33,46 +35,33 @@ export class CheckListDetailComponent implements OnInit {
     })
 
   }
-  checkCategorie(model:{id: number, softwareCategories: {id: number, nom: string}[], softwares: {id: number}[]}) {
-    // seulement les software specifie dans le model existe dans le chacklist
-    if (model.softwares.length == this.checklist.softwares.length) {
+  checkCategorie(model:CheckListModel) {
+    // aucun  software est ajoute et liste des categories n est pas vide
+    if(this.checklist.softwares.length==0 && model.softwareCategories.length!=0 ){
+      console.log("here");
       this.notAllCategoriesChecked = true;
-      for (const categorie of model.softwareCategories) {
-        this.categorie$.getById(categorie.id).subscribe(c => this.softwareMap.set(c.nom, {
-          softwares: c.softwares,
-          input: new FormControl()
-        }));
+      for (const category of model.softwareCategories) {
+        this.softwareMap.set(category.nom,{softwares: category.softwares,input: new FormControl()});
       }
     }
     // pour que la liste des software depace celle de model tous les categorie doit etre specfiee dabord
-    else if((model.softwareCategories.length + model.softwares.length)> this.checklist.softwares.length){
+    else if (model.softwareCategories.length > this.checklist.softwares.length){
       this.notAllCategoriesChecked = true;
-      // tous les software no specifies dans le model (liste des softwares de model)
-      let addedSoftware: Software[] = [];
-      // remplir la liste addedSoftware
-      for (const software of this.checklist.softwares) {
-        let added = true;
-        for (const modelSoftware of model.softwares) {
-          if (software.id== modelSoftware.id) added=false;
-        }
-        if(added) addedSoftware.push(software);
-      }
       // parcourir l ensemble des categories du model afin de prendre les categories non encore specifie
       for (const categorie of model.softwareCategories) {
-        // parcourir la liste des addedSoftware si aucun de ces software a la meme categorie alors creation du form de selection software
+        // parcourir la liste des Software du checklist si aucun de ces software a la meme categorie alors creation du form de selection software
         let checked = false;
-        for (const software of addedSoftware) {
+        for (const software of this.checklist.softwares) {
           if (software.categorie == categorie.nom) {
             checked = true;
             break;
           }
         }
         if(!checked){
-          this.categorie$.getById(categorie.id).subscribe(c => this.softwareMap.set(c.nom,{softwares:c.softwares,input: new FormControl()}) );
+          this.softwareMap.set(categorie.nom,{softwares:categorie.softwares,input: new FormControl()}) ;
         }
       }
     }
-
   }
 
   selectSoftware(categorie: string){
@@ -90,11 +79,21 @@ export class CheckListDetailComponent implements OnInit {
         if (this.checklist.softwares.length < checkList.softwares.length) {
           // MAJ liste des categorie a remplir et checklist
           this.softwareMap.delete(categorie);
-          this.checklist=checkList;
+          this.checklist=newChecklist;
+          if(this.softwareMap.size==0) this.notAllCategoriesChecked=false;
         }
       });
     }
 
+  }
+
+  addMaterial(materiel: Material):void {
+    this.checklist.materiels.push(materiel);
+    this.checkList$.update(this.checklist.id,this.checklist);
+  }
+  addSoftware(software: Software):void{
+    this.checklist.softwares.push(software);
+    this.checkList$.update(this.checklist.id,this.checklist);
   }
 
 
