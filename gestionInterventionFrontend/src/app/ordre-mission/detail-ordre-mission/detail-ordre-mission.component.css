@@ -2,7 +2,7 @@
 .ordre{background-color:#f5eeee;}
 .containers{display: flex;}
 .recla{size: 800px;}
-.btn{background-color: aqua;}
+.btn{background-color: rgb(0, 255, 64);}
 .btns { background-color: #4CAF50;
 border: none;
 color: white;
@@ -18,7 +18,8 @@ transition-duration: 0.4s;
 cursor: pointer;
 }
 
-
+.tech{background-color:aqua;}
+.dep{background-color: aqua;}
 
 
 
