@@ -19,6 +19,8 @@ import { MatNativeDateModule } from "@angular/material/core";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {DetailBonInterventionComponent} from "./detail-bon-intervention/detail-bon-intervention.component";
+import {MatChipsModule} from "@angular/material/chips";
 
 
 
@@ -28,7 +30,8 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
   declarations: [
     CreationOrdreMissionComponent,
-    DetailOrdreMissionComponent
+    DetailOrdreMissionComponent,
+    DetailBonInterventionComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +49,8 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatChipsModule
   ]
 })
 export class OrdreMissionModule { }
