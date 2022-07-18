@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ClientService } from './client.service';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +6,5 @@ import { ClientService } from './client.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(public client: ClientService){}
+  constructor(){}
 }

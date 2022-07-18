@@ -13,14 +13,12 @@ export class BackendService {
     return this.http.get<T>(this.host+url,{params:params});
   }
   sendPostRequest<T>(url: string, body?: any, param?: HttpParams):Observable<T>{
-    const req = new HttpRequest("POST",url,body,{params:param});
-    console.log(req.urlWithParams.toString());
-    return this.http.post<T>(this.host+req.urlWithParams.toString(),req.body);
+    return this.http.post<T>(this.host+url,body,{params:param});
   }
-  sendPutRequest<T>(url: string, body: T, params: HttpParams):Observable<T>{
+  sendPutRequest<T>(url: string, body: any, params?: HttpParams):Observable<T>{
     return this.http.put<T>(this.host+url,body,{params:params});
   }
-  sendDeleteRequest<T>(url: string, params: HttpParams):Observable<T>{
+  sendDeleteRequest<T>(url: string, params?: HttpParams):Observable<T>{
     return this.http.delete<T>(this.host+url,{params:params});
   }
 

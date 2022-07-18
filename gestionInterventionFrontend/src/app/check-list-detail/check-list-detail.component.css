@@ -1,0 +1,12 @@
+mat-grid-tile{
+  border: ridge dimgrey;
+}
+mat-card{
+  background-color: #f5eeee;
+}
+mat-card-content{
+  background-color: #d9d9d9;
+}
+.spacer {
+  flex: 1 1 auto;
+}

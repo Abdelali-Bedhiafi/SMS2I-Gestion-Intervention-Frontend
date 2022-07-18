@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BackendService } from '../backend.service';
+import { BackendService } from '../service/backend.service';
 import { OrdreMissionCreation } from './ordre-mission-creation';
 import { OrdreMissionDetail } from './ordre-mission-detail';
 

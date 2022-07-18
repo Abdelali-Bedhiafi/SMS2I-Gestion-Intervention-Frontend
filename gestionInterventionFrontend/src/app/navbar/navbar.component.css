@@ -1,6 +1,7 @@
 .navbar {
   position: sticky;
   top: 0;
+  height: 5%;
 }
 .spacer {
   flex: 1 1 auto;

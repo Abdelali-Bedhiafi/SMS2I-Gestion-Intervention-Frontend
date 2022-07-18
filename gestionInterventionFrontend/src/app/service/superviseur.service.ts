@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BackendService } from './backend.service';
-import { Superviseur } from './superviseur';
+import { Superviseur } from '../model/superviseur';
 
 @Injectable({
   providedIn: 'root'

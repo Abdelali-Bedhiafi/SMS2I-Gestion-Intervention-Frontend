@@ -1,5 +1,5 @@
-import { Client } from "../client";
-import { Technicien } from "../technicien";
+import { Client } from "../model/client";
+import { Technicien } from "../model/technicien";
 
 export interface OrdreMissionDetail {
   id: number;
