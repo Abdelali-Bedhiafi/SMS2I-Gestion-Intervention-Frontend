@@ -1,5 +1,5 @@
-import {Client} from "../model/client";
-import {Superviseur} from "../model/superviseur";
+import {Client} from "../../model/client";
+import {Superviseur} from "../../model/superviseur";
 import {FormControl} from "@angular/forms";
 
 export interface OrdreMissionCreation {

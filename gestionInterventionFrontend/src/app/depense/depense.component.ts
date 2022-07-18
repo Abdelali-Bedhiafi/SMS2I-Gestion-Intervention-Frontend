@@ -1,42 +1,35 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {MatTable} from '@angular/material/table';
+import { Depense } from '../model/depense';
+import { DepenseService } from '../service/depense.service';
 
-export interface PeriodicElement {
-  categorie: string;
-  coutUnitaire: number;
-  plafond: number;
-  valeur: number;
-  valeurRemboursee: number;
 
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {categorie: 'restauration', coutUnitaire: 5000, plafond: 10000, valeur: 7500, valeurRemboursee: 7500},
-  {categorie: 'restauration', coutUnitaire: 5000, plafond: 10000, valeur: 7500, valeurRemboursee: 7500},
-
-];
 
 @Component({
   selector: 'app-depense',
   templateUrl: './depense.component.html',
   styleUrls: ['./depense.component.css']
 })
-export class DepenseComponent  {
+export class DepenseComponent implements OnInit {
+
+  constructor(private depense$:DepenseService){};
+  ngOnInit(): void {
+  }
 
   displayedColumns: string[] = ['categorie', 'coutUnitaire', 'plafond', 'valeur', 'valeurRemboursee'];
-  dataSource = [...ELEMENT_DATA];
+  dataSource = this.depense$.getAll();
 
-  @ViewChild(MatTable) table!: MatTable<PeriodicElement>;
+  @ViewChild(MatTable) table!: MatTable<Depense>;
 
-  addData() {
+  /*addData() {
     const randomElementIndex = Math.floor(Math.random() * ELEMENT_DATA.length);
-    this.dataSource.push(ELEMENT_DATA[randomElementIndex]);
+    this.dataSource.push();
     this.table.renderRows();
-  }
+  }*/
 
-  removeData() {
+  /*removeData() {
     this.dataSource.pop();
     this.table.renderRows();
-  }
+  }*/
 
 }

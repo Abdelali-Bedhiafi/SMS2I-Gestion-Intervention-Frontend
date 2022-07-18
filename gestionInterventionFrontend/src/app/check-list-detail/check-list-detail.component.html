@@ -7,11 +7,21 @@
     <mat-card>
       <mat-card-header>
         <mat-card-title>Materiel</mat-card-title>
+        <span class="spacer"></span>
+        <button mat-stroked-button > <mat-icon>add_circle</mat-icon></button>
       </mat-card-header>
       <mat-card-content>
-        <mat-grid-list cols="4" rowHeight="4:3" gutterSize="10px">
-          <mat-grid-tile *ngFor="let material of checklist.materiels">
+        <mat-grid-list cols="4" rowHeight="4:3" gutterSize="5px">
+          <mat-grid-tile *ngFor="let material of checklist.model.materiels">
             <mat-grid-tile-header>{{material.id}}</mat-grid-tile-header>
+            {{material.label}}
+          </mat-grid-tile>
+          <mat-grid-tile *ngFor="let material of checklist.materiels">
+            <mat-grid-tile-header>
+              {{material.id}}
+              <!--span class="spacer"></span>
+                <button mat-stroked-button > <mat-icon>clear </mat-icon></button-->
+            </mat-grid-tile-header>
             {{material.label}}
           </mat-grid-tile>
         </mat-grid-list>
@@ -21,14 +31,30 @@
     <mat-card>
       <mat-card-header>
         <mat-card-title>software</mat-card-title>
+        <span class="spacer"></span>
+        <button mat-stroked-button [disabled]="notAllCategoriesChecked" > <mat-icon>add_circle</mat-icon></button>
       </mat-card-header>
       <mat-card-content>
-        <mat-grid-list cols="4" rowHeight="6:5" gutterSize="10px">
-          <mat-grid-tile *ngFor="let software of checklist.softwares">
-            <mat-grid-tile-header>{{software.softwareLabel}}</mat-grid-tile-header>
-            {{software.softwareVersion}} <br>
-            {{software.categorie}}
-          </mat-grid-tile>
+        <mat-grid-list cols="4" rowHeight="6:5" gutterSize="5px">
+
+            <mat-grid-tile *ngFor="let software of checklist.model.softwares">
+              <mat-grid-tile-header>
+                {{software.softwareLabel}}
+              </mat-grid-tile-header>
+              {{software.softwareVersion}} <br>
+              {{software.categorie}}
+            </mat-grid-tile>
+
+            <mat-grid-tile *ngFor="let software of checklist.softwares">
+              <mat-grid-tile-header>
+                {{software.softwareLabel}}
+                <!--span class="spacer"></span>
+                <button mat-stroked-button > <mat-icon>clear </mat-icon></button-->
+              </mat-grid-tile-header>
+              {{software.softwareVersion}} <br>
+              {{software.categorie}}
+            </mat-grid-tile>
+
           <div *ngIf="notAllCategoriesChecked">
             <mat-grid-tile *ngFor="let model of softwareMap.values()">
               <mat-grid-tile-header>
@@ -41,6 +67,9 @@
               </mat-select>
             </mat-grid-tile>
           </div>
+
+
+
         </mat-grid-list>
       </mat-card-content>
     </mat-card>

@@ -9,6 +9,7 @@ import { OrdreMission } from '../model/ordre-mission';
 export class OrdreMissionService {
   ordresMission: Map<number,OrdreMission>;
   ready: Promise<boolean>;
+
   constructor(private backend: BackendService) {
     this.ordresMission = new Map<number,OrdreMission>();
     this.ready = new Promise<boolean>((resolve)=>{
@@ -19,15 +20,5 @@ export class OrdreMissionService {
         });
     });
   }
-
-affecter(missionId: number, technicienId: number){
-  if(missionId in this.ordresMission.keys()){
-    const params: HttpParams = new HttpParams()
-      .append("missionId",missionId)
-      .append("technicienId",technicienId);
-    this.backend.sendPostRequest<OrdreMission>("mission/affecter",{},params)
-      .subscribe(mission => this.ordresMission.set(missionId,mission));
-  }
-}
 
 }
