@@ -1,7 +1,5 @@
 <div class="demo-button-container">
-  <button mat-raised-button  class="demo-button">
-    Add data
-  </button>
+  <button mat-raised-button class="demo-button">Add data</button>
   <!--button
       mat-raised-button
       [disabled]="!dataSource.length"
@@ -10,38 +8,66 @@
     Remove data
   </button-->
 </div>
-<table mat-table  [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
-
+<table *ngIf="ready" mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
   <ng-container matColumnDef="categorie">
     <th mat-header-cell *matHeaderCellDef>Categorie depense</th>
-    <td mat-cell *matCellDef="let element">{{element.categorieDepences.label}}</td>
+    <td mat-cell *matCellDef="let element">
+      {{ element.depense.categorieDepences.label}}
+    </td>
   </ng-container>
-
 
   <ng-container matColumnDef="coutUnitaire">
     <th mat-header-cell *matHeaderCellDef>cout unitaire</th>
-    <td mat-cell *matCellDef="let element">{{element.coutUnitaire}}</td>
+    <td mat-cell *matCellDef="let element">
+      {{ element.depense.categorieDepences.coutUnitaire }}
+    </td>
   </ng-container>
-
 
   <ng-container matColumnDef="plafond">
     <th mat-header-cell *matHeaderCellDef>plafond</th>
-    <td mat-cell *matCellDef="let element">{{element.categorieDepences.plafond}}</td>
+    <td mat-cell *matCellDef="let element">
+      {{ element.depense.categorieDepences.plafond }}
+    </td>
   </ng-container>
 
 
-  <ng-container matColumnDef="valeur">
-    <th mat-header-cell *matHeaderCellDef>valeur</th>
-    <td mat-cell *matCellDef="let element">{{element.valeur}}</td>
+    <ng-container matColumnDef="valeur">
+      <th mat-header-cell *matHeaderCellDef>valeur</th>
+      <td mat-cell *matCellDef="let element">
+          <input id="valeur" type="number" [formControl]="element.controls.valeur" />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="valeurRemboursee">
+      <th mat-header-cell *matHeaderCellDef>valeur remboursee</th>
+      <td mat-cell *matCellDef="let element">
+          <input id="valeurRemboursee" type="number" [formControl]="element.controls.valeurRemboursee"/>
+
+      </td>
+    </ng-container>
+
+
+  <ng-container matColumnDef="supprimer">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        mat-fab
+        color="primary"
+        aria-label="Example icon button with a delete icon">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
   </ng-container>
 
-
-  <ng-container matColumnDef="valeurRemboursee">
-    <th mat-header-cell *matHeaderCellDef>valeur remboursee</th>
-    <td mat-cell *matCellDef="let element">{{element.valeurRemboursee}}</td>
+  <ng-container matColumnDef="valider">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <button (click)="onSubmit(element.depense.id)" [disabled]="!(element.controls.valeur.valid && element.controls.valeurRemboursee.valid)">Valider</button>
+    </td>
   </ng-container>
-
-
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
+<button mat-mini-fab >
+  <mat-icon add-course-btn (click)="openDialog()">add</mat-icon>
+</button>

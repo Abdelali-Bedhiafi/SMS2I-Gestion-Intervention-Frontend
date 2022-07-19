@@ -23,6 +23,8 @@ import { MatSelectModule } from "@angular/material/select";
 import { ReactiveFormsModule } from "@angular/forms";
 import { DepenseComponent } from './depense/depense.component';
 import {MatTableModule} from '@angular/material/table';
+import { AjoutDepenseDialogComponent } from './ajout-depense-dialog/ajout-depense-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 
@@ -33,7 +35,8 @@ import {MatTableModule} from '@angular/material/table';
     FooterComponent,
     NavbarComponent,
     CheckListDetailComponent,
-    DepenseComponent
+    DepenseComponent,
+    AjoutDepenseDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,8 @@ import {MatTableModule} from '@angular/material/table';
     MatGridListModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatTableModule
+    MatTableModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
