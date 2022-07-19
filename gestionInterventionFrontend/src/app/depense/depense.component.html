@@ -8,44 +8,41 @@
     Remove data
   </button-->
 </div>
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+<table *ngIf="ready" mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
   <ng-container matColumnDef="categorie">
     <th mat-header-cell *matHeaderCellDef>Categorie depense</th>
     <td mat-cell *matCellDef="let element">
-      {{ element.categorieDepences.label }}
+      {{ element.depense.categorieDepences.label}}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="coutUnitaire">
     <th mat-header-cell *matHeaderCellDef>cout unitaire</th>
     <td mat-cell *matCellDef="let element">
-      {{ element.categorieDepences.coutUnitaire }}
+      {{ element.depense.categorieDepences.coutUnitaire }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="plafond">
     <th mat-header-cell *matHeaderCellDef>plafond</th>
     <td mat-cell *matCellDef="let element">
-      {{ element.categorieDepences.plafond }}
+      {{ element.depense.categorieDepences.plafond }}
     </td>
   </ng-container>
 
-  <form [formGroup]="valeurs">
+
     <ng-container matColumnDef="valeur">
       <th mat-header-cell *matHeaderCellDef>valeur</th>
       <td mat-cell *matCellDef="let element">
-        <input id="valeur" type="text" formControlName="valeur" />
+          <input id="valeur" type="number" [formControl]="element.controls.valeur" />
       </td>
     </ng-container>
 
     <ng-container matColumnDef="valeurRemboursee">
       <th mat-header-cell *matHeaderCellDef>valeur remboursee</th>
       <td mat-cell *matCellDef="let element">
-        <input
-          id="valeurRemboursee"
-          type="text"
-          FormControlName="valeurRemboursee"
-        />
+          <input id="valeurRemboursee" type="number" [formControl]="element.controls.valeurRemboursee"/>
+
       </td>
     </ng-container>
 
@@ -56,8 +53,7 @@
       <button
         mat-fab
         color="primary"
-        aria-label="Example icon button with a delete icon"
-      >
+        aria-label="Example icon button with a delete icon">
         <mat-icon>delete</mat-icon>
       </button>
     </td>
@@ -66,13 +62,12 @@
   <ng-container matColumnDef="valider">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let element">
-      <button type="submit" [disabled]="!valeurs.valid">Valider</button>
+      <button (click)="onSubmit(element.depense.id)" [disabled]="!(element.controls.valeur.valid && element.controls.valeurRemboursee.valid)">Valider</button>
     </td>
   </ng-container>
-</form>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
 <button mat-mini-fab >
-  <mat-icon class="add-course-btn">add</mat-icon>
+  <mat-icon add-course-btn (click)="openDialog()">add</mat-icon>
 </button>

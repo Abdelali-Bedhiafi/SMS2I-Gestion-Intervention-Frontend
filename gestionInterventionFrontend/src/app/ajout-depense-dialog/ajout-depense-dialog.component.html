@@ -1,0 +1,11 @@
+<mat-form-field appearance="fill">
+  <mat-label>categorie</mat-label>
+  <mat-select [(value)]="selectedCategorie">
+    <mat-option *ngFor="let categorie of categories | async " [value]="categorie">
+      {{categorie.label}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<button mat-button [mat-dialog-close]="selectedCategorie" cdkFocusInitial>Ok</button>
+
