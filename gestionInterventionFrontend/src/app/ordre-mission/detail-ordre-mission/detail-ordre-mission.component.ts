@@ -5,7 +5,7 @@ import {OrdreMissionDetail} from "../model/ordre-mission-detail";
 import {map, Observable, startWith} from "rxjs";
 import {SousCategorie} from "../../model/sous-categorie";
 import {SousCategorieService} from "../../service/sous-categorie.service";
-import {FormControl} from "@angular/forms";
+import {FormControl, Validators} from "@angular/forms";
 import {ThemePalette} from "@angular/material/core";
 
 export interface SousCategorieData{
@@ -31,6 +31,10 @@ export class DetailOrdreMissionComponent implements OnInit {
   reseauSelectControl= new FormControl();
   technologieSelectControl= new FormControl();
 
+  accompteControl!: FormControl<number|null>;
+  retourControl!: FormControl<number|null>;
+
+
   filteredActions: Observable<SousCategorieData[]>;
   filteredReseaux: Observable<SousCategorieData[]>;
   filteredTechnologies: Observable<SousCategorieData[]>;
@@ -40,7 +44,9 @@ export class DetailOrdreMissionComponent implements OnInit {
   technologieReady!: Promise<boolean>;
 
   ready = false;
-  change = false;
+  objetChanges = false;
+
+  accompteChanges = false;
 
   constructor(private route: ActivatedRoute,
               private ordreMission$: OrdreMissionService,
@@ -67,9 +73,19 @@ export class DetailOrdreMissionComponent implements OnInit {
     this.getAllSousCategorie();
     this.route.paramMap.subscribe(params=>{
       let id = Number.parseInt(<string>params.get("id"));
-      this.ordreMission$.getById(1).subscribe(ordre => {
+      this.ordreMission$.getById(id).subscribe(ordre => {
         this.ordreMission=ordre;
         this.setSelectedCategorie(this.ordreMission.sousCategories);
+        this.accompteControl = new FormControl(ordre.accompteMission,Validators.min(0));
+        this.retourControl = new FormControl(ordre.retourAccompte,[Validators.min(0), Validators.max(ordre.accompteMission)]);
+        this.accompteControl.valueChanges.subscribe(value => {
+          if(value!= this.ordreMission.accompteMission) this.accompteChanges = true;
+          else if(value == this.ordreMission.accompteMission && this.retourControl.value == this.ordreMission.retourAccompte) this.accompteChanges=false;
+        });
+        this.retourControl.valueChanges.subscribe(value => {
+          if(value!= this.ordreMission.retourAccompte) this.accompteChanges = true;
+          else if(value == this.ordreMission.retourAccompte && this.accompteControl.value == this.ordreMission.accompteMission) this.accompteChanges=false;
+        });
         this.ready=true;
       });
     });
@@ -158,7 +174,7 @@ export class DetailOrdreMissionComponent implements OnInit {
   };
 
   checkChanges(){
-    if(this.change){
+    if(this.objetChanges){
       //all primary are selected and all warm are not selected
       for(const item of this.actions){
         if ((item.color == 'primary' && !item.selected)||(item.color=="warn"&&item.selected)){
@@ -175,25 +191,25 @@ export class DetailOrdreMissionComponent implements OnInit {
           return;
         }
       }
-      this.change=false;
+      this.objetChanges=false;
     }else{
       for(const item of this.actions){
         if ((item.color == 'primary' && !item.selected)||(item.color=="warn"&&item.selected)){
-          this.change=true;
+          this.objetChanges=true;
           break;
         }
       }
-      if (this.change) return;
+      if (this.objetChanges) return;
       for(const item of this.reseaux){
         if ((item.color == 'primary' && !item.selected)||(item.color=="warn"&&item.selected)){
-          this.change=true;
+          this.objetChanges=true;
           break;
         }
       }
-      if (this.change) return;
+      if (this.objetChanges) return;
       for(const item of this.technologies){
         if ((item.color == 'primary' && !item.selected)||(item.color=="warn"&&item.selected)){
-          this.change=true;
+          this.objetChanges=true;
           break;
         }
       }
@@ -211,11 +227,26 @@ export class DetailOrdreMissionComponent implements OnInit {
       if(!item.selected) item.color='warn';
     });
   }
-  submitChanges(){
+
+  submitObjetChanges(){
     this.ordreMission$.updateObject(this.ordreMission.sousCategories,this.ordreMission.id).subscribe(detail=>{
       this.initColor();
       this.setSelectedCategorie(detail.sousCategories);
-      this.change=false;
+      this.objetChanges=false;
     });
+  }
+
+  submitAccompteChanges(){
+    if(this.retourControl.valid && this.accompteControl.valid){
+      this.ordreMission$.updateAccompte(this.ordreMission.id, <number>this.accompteControl.value, <number>this.retourControl.value)
+        .subscribe(()=> this.accompteChanges=false);
+    }
+  }
+
+  changeMax() {
+    this.retourControl.clearValidators();
+    this.retourControl.addValidators(Validators.min(0));
+    this.retourControl.addValidators(Validators.max(<number>this.accompteControl.value));
+    this.retourControl.updateValueAndValidity({emitEvent:false});
   }
 }

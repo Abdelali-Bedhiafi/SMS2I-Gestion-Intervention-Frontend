@@ -5,7 +5,7 @@ import { DetailBonInterventionComponent } from './detail-bon-intervention/detail
 import { DetailOrdreMissionComponent } from './detail-ordre-mission/detail-ordre-mission.component';
 
 const routes: Routes = [
-  { path: "details", component: DetailOrdreMissionComponent },
+  { path: "detail/:id", component: DetailOrdreMissionComponent },
   { path: "creation", component: CreationOrdreMissionComponent },
   {path:"detailBon",component:DetailBonInterventionComponent}
 ];

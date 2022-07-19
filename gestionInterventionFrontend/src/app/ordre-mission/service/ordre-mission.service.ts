@@ -32,8 +32,15 @@ export class OrdreMissionService {
   updateObject(object: SousCategorie[],missionId:number):Observable<OrdreMissionDetail>{
     const params = new HttpParams()
       .append("missionId",missionId);
-    console.log(object.map(value =>{ return {id: value.id}}))
     return this.backend.sendPostRequest<OrdreMissionDetail>("mission/object",object.map(value =>{ return {id: value.id}}),params);
+  }
+
+  updateAccompte(missionId: number, accompte: number, retour: number):Observable<OrdreMissionDetail>{
+    const params = new HttpParams()
+      .append("missionId",missionId)
+      .append("accompteMission",accompte)
+      .append("retourAccompte",retour);
+    return this.backend.sendPostRequest<OrdreMissionDetail>("mission/accompte",{},params);
   }
 }
 

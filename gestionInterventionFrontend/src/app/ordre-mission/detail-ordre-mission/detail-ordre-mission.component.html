@@ -34,7 +34,7 @@
         <mat-grid-tile-header>
           Checklist
           <span class="spacer"></span>
-          <button *ngIf="!ordreMission.checkList"> <mat-icon>add_circle</mat-icon></button>
+          <button mat-stroked-button *ngIf="!ordreMission.checkList"> <mat-icon>add_circle</mat-icon></button>
         </mat-grid-tile-header>
         <!--div *ngIf="ordreMission.checkList!=null; else listeModel ">
           <a>details</a>
@@ -59,7 +59,7 @@
       <mat-card-header>
         <mat-card-title>Objet Mission</mat-card-title>
         <span class="spacer"></span>
-        <button [disabled]="!change" (click)="submitChanges()"> <mat-icon>check_circle</mat-icon></button>
+        <button mat-stroked-button [disabled]="!objetChanges" (click)="submitObjetChanges()"> <mat-icon>check_circle</mat-icon></button>
       </mat-card-header>
       <mat-card-content>
         <mat-grid-list cols="3" rowHeight="150px" gutterSize="5px">
@@ -136,6 +136,8 @@
     <mat-card>
       <mat-card-header>
         <mat-card-title>Techniciens</mat-card-title>
+        <span class="spacer"></span>
+        <button mat-stroked-button> <mat-icon>add_circle</mat-icon></button>
       </mat-card-header>
       <mat-card-content>
         <mat-grid-list cols="4" rowHeight="10:6" gutterSize="5px" >
@@ -147,10 +149,11 @@
         </mat-grid-list>
       </mat-card-content>
     </mat-card>
-
     <mat-card>
       <mat-card-header>
         <mat-card-title>Deplacement</mat-card-title>
+        <span class="spacer"></span>
+        <button mat-stroked-button> <mat-icon>add_circle</mat-icon></button>
       </mat-card-header>
       <mat-card-content>
         <mat-grid-list cols="4" rowHeight="10:6" gutterSize="5px" >
@@ -164,21 +167,29 @@
         </mat-grid-list>
       </mat-card-content>
     </mat-card>
-
-    <mat-grid-list cols="4" rowHeight="2:1" gutterSize="5px">
-      <mat-grid-tile>
-        <mat-form-field>
-          <mat-label>accompte</mat-label>
-          <input matInput>
-        </mat-form-field>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-form-field>
-          <mat-label>retour</mat-label>
-          <input matInput>
-        </mat-form-field>
-      </mat-grid-tile>
-    </mat-grid-list>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Accompte</mat-card-title>
+      <span class="spacer"></span>
+      <button mat-stroked-button (click)="submitAccompteChanges()" [disabled]="!accompteChanges"> <mat-icon>check_circle</mat-icon></button>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-grid-list cols="4" rowHeight="2:1" gutterSize="5px">
+        <mat-grid-tile>
+          <mat-form-field (focusout)="changeMax()"  >
+            <mat-label>accompte</mat-label>
+            <input type="number" matInput [formControl]="accompteControl" >
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field >
+            <mat-label>retour</mat-label>
+            <input type="number" matInput [formControl]="retourControl" >
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
+  </mat-card>
 </mat-card-content>
 
 </mat-card>
