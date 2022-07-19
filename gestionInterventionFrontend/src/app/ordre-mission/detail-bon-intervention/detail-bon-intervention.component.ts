@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { BonInterventionService } from 'src/app/service/bon-intervention.service';
+import { BonInterventionDetail } from '../model/bon-intervention-detail';
 
 @Component({
   selector: 'app-detail-bon-intervention',
@@ -7,9 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailBonInterventionComponent implements OnInit {
 
-  constructor() { }
+  bonIntervention!: BonInterventionDetail;
+  constructor(private bonintervention : BonInterventionService) { }
 
   ngOnInit(): void {
+    this.bonintervention.getById(1).subscribe((data)=>{
+      this.bonIntervention = data;
+    });
   }
 
 }
