@@ -5,6 +5,7 @@ import { OrdreMissionCreation } from '../model/ordre-mission-creation';
 import { OrdreMissionDetail } from '../model/ordre-mission-detail';
 import {HttpParams} from "@angular/common/http";
 import {OrdreMission} from "../../model/ordre-mission";
+import {SousCategorie} from "../../model/sous-categorie";
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +23,17 @@ export class OrdreMissionService {
   }
 
   affecter(missionId: number, technicienId: number):Observable<OrdreMission>{
-    const params: HttpParams = new HttpParams()
+    const params = new HttpParams()
       .append("missionId",missionId)
       .append("technicienId",technicienId);
     return this.backend.sendPostRequest<OrdreMission>("mission/affecter",{},params);
+  }
+
+  updateObject(object: SousCategorie[],missionId:number):Observable<OrdreMissionDetail>{
+    const params = new HttpParams()
+      .append("missionId",missionId);
+    console.log(object.map(value =>{ return {id: value.id}}))
+    return this.backend.sendPostRequest<OrdreMissionDetail>("mission/object",object.map(value =>{ return {id: value.id}}),params);
   }
 }
 
