@@ -1,11 +1,11 @@
-<mat-card class="det"><h1>Details Bon Intervention</h1></mat-card>
+<mat-card *ngIf="bonIntervention; " class="det" ><h1>Details Bon Intervention {{bonIntervention?.id}} </h1> </mat-card>
 <br>
 
 <div>
   <form class="example-form">
     <mat-card-title>Client</mat-card-title>
     <mat-form-field class="example-full-width" appearance="fill">
-      <input matInput placeholder="ici" value="">
+      <input matInput placeholder="ici" value="OrdreMission.client">
     </mat-form-field>
   </form>
 </div>
@@ -14,7 +14,7 @@
   <form class="example-form">
     <mat-card-title>Etat</mat-card-title>
     <mat-form-field class="example-full-width" appearance="fill">
-      <input matInput placeholder="ici" value="">
+      <input matInput placeholder="ici" value="OrdreMission.etat">
     </mat-form-field>
   </form>
 
@@ -23,7 +23,7 @@
   <form class="example-form">
     <mat-card-title>Superviseur</mat-card-title>
     <mat-form-field class="example-full-width" appearance="fill">
-      <input matInput placeholder="ici" value="">
+      <input matInput placeholder="ici" value="OrdreMission.superviseur">
     </mat-form-field>
   </form>
 
@@ -33,7 +33,7 @@
   <form class="example-form">
     <mat-card-title>Duree</mat-card-title>
     <mat-form-field class="example-full-width" appearance="fill">
-      <input  matInput="number" placeholder="ici" value="">
+      <input  matInput="number" placeholder="ici" value="bonIntervention.duree">
     </mat-form-field>
   </form>
 
@@ -108,7 +108,7 @@
 <div>
 <form>
   <mat-form-field class="example-full-width" appearance="fill">
-    <textarea matInput placeholder="your observation...."></textarea>
+    <textarea matInput placeholder="your observation...." value="bonIntervention.observationTechnicien"></textarea>
   </mat-form-field>
 </form>
 
