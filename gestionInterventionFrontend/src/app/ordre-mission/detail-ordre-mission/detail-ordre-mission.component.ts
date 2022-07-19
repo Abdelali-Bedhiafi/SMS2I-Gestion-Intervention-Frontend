@@ -200,8 +200,20 @@ export class DetailOrdreMissionComponent implements OnInit {
     }
   }
 
+  initColor(){
+    this.actions.forEach(item => {
+      if(!item.selected) item.color='warn';
+    });
+    this.reseaux.forEach(item => {
+      if(!item.selected) item.color='warn';
+    });
+    this.technologies.forEach(item => {
+      if(!item.selected) item.color='warn';
+    });
+  }
   submitChanges(){
     this.ordreMission$.updateObject(this.ordreMission.sousCategories,this.ordreMission.id).subscribe(detail=>{
+      this.initColor();
       this.setSelectedCategorie(detail.sousCategories);
       this.change=false;
     });
