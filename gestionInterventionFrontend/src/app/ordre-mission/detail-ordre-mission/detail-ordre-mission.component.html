@@ -58,34 +58,69 @@
     <mat-card>
       <mat-card-header>
         <mat-card-title>Objet Mission</mat-card-title>
+        <span class="spacer"></span>
+        <button [disabled]="!change" (click)="submitChanges()"> <mat-icon>check_circle</mat-icon></button>
       </mat-card-header>
       <mat-card-content>
-        <form [formGroup]="objetMission">
-          <mat-form-field appearance="fill">
-            <mat-label>Action</mat-label>
-            <mat-select formControlName="actions"  multiple>
-              <mat-option *ngFor="let action of action$|async" [value]="action">
-                {{action.titre}}
+        <mat-grid-list cols="3" rowHeight="150px" gutterSize="5px">
+          <mat-grid-tile>
+            <mat-form-field >
+              <input matInput type="text" placeholder="actions"
+                     [matAutocomplete]="autoAction"
+                     [formControl]="actionSelectControl">
+            </mat-form-field>
+            <mat-autocomplete #autoAction="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let action of filteredActions | async">
+                <div (click)="optionClicked($event, action)">
+                  <mat-checkbox [checked]="action.selected"
+                                (change)="toggleSelection(action)"
+                                (click)="$event.stopPropagation()"
+                                [color]="action.color">
+                    {{ action.sousCategorie.titre }}
+                  </mat-checkbox>
+                </div>
               </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>Reseau</mat-label>
-            <mat-select formControlName="reseaux" multiple>
-              <mat-option *ngFor="let reseau of reseau$|async" [value]="reseau">
-                {{reseau.titre}}
+            </mat-autocomplete>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field >
+              <input matInput type="text" placeholder="reseaux"
+                     [matAutocomplete]="autoReseau"
+                     [formControl]="reseauSelectControl">
+            </mat-form-field>
+            <mat-autocomplete #autoReseau="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let reseau of filteredReseaux | async">
+                <div>
+                  <mat-checkbox [checked]="reseau.selected"
+                                (change)="toggleSelection(reseau)"
+                                (click)="$event.stopPropagation()"
+                                [color]="reseau.color">
+                    {{ reseau.sousCategorie.titre }}
+                  </mat-checkbox>
+                </div>
               </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>Technologie</mat-label>
-            <mat-select formControlName="technologies" multiple>
-              <mat-option *ngFor="let technologie of technologie$|async" [value]="technologie">
-                {{technologie.titre}}
+            </mat-autocomplete>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field >
+              <input matInput type="text" placeholder="technologies"
+                     [matAutocomplete]="autoTechnologie"
+                     [formControl]="technologieSelectControl">
+            </mat-form-field>
+            <mat-autocomplete #autoTechnologie="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let technologie of filteredTechnologies | async">
+                <div>
+                  <mat-checkbox [checked]="technologie.selected"
+                                (change)="toggleSelection(technologie)"
+                                (click)="$event.stopPropagation()"
+                                [color]="technologie.color">
+                    {{ technologie.sousCategorie.titre }}
+                  </mat-checkbox>
+                </div>
               </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </form>
+            </mat-autocomplete>
+          </mat-grid-tile>
+        </mat-grid-list>
       </mat-card-content>
     </mat-card>
 
@@ -144,8 +179,8 @@
         </mat-form-field>
       </mat-grid-tile>
     </mat-grid-list>
-
 </mat-card-content>
 
 </mat-card>
+
 

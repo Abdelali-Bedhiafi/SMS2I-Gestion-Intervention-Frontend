@@ -21,6 +21,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {DetailBonInterventionComponent} from "./detail-bon-intervention/detail-bon-intervention.component";
 import {MatChipsModule} from "@angular/material/chips";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 
@@ -50,7 +51,8 @@ import {MatChipsModule} from "@angular/material/chips";
     MatButtonModule,
     MatIconModule,
     MatAutocompleteModule,
-    MatChipsModule
+    MatChipsModule,
+    MatCheckboxModule
   ]
 })
 export class OrdreMissionModule { }
