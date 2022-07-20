@@ -15,6 +15,9 @@ export class DepenseService {
   getAll():Observable<Depense[]>{
     return this.backend.sendGetRequest<Depense[]>("DepencesDeplacement");
   }
+  getAllByDeplacement(id:number):Observable<Depense[]>{
+    return this.backend.sendGetRequest<Depense[]>("DepencesDeplacement/search/deplacement/"+id);
+  }
   update(depense: {id: string, valeur: number, valeurRemboursee: number}):void{
       this.backend.sendPutRequest<Depense>("DepencesDeplacement/"+depense.id,{valeur: depense.valeur,valeurRembourse: depense.valeurRemboursee});
   }

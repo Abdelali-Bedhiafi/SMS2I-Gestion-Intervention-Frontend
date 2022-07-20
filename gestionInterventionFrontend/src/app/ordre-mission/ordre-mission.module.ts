@@ -22,6 +22,10 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {DetailBonInterventionComponent} from "./detail-bon-intervention/detail-bon-intervention.component";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { AffectTechnicienDialogComponent } from './affect-technicien-dialog/affect-technicien-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { CreateDeplacementDialogComponent } from './create-deplacement-dialog/create-deplacement-dialog.component';
+import { EditDeplacementDialogComponent } from './edit-deplacement-dialog/edit-deplacement-dialog.component';
 
 
 
@@ -32,7 +36,10 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
   declarations: [
     CreationOrdreMissionComponent,
     DetailOrdreMissionComponent,
-    DetailBonInterventionComponent
+    DetailBonInterventionComponent,
+    AffectTechnicienDialogComponent,
+    CreateDeplacementDialogComponent,
+    EditDeplacementDialogComponent
   ],
   imports: [
     CommonModule,
@@ -52,7 +59,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     MatIconModule,
     MatAutocompleteModule,
     MatChipsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDialogModule
   ]
 })
 export class OrdreMissionModule { }

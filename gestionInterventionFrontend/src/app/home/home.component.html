@@ -3,15 +3,10 @@
 
   <mat-card-content>
     <mat-grid-list cols="4" rowHeight="200px">
-
-
-
-          <mat-grid-tile  *ngFor="let ordre of ordre$.ordresMission.values()">
-          <a herf=""><mat-grid-tile-header> {{ordre.id}}</mat-grid-tile-header></a>
+          <mat-grid-tile [routerLink]="'/detail/'+ordre.id"  *ngFor="let ordre of ordre$ | async">
+          <mat-grid-tile-header> {{ordre.id}}</mat-grid-tile-header>
 
           </mat-grid-tile>
-
-
     </mat-grid-list>
   </mat-card-content>
 </mat-card>

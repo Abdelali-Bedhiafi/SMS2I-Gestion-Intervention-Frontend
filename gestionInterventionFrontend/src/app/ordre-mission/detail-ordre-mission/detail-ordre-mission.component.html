@@ -137,7 +137,7 @@
       <mat-card-header>
         <mat-card-title>Techniciens</mat-card-title>
         <span class="spacer"></span>
-        <button mat-stroked-button> <mat-icon>add_circle</mat-icon></button>
+        <button mat-stroked-button add-course-btn (click)="affecterTechnicien()"> <mat-icon>add_circle</mat-icon></button>
       </mat-card-header>
       <mat-card-content>
         <mat-grid-list cols="4" rowHeight="10:6" gutterSize="5px" >
@@ -153,16 +153,18 @@
       <mat-card-header>
         <mat-card-title>Deplacement</mat-card-title>
         <span class="spacer"></span>
-        <button mat-stroked-button> <mat-icon>add_circle</mat-icon></button>
+        <button mat-stroked-button (click)="ajouterDeplacement()"> <mat-icon>add_circle</mat-icon></button>
       </mat-card-header>
       <mat-card-content>
         <mat-grid-list cols="4" rowHeight="10:6" gutterSize="5px" >
           <mat-grid-tile *ngFor="let deplacement  of ordreMission.deplacements">
             <mat-grid-tile-header>
-              {{deplacement.date}}<br>
-              {{deplacement.heureDebut}}<br>
-              {{deplacement.heureFin}}
+              {{deplacement.date}}
+              <span class="spacer"></span>
+              <button mat-stroked-button (click)="editDeplacement(deplacement)" ><mat-icon>edit</mat-icon> </button>
             </mat-grid-tile-header>
+            {{deplacement.heureDebut}}<br>
+            {{deplacement.heureFin}}
           </mat-grid-tile>
         </mat-grid-list>
       </mat-card-content>

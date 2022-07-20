@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
 import { ClientService } from 'src/app/service/client.service';
 import { SuperviseurService } from 'src/app/service/superviseur.service';
 import {OrdreMissionCreation} from "../model/ordre-mission-creation";
+import {Observable} from "rxjs";
+import {Superviseur} from "../../model/superviseur";
+import {Client} from "../../model/client";
+
+
 @Component({
   selector: 'app-creation-ordre-mission',
   templateUrl: './creation-ordre-mission.component.html',
@@ -10,18 +15,19 @@ import {OrdreMissionCreation} from "../model/ordre-mission-creation";
 })
 export class CreationOrdreMissionComponent implements OnInit {
   creationOrdreForm!: FormGroup<OrdreMissionCreation>;
-  sup_ready = false;
-  client_ready = false;
-  constructor(public client$ : ClientService,
-               public superviseur$ : SuperviseurService) { }
+  superviseur$!: Observable<Superviseur[]>;
+  client$!: Observable<Client[]>;
+
+  constructor(private client : ClientService,
+              private superviseur : SuperviseurService) { }
 
   ngOnInit(): void {
-    this.superviseur$.ready.then( ready => this.sup_ready = ready );
-    this.client$.ready.then(ready => this.client_ready = ready );
+    this.superviseur$ = this.superviseur.getAll();
+    this.client$ = this.client.getAll();
     this.creationOrdreForm = new FormGroup<OrdreMissionCreation>({
       dateMission: new FormControl(new Date()),
-      client: new FormControl({id:0,nom:"select",address:""}),
-      superviseur: new FormControl({id:0,nom:"select",prenom:""}),
+      client: new FormControl(null,Validators.required),
+      superviseur: new FormControl(null,Validators.required),
       descriptionMission: new FormControl(''),
     });
   }

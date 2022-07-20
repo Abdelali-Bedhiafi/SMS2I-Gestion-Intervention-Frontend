@@ -4,7 +4,7 @@
     <form [formGroup]="creationOrdreForm" (ngSubmit)="onSubmit()">
 
       <label for="date-demande">Date Demande: </label>
-      <input matInput [matDatepicker]="picker" id="date-demande" type="Date" formControlName="dateMission"/>
+      <input matInput [matDatepicker]="picker" id="date-demande" type="Date" formControlName="dateMission">
       <mat-datepicker #picker>
         <!--mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle-->
       </mat-datepicker>
@@ -12,15 +12,16 @@
 
 
       <label for="client">Client: </label>
-      <select *ngIf="client_ready" id="client" formControlName="client">
-        <option *ngFor="let client of client$.clients.values()" [ngValue]="client">
+      <select id="client" formControlName="client">
+        <option *ngFor="let client of client$|async" [ngValue]="client">
           {{ client.nom }}
-        </option></select>
+        </option>
+      </select>
       <br/>
 
       <label for="superviseur">Superviseur: </label>
-      <select *ngIf="sup_ready" id="superviseur" formControlName="superviseur">
-        <option *ngFor="let superviseur of superviseur$.superviseurs.values()" [ngValue]="superviseur">
+      <select id="superviseur" formControlName="superviseur">
+        <option *ngFor="let superviseur of superviseur$|async" [ngValue]="superviseur">
           {{ superviseur.nom }}
         </option>
       </select>

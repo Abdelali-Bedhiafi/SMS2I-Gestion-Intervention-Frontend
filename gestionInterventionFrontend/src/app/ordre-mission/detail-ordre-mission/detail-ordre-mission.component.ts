@@ -7,6 +7,11 @@ import {SousCategorie} from "../../model/sous-categorie";
 import {SousCategorieService} from "../../service/sous-categorie.service";
 import {FormControl, Validators} from "@angular/forms";
 import {ThemePalette} from "@angular/material/core";
+import {MatDialog} from "@angular/material/dialog";
+import {AffectTechnicienDialogComponent} from "../affect-technicien-dialog/affect-technicien-dialog.component";
+import {CreateDeplacementDialogComponent} from "../create-deplacement-dialog/create-deplacement-dialog.component";
+import {Deplacement} from "../model/deplacement";
+import {EditDeplacementDialogComponent} from "../edit-deplacement-dialog/edit-deplacement-dialog.component";
 
 export interface SousCategorieData{
   sousCategorie: SousCategorie;
@@ -50,7 +55,8 @@ export class DetailOrdreMissionComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private ordreMission$: OrdreMissionService,
-              private objet$: SousCategorieService) {
+              private objet$: SousCategorieService,
+              private dialog: MatDialog) {
     this.filteredActions = this.actionSelectControl.valueChanges.pipe(
       startWith<string>(''),
       map(value=> typeof value === 'string' ? value : ''),
@@ -248,5 +254,33 @@ export class DetailOrdreMissionComponent implements OnInit {
     this.retourControl.addValidators(Validators.min(0));
     this.retourControl.addValidators(Validators.max(<number>this.accompteControl.value));
     this.retourControl.updateValueAndValidity({emitEvent:false});
+  }
+
+  affecterTechnicien() {
+    const dialogRef = this.dialog.open(AffectTechnicienDialogComponent);
+    dialogRef.afterClosed().subscribe(technicien=>{
+      if(technicien) this.ordreMission$.affecter(this.ordreMission.id,technicien.id).subscribe( mission =>{
+        if(mission) {
+          // vide ou pas
+           if (this.ordreMission.techniciens) this.ordreMission.techniciens.push(technicien);
+           else this.ordreMission.techniciens=[technicien];
+        }
+      });
+    });
+  }
+
+  ajouterDeplacement() {
+    const dialogRef = this.dialog.open(CreateDeplacementDialogComponent);
+    dialogRef.afterClosed().subscribe(deplacement=>{
+      console.log(deplacement);
+    })
+  }
+
+  editDeplacement(deplacement: Deplacement) {
+    const dialogRef = this.dialog.open(EditDeplacementDialogComponent,{data:deplacement});
+    dialogRef.afterClosed().subscribe(deplacement=>{
+      console.log(deplacement);
+    })
+
   }
 }
