@@ -11,7 +11,6 @@ export class CheckListModelService {
   constructor(private backend: BackendService) { }
 
   getAll():Observable<CheckListModel[]>{
-    console.log("requesting data");
     return this.backend.sendGetRequest<CheckListModel[]>("checkListModel");
   }
 }

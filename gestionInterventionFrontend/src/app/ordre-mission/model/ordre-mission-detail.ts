@@ -18,7 +18,7 @@ export interface OrdreMissionDetail {
   techniciens: Technicien[] ;
   client: Client;
   superviseur: Superviseur;
-  checkList: CheckList;
+  checklist: CheckList;
   sousCategories: SousCategorie[];
   deplacements: Deplacement[];
 }

@@ -6,8 +6,8 @@ import {Time} from "@angular/common";
 
 interface DeplacementForm{
   date: FormControl<Date>;
-  heureDebut:	FormControl<Time|null>;
-  heureFin: FormControl<Time|null>;
+  heureDebut:	FormControl<string|null>;
+  heureFin: FormControl<string|null>;
 }
 
 @Component({

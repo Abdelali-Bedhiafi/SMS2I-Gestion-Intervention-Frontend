@@ -5,13 +5,17 @@ import {OrdreMissionDetail} from "../model/ordre-mission-detail";
 import {map, Observable, startWith} from "rxjs";
 import {SousCategorie} from "../../model/sous-categorie";
 import {SousCategorieService} from "../../service/sous-categorie.service";
-import {FormControl, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ThemePalette} from "@angular/material/core";
 import {MatDialog} from "@angular/material/dialog";
 import {AffectTechnicienDialogComponent} from "../affect-technicien-dialog/affect-technicien-dialog.component";
 import {CreateDeplacementDialogComponent} from "../create-deplacement-dialog/create-deplacement-dialog.component";
 import {Deplacement} from "../model/deplacement";
 import {EditDeplacementDialogComponent} from "../edit-deplacement-dialog/edit-deplacement-dialog.component";
+import {DeplacementService} from "../service/deplacement.service";
+import {SelectCheckListModelComponent} from "../select-check-list-model/select-check-list-model.component";
+
+import {CheckListService} from "../../service/check-list.service";
 
 export interface SousCategorieData{
   sousCategorie: SousCategorie;
@@ -38,6 +42,7 @@ export class DetailOrdreMissionComponent implements OnInit {
 
   accompteControl!: FormControl<number|null>;
   retourControl!: FormControl<number|null>;
+  estimationControl!: FormGroup<{date: FormControl<Date|null>,duree: FormControl<number|null>}>;
 
 
   filteredActions: Observable<SousCategorieData[]>;
@@ -50,12 +55,15 @@ export class DetailOrdreMissionComponent implements OnInit {
 
   ready = false;
   objetChanges = false;
-
   accompteChanges = false;
+  estimationchanges = false;
+  infoChanges = false;
 
   constructor(private route: ActivatedRoute,
               private ordreMission$: OrdreMissionService,
               private objet$: SousCategorieService,
+              private deplacement$: DeplacementService,
+              private checklist: CheckListService,
               private dialog: MatDialog) {
     this.filteredActions = this.actionSelectControl.valueChanges.pipe(
       startWith<string>(''),
@@ -82,21 +90,34 @@ export class DetailOrdreMissionComponent implements OnInit {
       this.ordreMission$.getById(id).subscribe(ordre => {
         this.ordreMission=ordre;
         this.setSelectedCategorie(this.ordreMission.sousCategories);
-        this.accompteControl = new FormControl(ordre.accompteMission,Validators.min(0));
-        this.retourControl = new FormControl(ordre.retourAccompte,[Validators.min(0), Validators.max(ordre.accompteMission)]);
-        this.accompteControl.valueChanges.subscribe(value => {
-          if(value!= this.ordreMission.accompteMission) this.accompteChanges = true;
-          else if(value == this.ordreMission.accompteMission && this.retourControl.value == this.ordreMission.retourAccompte) this.accompteChanges=false;
-        });
-        this.retourControl.valueChanges.subscribe(value => {
-          if(value!= this.ordreMission.retourAccompte) this.accompteChanges = true;
-          else if(value == this.ordreMission.retourAccompte && this.accompteControl.value == this.ordreMission.accompteMission) this.accompteChanges=false;
-        });
+        this.initControl(ordre);
+        this.setChangesHooks();
         this.ready=true;
       });
     });
   }
-
+  initControl(ordre: OrdreMissionDetail){
+    this.accompteControl = new FormControl(ordre.accompteMission,Validators.min(0));
+    this.retourControl = new FormControl(ordre.retourAccompte,[Validators.min(0), Validators.max(ordre.accompteMission)]);
+    this.estimationControl = new FormGroup({
+      date: new FormControl(ordre.dateDebutEstime),
+      duree: new FormControl(ordre.dureeEstime)
+    });
+  }
+  setChangesHooks(){
+    this.accompteControl.valueChanges.subscribe(value => {
+      if(value!= this.ordreMission.accompteMission) this.accompteChanges = true;
+      else if(value == this.ordreMission.accompteMission && this.retourControl.value == this.ordreMission.retourAccompte) this.accompteChanges=false;
+    });
+    this.retourControl.valueChanges.subscribe(value => {
+      if(value!= this.ordreMission.retourAccompte) this.accompteChanges = true;
+      else if(value == this.ordreMission.retourAccompte && this.accompteControl.value == this.ordreMission.accompteMission) this.accompteChanges=false;
+    });
+    this.estimationControl.valueChanges.subscribe(value => {
+      if(value.date != this.ordreMission.dateDebutEstime || value.duree != this.ordreMission.dureeEstime) this.estimationchanges = true;
+      else this.estimationchanges = false;
+    })
+  }
   getAllSousCategorie(){
     this.actionReady= new Promise<boolean>((resolve)=>{
       this.objet$.getAllByCategorie("ActionOrdre").subscribe( data =>{
@@ -244,7 +265,9 @@ export class DetailOrdreMissionComponent implements OnInit {
 
   submitAccompteChanges(){
     if(this.retourControl.valid && this.accompteControl.valid){
-      this.ordreMission$.updateAccompte(this.ordreMission.id, <number>this.accompteControl.value, <number>this.retourControl.value)
+      const accompte = (this.accompteControl.value) ? this.accompteControl.value : 0;
+      const retour = (this.retourControl.value) ? this.retourControl.value : 0;
+      this.ordreMission$.updateAccompte(this.ordreMission.id, accompte, retour)
         .subscribe(()=> this.accompteChanges=false);
     }
   }
@@ -271,16 +294,51 @@ export class DetailOrdreMissionComponent implements OnInit {
 
   ajouterDeplacement() {
     const dialogRef = this.dialog.open(CreateDeplacementDialogComponent);
-    dialogRef.afterClosed().subscribe(deplacement=>{
-      console.log(deplacement);
-    })
+    dialogRef.afterClosed().subscribe(data=>{
+      let deplacement: Deplacement ={
+        id: 0,
+        date: data.date,
+        heureDebut: data.heureDebut,
+        heureFin: data.heureFin
+      };
+      this.deplacement$.create(deplacement,this.ordreMission.id).subscribe(ordreMission=>{
+        if(ordreMission){
+          if(this.ordreMission.deplacements) this.ordreMission.deplacements.push(deplacement);
+          else this.ordreMission.deplacements=[deplacement];
+        }
+      });
+    });
   }
 
   editDeplacement(deplacement: Deplacement) {
     const dialogRef = this.dialog.open(EditDeplacementDialogComponent,{data:deplacement});
-    dialogRef.afterClosed().subscribe(deplacement=>{
-      console.log(deplacement);
-    })
+    dialogRef.afterClosed().subscribe(data=>{
+      let body: Deplacement ={
+        id: deplacement.id,
+        date: data.date,
+        heureDebut: data.heureDebut,
+        heureFin: data.heureFin
+      };
+      this.deplacement$.update(body).subscribe(d=>{
+        if(d) deplacement=d;
+      })
+    });
+  }
 
+  timeFormat(time:string):string{
+    return time?.slice(0,5);
+  }
+
+  log(object: any) {
+    console.log(object);
+  }
+
+  selectChecklistModel() {
+    const dialogRef = this.dialog.open(SelectCheckListModelComponent);
+    dialogRef.afterClosed().subscribe(model=>{
+      if(model) this.checklist.create(model,this.ordreMission.id).subscribe(cheklist=>{
+            if(cheklist) this.ordreMission.checklist = cheklist;
+        });
+    });
   }
 }
