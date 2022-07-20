@@ -1,0 +1,23 @@
+<form [formGroup]="deplacement">
+  <mat-form-field>
+    <mat-label>date deplacement</mat-label>
+    <input matInput [matDatepicker]="dp" formControlName="date">
+    <mat-hint>DD/MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp></mat-datepicker>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>heure depart</mat-label>
+    <mat-hint>HH:MM</mat-hint>
+    <input matInput type="time" formControlName="heureDebut"  >
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>heure fin</mat-label>
+    <mat-hint>HH:MM</mat-hint>
+    <input matInput type="time" formControlName="heureFin"  >
+  </mat-form-field>
+</form>
+<button mat-button [mat-dialog-close]="null">Annuller</button>
+<button mat-button [disabled]="!deplacement.valid"  [mat-dialog-close]="deplacement.value" cdkFocusInitial>Ok</button>
