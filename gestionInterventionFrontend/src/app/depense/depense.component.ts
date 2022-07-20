@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import {MatTable} from '@angular/material/table';
 import { AjoutDepenseDialogComponent } from '../ajout-depense-dialog/ajout-depense-dialog.component';
 import { Depense } from '../model/depense';
+import { CategorieDepenseService } from '../service/categorie-depense.service';
 import { DepenseService } from '../service/depense.service';
 2
 3
@@ -36,11 +37,12 @@ export class DepenseComponent implements OnInit {
   ready=false;
   constructor(private depense$:DepenseService,
               private fb:FormBuilder,
-              public dialog: MatDialog){};
+              public dialog: MatDialog,
+              private categorie: CategorieDepenseService){};
 
 
   ngOnInit(): void {
-    this.depense$.getAll().subscribe(data=>{
+    this.depense$.getAllByDeplacement(1).subscribe(data=>{
       data.forEach(depense=>{
         this.dataSource.push({depense:depense,controls: {valeur: new FormControl(depense.valeur),valeurRemboursee: new FormControl<number>(depense.valeurRemboursee)}});
       });
@@ -61,10 +63,33 @@ export class DepenseComponent implements OnInit {
 
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(AjoutDepenseDialogComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      this.dataSource
+    let exetingCategorie: number[]=[];
+    exetingCategorie = this.dataSource.map(i => i.depense.categorieDepences.id);
+    this.categorie.categories().subscribe(list=>{
+      const dialogRef = this.dialog.open(AjoutDepenseDialogComponent,{data: list.filter(e => exetingCategorie.findIndex(i=>e.id==i) < 0 )});
+      dialogRef.afterClosed().subscribe(result => {
+        if(result){
+          this.dataSource.push({
+            depense:{
+              id: "",
+              valeur: 0,
+              valeurRemboursee: 0,
+              categorieDepences: result
+            },
+            controls: {
+              valeur: new FormControl(0),
+              valeurRemboursee: new FormControl<number>(0)
+            }
+          });
+          this.table.renderRows();
+        }
+      });
     });
+
+  }
+
+  addData(): void{
+
   }
 
  /*addData() {
