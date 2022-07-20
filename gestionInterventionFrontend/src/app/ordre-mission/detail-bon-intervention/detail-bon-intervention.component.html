@@ -1,158 +1,170 @@
-<mat-card *ngIf="bonIntervention; " class="det" ><h1>Details Bon Intervention {{bonIntervention?.id}} </h1> </mat-card>
-<br>
-
-<div>
-  <form class="example-form">
-    <mat-card-title>Client</mat-card-title>
-    <mat-form-field class="example-full-width" appearance="fill">
-      <input matInput placeholder="ici" value="OrdreMission.client">
-    </mat-form-field>
-  </form>
-</div>
-
-<div>
-  <form class="example-form">
-    <mat-card-title>Etat</mat-card-title>
-    <mat-form-field class="example-full-width" appearance="fill">
-      <input matInput placeholder="ici" value="OrdreMission.etat">
-    </mat-form-field>
-  </form>
-
-</div>
-<div>
-  <form class="example-form">
-    <mat-card-title>Superviseur</mat-card-title>
-    <mat-form-field class="example-full-width" appearance="fill">
-      <input matInput placeholder="ici" value="OrdreMission.superviseur">
-    </mat-form-field>
-  </form>
-
-</div>
-<div>
-
-  <form class="example-form">
-    <mat-card-title>Duree</mat-card-title>
-    <mat-form-field class="example-full-width" appearance="fill">
-      <input  matInput="number" placeholder="ici" value="bonIntervention.duree">
-    </mat-form-field>
-  </form>
-
-
-</div>
-<mat-card class="obj"> <h3>Objet Mission</h3> </mat-card>
-<div>
-<form class="example-form">
-  <mat-form-field class="example-full-width" appearance="fill">
-    <mat-card-title>Actions</mat-card-title>
+<mat-card *ngIf="bonIntervention " class="det" >
+  <mat-card-title>Details Bon Intervention {{bonIntervention?.id}}</mat-card-title>
+  <mat-card-content>
     <br>
-    <input matInput placeholder="Ex. preparation" value="">
-  </mat-form-field>
-</form>
-<form class="example-form">
-  <mat-form-field class="example-full-width" appearance="fill">
+    <div>
+      <form class="example-form">
+        <mat-card-title>Client</mat-card-title>
+        <mat-form-field class="example-full-width" appearance="fill">
+          {{bonIntervention.mission.client?.nom}}
 
-    <input matInput placeholder="Ex. preparation" value="">
-  </mat-form-field>
-</form>
-<form class="example-form">
-  <mat-form-field class="example-full-width" appearance="fill">
 
-    <input matInput placeholder="Ex. preparation" value="">
-  </mat-form-field>
-</form>
-<form class="example-form">
-  <mat-form-field class="example-full-width" appearance="fill">
-    <input matInput placeholder="Ex. preparation" value="">
-  </mat-form-field>
-</form>
+        </mat-form-field>
+      </form>
+    </div>
 
-<form class="example-form">
-  <mat-form-field class="example-full-width" appearance="fill">
-    <mat-card-title>Réseau</mat-card-title>
+    <div>
+      <form class="example-form">
+        <mat-card-title>Etat</mat-card-title>
+        <mat-form-field class="example-full-width" appearance="fill">
+          {{bonIntervention.mission.etat}}
+
+        </mat-form-field>
+      </form>
+
+    </div>
+    <div>
+      <form class="example-form">
+        <mat-card-title>Superviseur</mat-card-title>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <!--input matInput placeholder="ici" value="bonIntervention.mission.superviseur"-->
+          {{bonIntervention.mission.superviseur?.nom}}
+        </mat-form-field>
+      </form>
+
+    </div>
+    <div>
+
+      <form class="example-form">
+        <mat-card-title>Duree</mat-card-title>
+        <mat-form-field class="example-full-width" appearance="fill">
+          {{bonIntervention.dureeTotale}}
+
+        </mat-form-field>
+      </form>
+
+
+    </div>
+    <mat-card class="obj"> <h3>Objet Mission</h3> </mat-card>
+    <div>
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-card-title>Actions</mat-card-title>
+        <br>
+        <input matInput placeholder="Ex. preparation" value="">
+      </mat-form-field>
+    </form>
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+
+        <input matInput placeholder="Ex. preparation" value="">
+      </mat-form-field>
+    </form>
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+
+        <input matInput placeholder="Ex. preparation" value="">
+      </mat-form-field>
+    </form>
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <input matInput placeholder="Ex. preparation" value="">
+      </mat-form-field>
+    </form>
+
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-card-title>Réseau</mat-card-title>
+        <br>
+        <input matInput placeholder="ici" value="">
+      </mat-form-field>
+    </form>
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <input matInput placeholder="ici" value="">
+      </mat-form-field>
+    </form>
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <input matInput placeholder="ici" value="">
+      </mat-form-field>
+    </form>
+
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-card-title>Technologie</mat-card-title>
+        <br>
+        <input matInput placeholder="ici" value="">
+      </mat-form-field>
+    </form>
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <input matInput placeholder="ici" value="">
+      </mat-form-field>
+    </form>
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <input matInput placeholder="ici" value="">
+      </mat-form-field>
+    </form>
+
+    </div>
+
+    <mat-card class="tech"> <h3>Observation Technicien</h3> </mat-card>
+    <div>
+    <form>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <textarea matInput placeholder="your observation...." [value]="bonIntervention.observationTechnicien"></textarea>
+      </mat-form-field>
+    </form>
+
+    </div>
+
+    <mat-card class="tag"> <h3> Tags </h3> </mat-card>
     <br>
-    <input matInput placeholder="ici" value="">
-  </mat-form-field>
-</form>
-<form class="example-form">
-  <mat-form-field class="example-full-width" appearance="fill">
-    <input matInput placeholder="ici" value="">
-  </mat-form-field>
-</form>
-<form class="example-form">
-  <mat-form-field class="example-full-width" appearance="fill">
-    <input matInput placeholder="ici" value="">
-  </mat-form-field>
-</form>
+    <div>
 
-<form class="example-form">
-  <mat-form-field class="example-full-width" appearance="fill">
-    <mat-card-title>Technologie</mat-card-title>
+      <mat-chip-list aria-label="Fish selection">
+        <mat-chip>One fish</mat-chip>
+        <mat-chip>Two fish</mat-chip>
+        <mat-chip color="primary" selected>Primary fish</mat-chip>
+        <mat-chip color="accent" selected>Accent fish</mat-chip>
+      </mat-chip-list>
+
+    </div>
+
+
+
     <br>
-    <input matInput placeholder="ici" value="">
-  </mat-form-field>
-</form>
-<form class="example-form">
-  <mat-form-field class="example-full-width" appearance="fill">
-    <input matInput placeholder="ici" value="">
-  </mat-form-field>
-</form>
-<form class="example-form">
-  <mat-form-field class="example-full-width" appearance="fill">
-    <input matInput placeholder="ici" value="">
-  </mat-form-field>
-</form>
+    <mat-card class="espace"></mat-card>
+    <br>
+      <div class="example-button-row">
+        <a mat-raised-button href="http://localhost:4200/details/" target="_blank">Ordre Mission</a>
+      </div>
+      <br>
+      <div class="example-button-row">
+        <a mat-raised-button href="https://www.google.com/" target="_blank">Archive Rapport</a>
 
-</div>
+      </div>
+      <br>
 
-<mat-card class="tech"> <h3>Observation Technicien</h3> </mat-card>
-<div>
-<form>
-  <mat-form-field class="example-full-width" appearance="fill">
-    <textarea matInput placeholder="your observation...." value="bonIntervention.observationTechnicien"></textarea>
-  </mat-form-field>
-</form>
+      <mat-card class="espace"></mat-card>
 
-</div>
+      <br>
 
-<mat-card class="tag"> <h3> Tags </h3> </mat-card>
+      <div>
+        <button class="btnsv" mat-stroked-button >Valider
+        </button>
+      </div>
+
+
+
+
+
+  </mat-card-content>
+
+</mat-card>
 <br>
-<div>
-
-  <mat-chip-list aria-label="Fish selection">
-    <mat-chip>One fish</mat-chip>
-    <mat-chip>Two fish</mat-chip>
-    <mat-chip color="primary" selected>Primary fish</mat-chip>
-    <mat-chip color="accent" selected>Accent fish</mat-chip>
-  </mat-chip-list>
-
-</div>
-
-
-
-<br>
-<mat-card class="espace"></mat-card>
-<br>
-  <div class="example-button-row">
-    <a mat-raised-button href="http://localhost:4200/details/" target="_blank">Ordre Mission</a>
-  </div>
-  <br>
-  <div class="example-button-row">
-    <a mat-raised-button href="https://www.google.com/" target="_blank">Archive Rapport</a>
-
-  </div>
-  <br>
-
-  <mat-card class="espace"></mat-card>
-
-  <br>
-
-  <div>
-    <button class="btnsv" mat-stroked-button >Valider
-    </button>
-  </div>
-
-
-
 
 
 
