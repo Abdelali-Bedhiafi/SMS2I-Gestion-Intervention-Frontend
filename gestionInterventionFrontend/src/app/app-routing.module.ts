@@ -8,7 +8,7 @@ import { DepenseComponent } from './depense/depense.component';
 const routes: Routes = [
   { path:"home", component: HomeComponent },
   { path:"checkListDetail/:id", component:CheckListDetailComponent },
-  { path:"depense/:id", component: DepenseComponent }
+  { path:"depense/ :id", component: DepenseComponent }
 ];
 
 @NgModule({
