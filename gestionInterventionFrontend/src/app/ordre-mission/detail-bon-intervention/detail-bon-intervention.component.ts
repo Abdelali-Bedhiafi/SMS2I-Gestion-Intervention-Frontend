@@ -16,6 +16,7 @@ export class DetailBonInterventionComponent implements OnInit {
   ngOnInit(): void {
     this.bonintervention.getById(1).subscribe((data)=>{
       this.bonIntervention = data;
+      console.log(data);
     });
   }
 
