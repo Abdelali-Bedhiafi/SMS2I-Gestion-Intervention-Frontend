@@ -8,7 +8,6 @@ import {Deplacement} from "./deplacement";
 export interface OrdreMissionDetail {
   id: number;
   etat: string;
-  designation	: string;
   descriptionMission: string;
   dateMission: Date;
   dateDebutEstime: Date;

@@ -3,28 +3,18 @@
   <mat-card-content>
     <br>
     <div>
-      <form class="example-form">
-        <mat-card-title>Client</mat-card-title>
-        <mat-form-field class="example-full-width" appearance="fill">
-          {{bonIntervention.mission.client?.nom}}
-
-        </mat-form-field>
-
-
-        <form>
-          <mat-card-title>Designation</mat-card-title>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <textarea matInput placeholder="" name="test" [(ngModel)]="bonIntervention.mission.designation"></textarea>
-          </mat-form-field>
-        </form>
-
-        <mat-card-title>Superviseur</mat-card-title>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <!--input matInput placeholder="ici" value="bonIntervention.mission.superviseur"-->
-          {{bonIntervention.mission.superviseur?.nom}}
-        </mat-form-field>
-      </form>
-
+      <mat-card-title>Client</mat-card-title>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <input matInput [value]="bonIntervention.mission.client?.nom" disabled="true" >
+      </mat-form-field>
+      <mat-card-title>Designation</mat-card-title>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <textarea matInput placeholder="" name="test" [(ngModel)]="bonIntervention.mission.designation"></textarea>
+      </mat-form-field>
+      <mat-card-title>Superviseur</mat-card-title>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <input matInput [disabled]="true" [value]="bonIntervention.mission.superviseur.nom">
+      </mat-form-field>
     </div>
     <div>
 
