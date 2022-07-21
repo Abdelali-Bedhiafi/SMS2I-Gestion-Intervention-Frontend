@@ -21,11 +21,18 @@
         {{ordreMission.dateMission|date:"d MMM, y" }}
       </mat-grid-tile>
     </mat-grid-list>
-    <button mat-stroked-button *ngIf="ordreMission.checklist == null; else checklist " (click)="selectChecklistModel()" >
+    <br>
+    <mat-form-field class="designation" appearance="fill">
+      <mat-label>Designation </mat-label>
+      <input matInput [formControl]="designationControl" >
+      <button  mat-icon-button matSuffix [disabled]="!(designationChanges)" (click)="submitDesignation()"><mat-icon >check_circle</mat-icon></button>
+    </mat-form-field>
+    <br>
+    <button mat-button mat-stroked-button *ngIf="ordreMission.checklist == null; else checklist " (click)="selectChecklistModel()" >
       select checklist <mat-icon >add_circle</mat-icon>
     </button>
     <ng-template #checklist >
-      <button mat-stroked-button [routerLink]="'/checkListDetail/'+this.ordreMission.checklist.id" >
+      <button mat-button mat-stroked-button [routerLink]="'/checkListDetail/'+this.ordreMission.checklist.id" >
         CheckList : {{this.ordreMission.checklist.model.nom}}
       </button>
     </ng-template>
@@ -33,7 +40,7 @@
       <mat-card-header>
         <mat-card-title>Planning</mat-card-title>
         <span class="spacer"></span>
-        <button mat-stroked-button [disabled]="!(estimationChanges)" (click)="submitEstimationChanges()">
+        <button mat-button mat-stroked-button [disabled]="!(estimationChanges)" (click)="submitEstimationChanges()">
           <mat-icon>check_circle</mat-icon>
         </button>
       </mat-card-header>
@@ -58,7 +65,7 @@
         <mat-icon>info</mat-icon>
         <mat-card-title> Info</mat-card-title>
         <span class="spacer"></span>
-        <button mat-stroked-button [disabled]="!(infoChanges)" (click)="submitInfoChanges()" >
+        <button mat-button mat-stroked-button [disabled]="!(infoChanges)" (click)="submitInfoChanges()" >
           <mat-icon>check_circle</mat-icon>
         </button>
       </mat-card-header>
@@ -79,7 +86,7 @@
       <mat-card-header>
         <mat-card-title>Objet Mission</mat-card-title>
         <span class="spacer"></span>
-        <button mat-stroked-button [disabled]="!objetChanges" (click)="submitObjetChanges()">
+        <button mat-button mat-stroked-button [disabled]="!objetChanges" (click)="submitObjetChanges()">
           <mat-icon>check_circle</mat-icon>
         </button>
       </mat-card-header>
@@ -145,14 +152,11 @@
         </mat-grid-list>
       </mat-card-content>
     </mat-card>
-
-
-
     <mat-card>
       <mat-card-header>
         <mat-card-title>Techniciens</mat-card-title>
         <span class="spacer"></span>
-        <button mat-stroked-button add-course-btn (click)="affecterTechnicien()"> <mat-icon>add_circle</mat-icon></button>
+        <button mat-button mat-stroked-button add-course-btn (click)="affecterTechnicien()"> <mat-icon>add_circle</mat-icon></button>
       </mat-card-header>
       <mat-card-content>
         <mat-grid-list cols="4" rowHeight="10:6" gutterSize="5px" >
@@ -168,7 +172,7 @@
       <mat-card-header>
         <mat-card-title>Deplacement</mat-card-title>
         <span class="spacer"></span>
-        <button mat-stroked-button (click)="ajouterDeplacement()"> <mat-icon>add_circle</mat-icon></button>
+        <button mat-button mat-stroked-button (click)="ajouterDeplacement()"> <mat-icon>add_circle</mat-icon></button>
       </mat-card-header>
       <mat-card-content>
         <mat-grid-list cols="4" rowHeight="10:6" gutterSize="5px" >
@@ -176,7 +180,7 @@
             <mat-grid-tile-header>
               {{deplacement.date | date}}
               <span class="spacer"></span>
-              <button mat-stroked-button (click)="editDeplacement(deplacement)" >
+              <button mat-button mat-stroked-button (click)="editDeplacement(deplacement)" >
                 <mat-icon>edit</mat-icon>
               </button>
             </mat-grid-tile-header>
@@ -185,7 +189,7 @@
               {{timeFormat(deplacement.heureFin)}}
             <mat-grid-tile-footer>
               <span class="spacer"></span>
-              <button mat-stroked-button [routerLink]="'/depense/'+deplacement.id" >
+              <button mat-button mat-stroked-button [routerLink]="'/depense/'+deplacement.id" >
                 <mat-icon>paid</mat-icon>
               </button>
             </mat-grid-tile-footer>
@@ -197,21 +201,19 @@
     <mat-card-header>
       <mat-card-title>Accompte</mat-card-title>
       <span class="spacer"></span>
-      <button mat-stroked-button (click)="submitAccompteChanges()" [disabled]="!(accompteChanges&&accompteControl.valid&&retourControl.valid)">
+      <button mat-button mat-stroked-button (click)="submitAccompteChanges()" [disabled]="!(accompteChanges&&accompteControl.valid&&retourControl.valid)">
         <mat-icon>check_circle</mat-icon>
       </button>
     </mat-card-header>
     <mat-card-content>
-      <form>
-        <mat-form-field>
-          <mat-label>accompte</mat-label>
-          <input type="number" matInput [formControl]="accompteControl" >
-        </mat-form-field>
-        <mat-form-field >
-          <mat-label>retour</mat-label>
-          <input type="number" matInput [formControl]="retourControl" >
-        </mat-form-field>
-      </form>
+      <mat-form-field>
+        <mat-label>accompte</mat-label>
+        <input type="number" matInput [formControl]="accompteControl" >
+      </mat-form-field>
+      <mat-form-field >
+        <mat-label>retour</mat-label>
+        <input type="number" matInput [formControl]="retourControl" >
+      </mat-form-field>
     </mat-card-content>
   </mat-card>
 </mat-card-content>

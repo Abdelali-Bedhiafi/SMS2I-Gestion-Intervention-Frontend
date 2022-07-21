@@ -41,18 +41,18 @@ export class DetailOrdreMissionComponent implements OnInit {
   reseaux: SousCategorieData[]=[];
   technologies: SousCategorieData[]=[];
 
-  actionSelectControl= new FormControl();
-  reseauSelectControl= new FormControl();
-  technologieSelectControl= new FormControl();
-
+  actionSelectControl!: FormControl<string|null>;
+  reseauSelectControl!: FormControl<string|null>;
+  technologieSelectControl!: FormControl<string|null>;
   accompteControl!: FormControl<number|null>;
   retourControl!: FormControl<number|null>;
   estimationControl!: FormGroup<{date: FormControl<Date|null>, duree: FormControl<number|null>}>;
   infoControl!: FormGroup<{description: FormControl<string|null>, reclamation: FormControl<string|null>}>;
+  designationControl!: FormControl<string|null>;
 
-  filteredActions: Observable<SousCategorieData[]>;
-  filteredReseaux: Observable<SousCategorieData[]>;
-  filteredTechnologies: Observable<SousCategorieData[]>;
+  filteredActions!: Observable<SousCategorieData[]>;
+  filteredReseaux!: Observable<SousCategorieData[]>;
+  filteredTechnologies!: Observable<SousCategorieData[]>;
 
   actionReady!: Promise<boolean>;
   reseauReady!: Promise<boolean>;
@@ -63,6 +63,7 @@ export class DetailOrdreMissionComponent implements OnInit {
   accompteChanges = false;
   estimationChanges = false;
   infoChanges = false;
+  designationChanges= false;
 
   constructor(private route: ActivatedRoute,
               private ordreMission$: OrdreMissionService,
@@ -71,22 +72,6 @@ export class DetailOrdreMissionComponent implements OnInit {
               private checklist: CheckListService,
               private technicien: TechnicienService,
               private dialog: MatDialog) {
-    this.filteredActions = this.actionSelectControl.valueChanges.pipe(
-      startWith<string>(''),
-      map(value=> typeof value === 'string' ? value : ''),
-      map(filter => this.filter(this.actions,filter))
-    );
-    this.filteredReseaux = this.reseauSelectControl.valueChanges.pipe(
-      startWith<string>(''),
-      map(value=> typeof value === 'string' ? value : ''),
-      map(filter => this.filter(this.reseaux,filter))
-    );
-    this.filteredTechnologies = this.technologieSelectControl.valueChanges.pipe(
-      startWith<string>(''),
-      map(value=> typeof value === 'string' ? value : ''),
-      map(filter => this.filter(this.technologies,filter))
-    );
-
   }
 
   ngOnInit(): void {
@@ -104,6 +89,9 @@ export class DetailOrdreMissionComponent implements OnInit {
   }
 
   initControl(ordre: OrdreMissionDetail){
+    this.actionSelectControl = new  FormControl('');
+    this.reseauSelectControl = new  FormControl('');
+    this.technologieSelectControl = new  FormControl('');
     this.accompteControl = new FormControl(ordre.accompteMission,Validators.min(0));
     this.retourControl = new FormControl(ordre.retourAccompte,[Validators.min(0),this.getMaxValidator()]);
     this.estimationControl = new FormGroup({
@@ -114,9 +102,22 @@ export class DetailOrdreMissionComponent implements OnInit {
       description: new FormControl(ordre.descriptionMission),
       reclamation: new FormControl(ordre.retourClient),
     })
+    this.designationControl = new FormControl(ordre.designation);
   }
 
   setChangesHooks(){
+    this.filteredActions = this.actionSelectControl.valueChanges.pipe(
+      map(value=> typeof value === 'string' ? value : ''),
+      map(filter => this.filter(this.actions,filter))
+    );
+    this.filteredReseaux = this.reseauSelectControl.valueChanges.pipe(
+      map(value=> typeof value === 'string' ? value : ''),
+      map(filter => this.filter(this.reseaux,filter))
+    );
+    this.filteredTechnologies = this.technologieSelectControl.valueChanges.pipe(
+      map(value=> typeof value === 'string' ? value : ''),
+      map(filter => this.filter(this.technologies,filter))
+    );
     this.accompteControl.valueChanges.subscribe(value => {
       if(value!= this.ordreMission.accompteMission) this.accompteChanges = true;
       else if(value == this.ordreMission.accompteMission && this.retourControl.value == this.ordreMission.retourAccompte) this.accompteChanges=false;
@@ -128,9 +129,11 @@ export class DetailOrdreMissionComponent implements OnInit {
     this.estimationControl.valueChanges.subscribe(value =>
       this.estimationChanges = value.date != this.ordreMission.dateDebutEstime || value.duree != this.ordreMission.dureeEstime
     );
-    this.infoControl.valueChanges.subscribe(value =>{
+    this.infoControl.valueChanges.subscribe(value =>
       this.infoChanges = value.description != this.ordreMission.descriptionMission || value.reclamation != this.ordreMission.retourClient
-    }
+    );
+    this.designationControl.valueChanges.subscribe(value =>
+      this.designationChanges = value != this.ordreMission.designation
     );
   }
 
@@ -384,4 +387,10 @@ export class DetailOrdreMissionComponent implements OnInit {
     console.log(object);
   }
 
+  submitDesignation() {
+    const desingation = (this.designationControl.value)? this.designationControl.value : ''
+    this.ordreMission$.updateDesignation(this.ordreMission.id, desingation).subscribe(
+      () => this.designationChanges = false
+    );
+  }
 }
