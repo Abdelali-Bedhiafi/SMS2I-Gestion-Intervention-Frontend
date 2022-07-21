@@ -12,4 +12,13 @@ export class BonInterventionService {
   getById(id: number):Observable<BonInterventionDetail>{
     return this.backend.sendGetRequest<BonInterventionDetail>("bonIntervention/"+id)
   }
+
+  update(bonIntervention:BonInterventionDetail):Observable<BonInterventionDetail>{
+
+     return this.backend.sendPutRequest<BonInterventionDetail>("bonIntervention/"+bonIntervention.id,bonIntervention);
+
+
+
+
+  }
 }
