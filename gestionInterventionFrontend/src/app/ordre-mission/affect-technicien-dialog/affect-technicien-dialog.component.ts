@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {TechnicienService} from "../../service/technicien.service";
+import {Component, Inject, OnInit} from '@angular/core';
 import {Technicien} from "../../model/technicien";
-import {Observable} from "rxjs";
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+
 
 @Component({
   selector: 'app-affect-technicien-dialog',
@@ -11,11 +11,11 @@ import {Observable} from "rxjs";
 export class AffectTechnicienDialogComponent implements OnInit {
 
   selected: Technicien|null = null;
-  technicien$!: Observable<Technicien[]>
-  constructor(private technicien: TechnicienService) { }
+
+  constructor(@Inject(MAT_DIALOG_DATA) public technicien$: Technicien[]) { }
 
   ngOnInit(): void {
-    this.technicien$ = this.technicien.getAll();
+    ;
   }
 
 }

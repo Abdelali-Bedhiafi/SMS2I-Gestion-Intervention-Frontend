@@ -5,10 +5,10 @@ import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-select-check-list-model',
-  templateUrl: './select-check-list-model.component.html',
-  styleUrls: ['./select-check-list-model.component.css']
+  templateUrl: './select-check-list-model-dialog.component.html',
+  styleUrls: ['./select-check-list-model-dialog.component.css']
 })
-export class SelectCheckListModelComponent implements OnInit {
+export class SelectCheckListModelDialogComponent implements OnInit {
 
   checkListModels$!:Observable<CheckListModel[]>;
   selected!: CheckListModel;

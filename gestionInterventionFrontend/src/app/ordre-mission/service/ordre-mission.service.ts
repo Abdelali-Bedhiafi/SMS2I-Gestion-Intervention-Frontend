@@ -42,6 +42,26 @@ export class OrdreMissionService {
       .append("retourAccompte",retour);
     return this.backend.sendPostRequest<OrdreMissionDetail>("mission/accompte",{},params);
   }
+
+  updateEstimation(missionId: number, debut: Date|null, duree: number):Observable<OrdreMissionDetail>{
+    const debut$ = (debut)? new Date(debut).toISOString().slice(0,10) : "";
+    console.log(debut$);
+    const params = new HttpParams()
+      .append("missionId",missionId)
+      .append("debut",debut$)
+      .append("duree",duree);
+    return this.backend.sendPostRequest<OrdreMissionDetail>("mission/estimation",{},params);
+  }
+
+  updateInfo(missionId: number,info: {description: string, reclamation: string}):Observable<OrdreMissionDetail>{
+    const params = new HttpParams()
+      .append("missionId",missionId)
+    return this.backend.sendPostRequest<OrdreMissionDetail>(
+      "mission/description",
+      info,
+      params);
+  }
+
 }
 
 

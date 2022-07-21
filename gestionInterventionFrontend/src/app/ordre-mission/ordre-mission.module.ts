@@ -26,7 +26,7 @@ import { AffectTechnicienDialogComponent } from './affect-technicien-dialog/affe
 import {MatDialogModule} from "@angular/material/dialog";
 import { CreateDeplacementDialogComponent } from './create-deplacement-dialog/create-deplacement-dialog.component';
 import { EditDeplacementDialogComponent } from './edit-deplacement-dialog/edit-deplacement-dialog.component';
-import { SelectCheckListModelComponent } from './select-check-list-model/select-check-list-model.component';
+import { SelectCheckListModelDialogComponent } from './select-check-list-model-dialog/select-check-list-model-dialog.component';
 
 
 
@@ -41,7 +41,7 @@ import { SelectCheckListModelComponent } from './select-check-list-model/select-
     AffectTechnicienDialogComponent,
     CreateDeplacementDialogComponent,
     EditDeplacementDialogComponent,
-    SelectCheckListModelComponent
+    SelectCheckListModelDialogComponent
   ],
   imports: [
     CommonModule,

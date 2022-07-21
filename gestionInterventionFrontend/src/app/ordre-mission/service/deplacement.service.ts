@@ -10,29 +10,23 @@ export class DeplacementService {
 
   constructor(private backend: BackendService) { }
 
-  format(deplacement: Deplacement,missionId?: number):any{
-    if(missionId) return {
+  format(deplacement: Deplacement,missionId: number):any{
+    return {
+      id: deplacement.id,
       date: deplacement.date,
       heureDebut: deplacement.heureDebut,
       heureFin: deplacement.heureFin,
       mission: {
         id: missionId
       }
-    };
-    return {
-      id: deplacement.id,
-      date: deplacement.date,
-      heureDebut: deplacement.heureDebut,
-      heureFin: deplacement.heureFin
-    };
+    }
   }
 
   create(deplacement: Deplacement, missionId: number):Observable<Deplacement>{
-
     return this.backend.sendPostRequest<Deplacement>("Deplacement",this.format(deplacement,missionId));
   }
 
-  update(deplacement: Deplacement):Observable<Deplacement>{
-    return this.backend.sendPutRequest("Deplacement/"+deplacement.id,this.format(deplacement));
+  update(deplacement: Deplacement, missionId: number ):Observable<Deplacement>{
+    return this.backend.sendPutRequest<Deplacement>("Deplacement/"+deplacement.id,this.format(deplacement,missionId));
   }
 }
