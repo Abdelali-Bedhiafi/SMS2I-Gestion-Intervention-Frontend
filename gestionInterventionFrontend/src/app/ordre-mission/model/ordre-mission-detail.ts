@@ -21,5 +21,6 @@ export interface OrdreMissionDetail {
   checkList: CheckList;
   sousCategories: SousCategorie[];
   deplacements: Deplacement[];
+  designation	:string;
 }
 

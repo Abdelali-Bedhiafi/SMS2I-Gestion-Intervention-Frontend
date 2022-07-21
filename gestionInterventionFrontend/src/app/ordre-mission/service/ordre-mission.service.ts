@@ -6,6 +6,7 @@ import { OrdreMissionDetail } from '../model/ordre-mission-detail';
 import {HttpParams} from "@angular/common/http";
 import {OrdreMission} from "../../model/ordre-mission";
 import {SousCategorie} from "../../model/sous-categorie";
+import { BonInterventionDetail } from '../model/bon-intervention-detail';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,6 @@ export class OrdreMissionService {
       .append("retourAccompte",retour);
     return this.backend.sendPostRequest<OrdreMissionDetail>("mission/accompte",{},params);
   }
-}
 
+}
 
