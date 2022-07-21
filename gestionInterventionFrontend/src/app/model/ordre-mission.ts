@@ -11,4 +11,5 @@ export interface OrdreMission {
   techniciens: Technicien[];
   sousCategories: SousCategorie[];
   superviseur:Superviseur;
+  designation	:string;
 }
