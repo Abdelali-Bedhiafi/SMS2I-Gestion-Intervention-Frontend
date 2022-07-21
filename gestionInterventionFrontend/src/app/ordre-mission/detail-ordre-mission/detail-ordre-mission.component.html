@@ -93,11 +93,13 @@
       <mat-card-content>
         <mat-grid-list cols="3" rowHeight="10:6" gutterSize="5px">
           <mat-grid-tile>
-            <mat-form-field >
-              <input matInput type="text" placeholder="actions"
-                     [matAutocomplete]="autoAction"
-                     [formControl]="actionSelectControl">
-            </mat-form-field>
+            <mat-grid-tile-header>
+              <mat-form-field >
+                <input matInput type="text" placeholder="actions"
+                       [matAutocomplete]="autoAction"
+                       [formControl]="actionSelectControl">
+              </mat-form-field>
+            </mat-grid-tile-header>
             <mat-autocomplete #autoAction="matAutocomplete" [displayWith]="displayFn">
               <mat-option *ngFor="let action of filteredActions | async">
                 <div (click)="optionClicked($event, action)">
@@ -109,14 +111,33 @@
                   </mat-checkbox>
                 </div>
               </mat-option>
+              <mat-option (click)="addCategorie('ActionOrdre')">
+                <mat-icon>add_circle</mat-icon>
+                ajouter
+              </mat-option>
             </mat-autocomplete>
+            <mat-chip-list>
+              <div *ngFor="let action of actions">
+                <mat-chip *ngIf="action.selected"
+                          [color]="action.color"
+                          [selected]="true"
+                          (removed)="toggleSelection(action)">
+                  {{action.sousCategorie.titre}}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+              </div>
+            </mat-chip-list>
           </mat-grid-tile>
           <mat-grid-tile>
-            <mat-form-field >
-              <input matInput type="text" placeholder="reseaux"
-                     [matAutocomplete]="autoReseau"
-                     [formControl]="reseauSelectControl">
-            </mat-form-field>
+            <mat-grid-tile-header>
+              <mat-form-field>
+                <input matInput type="text" placeholder="reseaux"
+                       [matAutocomplete]="autoReseau"
+                       [formControl]="reseauSelectControl">
+              </mat-form-field>
+            </mat-grid-tile-header>
             <mat-autocomplete #autoReseau="matAutocomplete" [displayWith]="displayFn">
               <mat-option *ngFor="let reseau of filteredReseaux | async">
                 <div>
@@ -128,14 +149,33 @@
                   </mat-checkbox>
                 </div>
               </mat-option>
+              <mat-option (click)="addCategorie('Reseau')">
+                <mat-icon>add_circle</mat-icon>
+                ajouter
+              </mat-option>
             </mat-autocomplete>
+            <mat-chip-list>
+              <div *ngFor="let reseau of reseaux">
+                <mat-chip *ngIf="reseau.selected"
+                          [color]="reseau.color"
+                          [selected]="true"
+                          (removed)="toggleSelection(reseau)">
+                  {{reseau.sousCategorie.titre}}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+              </div>
+            </mat-chip-list>
           </mat-grid-tile>
           <mat-grid-tile>
-            <mat-form-field >
-              <input matInput type="text" placeholder="technologies"
-                     [matAutocomplete]="autoTechnologie"
-                     [formControl]="technologieSelectControl">
-            </mat-form-field>
+            <mat-grid-tile-header>
+              <mat-form-field >
+                <input matInput type="text" placeholder="technologies"
+                       [matAutocomplete]="autoTechnologie"
+                       [formControl]="technologieSelectControl">
+              </mat-form-field>
+            </mat-grid-tile-header>
             <mat-autocomplete #autoTechnologie="matAutocomplete" [displayWith]="displayFn">
               <mat-option *ngFor="let technologie of filteredTechnologies | async">
                 <div>
@@ -147,7 +187,24 @@
                   </mat-checkbox>
                 </div>
               </mat-option>
+              <mat-option (click)="addCategorie('Technologie')">
+                <mat-icon>add_circle</mat-icon>
+                ajouter
+              </mat-option>
             </mat-autocomplete>
+            <mat-chip-list>
+              <div *ngFor="let technologie of technologies">
+                <mat-chip *ngIf="technologie.selected"
+                          [color]="technologie.color"
+                          [selected]="true"
+                          (removed)="toggleSelection(technologie)">
+                  {{technologie.sousCategorie.titre}}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+              </div>
+            </mat-chip-list>
           </mat-grid-tile>
         </mat-grid-list>
       </mat-card-content>

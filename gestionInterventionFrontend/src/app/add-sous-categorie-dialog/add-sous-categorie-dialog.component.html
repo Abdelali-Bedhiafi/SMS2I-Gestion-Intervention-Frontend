@@ -1,0 +1,17 @@
+<form [formGroup]="sousCategorieControl">
+  <mat-form-field appearance="fill">
+    <mat-label>titre</mat-label>
+    <input matInput formControlName="titre">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>description</mat-label>
+    <input matInput formControlName="description">
+  </mat-form-field>
+  <br>
+  <mat-label>categorie: </mat-label>
+  {{categorie}}
+</form>
+<button mat-button [mat-dialog-close]="null">Annuller</button>
+<button mat-button [disabled]="!sousCategorieControl.valid"  [mat-dialog-close]="sousCategorieControl.value" >Ok</button>
+

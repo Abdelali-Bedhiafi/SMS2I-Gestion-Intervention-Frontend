@@ -1,41 +1,39 @@
-<mat-card>
+<mat-card *ngIf="clientReady&&superviseurReady" >
   <mat-card-title> Creation Ordre Mission</mat-card-title>
   <mat-card-content>
     <form [formGroup]="creationOrdreForm" (ngSubmit)="onSubmit()">
-
-      <label for="date-demande">Date Demande: </label>
-      <input matInput [matDatepicker]="picker" id="date-demande" type="Date" formControlName="dateMission">
-      <mat-datepicker #picker>
-        <!--mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle-->
-      </mat-datepicker>
-      <br/>
-
-
-      <label for="client">Client: </label>
-      <select id="client" formControlName="client">
-        <option *ngFor="let client of client$|async" [ngValue]="client">
-          {{ client.nom }}
-        </option>
-      </select>
-      <br/>
-
-      <label for="superviseur">Superviseur: </label>
-      <select id="superviseur" formControlName="superviseur">
-        <option *ngFor="let superviseur of superviseur$|async" [ngValue]="superviseur">
-          {{ superviseur.nom }}
-        </option>
-      </select>
-      <br/>
-
-
-      <label for="description-demande">Description Demande: </label><br>
-        <textarea id="description-demande" type="text" formControlName="descriptionMission">
-        </textarea>
-      <br/>
-
+      <mat-form-field>
+        <mat-label>Date Demande:</mat-label>
+        <input matInput [matDatepicker]="picker"  formControlName="dateMission">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Client: </mat-label>
+        <mat-select  formControlName="client">
+          <mat-option *ngFor="let client of clients" [value]="client">
+            {{ client.nom }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Superviseur: </mat-label>
+        <mat-select  formControlName="superviseur">
+          <mat-option *ngFor="let superviseur of superviseurs" [value]="superviseur">
+            {{ superviseur.nom }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="texteArea">
+        <mat-label>Description Demande:</mat-label>
+        <textarea  matInput  formControlName="descriptionMission"></textarea>
+      </mat-form-field>
+      <br>
       <button type="submit" [disabled]="!creationOrdreForm.valid">Valider</button>
     </form>
-
   </mat-card-content>
 </mat-card>
 

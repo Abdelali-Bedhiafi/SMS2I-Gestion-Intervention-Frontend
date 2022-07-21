@@ -25,6 +25,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { AddSousCategorieDialogComponent } from './add-sous-categorie-dialog/add-sous-categorie-dialog.component';
+import {MatInputModule} from "@angular/material/input";
 
 
 
@@ -36,7 +38,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     NavbarComponent,
     CheckListDetailComponent,
     DepenseComponent,
-    AjoutDepenseDialogComponent
+    AjoutDepenseDialogComponent,
+    AddSousCategorieDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ReactiveFormsModule,
     MatTableModule,
     MatDialogModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

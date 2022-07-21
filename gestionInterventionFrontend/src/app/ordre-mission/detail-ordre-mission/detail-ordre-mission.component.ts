@@ -19,6 +19,7 @@ import {SousCategorieService} from "../../service/sous-categorie.service";
 import {DeplacementService} from "../service/deplacement.service";
 import {CheckListService} from "../../service/check-list.service";
 import {TechnicienService} from "../../service/technicien.service";
+import {AddSousCategorieDialogComponent} from "../../add-sous-categorie-dialog/add-sous-categorie-dialog.component";
 
 
 export interface SousCategorieData{
@@ -41,9 +42,9 @@ export class DetailOrdreMissionComponent implements OnInit {
   reseaux: SousCategorieData[]=[];
   technologies: SousCategorieData[]=[];
 
-  actionSelectControl!: FormControl<string|null>;
-  reseauSelectControl!: FormControl<string|null>;
-  technologieSelectControl!: FormControl<string|null>;
+  actionSelectControl!: FormControl;
+  reseauSelectControl!: FormControl;
+  technologieSelectControl!: FormControl;
   accompteControl!: FormControl<number|null>;
   retourControl!: FormControl<number|null>;
   estimationControl!: FormGroup<{date: FormControl<Date|null>, duree: FormControl<number|null>}>;
@@ -71,6 +72,7 @@ export class DetailOrdreMissionComponent implements OnInit {
               private deplacement$: DeplacementService,
               private checklist: CheckListService,
               private technicien: TechnicienService,
+              private sousCategorie: SousCategorieService,
               private dialog: MatDialog) {
   }
 
@@ -89,11 +91,8 @@ export class DetailOrdreMissionComponent implements OnInit {
   }
 
   initControl(ordre: OrdreMissionDetail){
-    this.actionSelectControl = new  FormControl('');
-    this.reseauSelectControl = new  FormControl('');
-    this.technologieSelectControl = new  FormControl('');
     this.accompteControl = new FormControl(ordre.accompteMission,Validators.min(0));
-    this.retourControl = new FormControl(ordre.retourAccompte,[Validators.min(0),this.getMaxValidator()]);
+    this.retourControl = new FormControl(ordre.retourAccompte,{validators:[Validators.min(0),this.getMaxValidator()],updateOn:"blur"});
     this.estimationControl = new FormGroup({
       date: new FormControl(ordre.dateDebutEstime),
       duree: new FormControl(ordre.dureeEstime)
@@ -106,19 +105,32 @@ export class DetailOrdreMissionComponent implements OnInit {
   }
 
   setChangesHooks(){
-    this.filteredActions = this.actionSelectControl.valueChanges.pipe(
-      map(value=> typeof value === 'string' ? value : ''),
-      map(filter => this.filter(this.actions,filter))
-    );
-    this.filteredReseaux = this.reseauSelectControl.valueChanges.pipe(
-      map(value=> typeof value === 'string' ? value : ''),
-      map(filter => this.filter(this.reseaux,filter))
-    );
-    this.filteredTechnologies = this.technologieSelectControl.valueChanges.pipe(
-      map(value=> typeof value === 'string' ? value : ''),
-      map(filter => this.filter(this.technologies,filter))
-    );
+    this.actionReady.then(()=>{
+      this.actionSelectControl = new FormControl();
+      this.filteredActions = this.actionSelectControl.valueChanges.pipe(
+        startWith<string>('') ,
+        map(value=> typeof value === 'string' ? value : ''),
+        map(filter => this.filter(this.actions,filter))
+      );
+    });
+    this.reseauReady.then(()=>{
+      this.reseauSelectControl = new FormControl();
+      this.filteredReseaux = this.reseauSelectControl.valueChanges.pipe(
+        startWith<string>(''),
+        map(value=> typeof value === 'string' ? value : ''),
+        map(filter => this.filter(this.reseaux,filter))
+      );
+    });
+    this.technologieReady.then(()=>{
+      this.technologieSelectControl= new FormControl();
+      this.filteredTechnologies = this.technologieSelectControl.valueChanges.pipe(
+        startWith<string>(''),
+        map(value=> typeof value === 'string' ? value : ''),
+        map(filter => this.filter(this.technologies,filter))
+      );
+    });
     this.accompteControl.valueChanges.subscribe(value => {
+      this.retourControl.updateValueAndValidity({emitEvent:false});
       if(value!= this.ordreMission.accompteMission) this.accompteChanges = true;
       else if(value == this.ordreMission.accompteMission && this.retourControl.value == this.ordreMission.retourAccompte) this.accompteChanges=false;
     });
@@ -145,7 +157,7 @@ export class DetailOrdreMissionComponent implements OnInit {
       });
     });
     this.reseauReady= new Promise<boolean>((resolve)=>{
-      this.objet$.getAllByCategorie("ActionRapport").subscribe( data =>{
+      this.objet$.getAllByCategorie("Reseau").subscribe( data =>{
         data.forEach(sousCategorie => this.reseaux.push({sousCategorie: sousCategorie, selected: false, color: 'warn'}));
         resolve(true);
       });
@@ -311,7 +323,12 @@ export class DetailOrdreMissionComponent implements OnInit {
 
   getMaxValidator(): ValidatorFn {
     return (control:AbstractControl) : ValidationErrors | null => {
-      return (this.accompteControl.value)? (control.value>this.accompteControl.value)? {"valid":false}: null :{"valid":false}
+      if(control.value){
+        if(this.accompteControl.value){
+          return (control.value > this.accompteControl.value )? {"valid":false} : null;
+        }else return {"valid":false};
+      }else return null;
+
     }
 
   }
@@ -393,4 +410,30 @@ export class DetailOrdreMissionComponent implements OnInit {
       () => this.designationChanges = false
     );
   }
+
+  addCategorie(categorie: string){
+    const dialogRef = this.dialog.open(AddSousCategorieDialogComponent,{data:categorie});
+    dialogRef.afterClosed().subscribe(data=>{
+      const body: SousCategorie={
+        id:0,
+        titre: data.titre,
+        description: data.description,
+        categorie: categorie
+      };
+      this.sousCategorie.add(body).subscribe(s =>{
+        switch (categorie){
+          case "ActionOrdre":
+            this.actions.push({sousCategorie:s,selected:false,color:"warn"});
+            break;
+          case "Reseau":
+            this.reseaux.push({sousCategorie:s,selected:false,color:"warn"});
+            break;
+          case "Technologie":
+            this.technologies.push({sousCategorie:s,selected:false,color:"warn"});
+            break;
+        }
+      });
+    });
+  }
+
 }
