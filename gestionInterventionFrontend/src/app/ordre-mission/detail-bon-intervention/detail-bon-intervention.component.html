@@ -31,14 +31,13 @@
       <div>
       <form>
         <mat-form-field class="example-full-width" appearance="fill">
-          <textarea matInput name="test" placeholder="your observation...." [(ngModel)]="bonIntervention.observationTechnicien" ></textarea>
+          <textarea matInput name="test" placeholder="your observation...."
+          [(ngModel)]="bonIntervention.observationTechnicien" ></textarea>
         </mat-form-field>
       </form>
       </div>
 
-
       <br>
-
 
     </div>
     <div>
@@ -47,10 +46,8 @@
 
       <mat-form-field appearance="fill">
         <mat-card-title>Action</mat-card-title>
-        <mat-label>Toppings</mat-label>
         <mat-select multiple>
-          <mat-select-trigger>
-          </mat-select-trigger>
+          <mat-option *ngFor="let item of actions ">{{item.titre}} </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -60,7 +57,7 @@
       <mat-form-field appearance="fill">
         <mat-card-title>Reseau</mat-card-title>
         <mat-select multiple>
-          <mat-option *ngFor="let item of actions ">{{item.titre}} </mat-option>
+          <mat-option *ngFor="let item of resaux ">{{item.titre}} </mat-option>
         </mat-select>
 
       </mat-form-field>
@@ -70,29 +67,33 @@
 
       <mat-form-field appearance="fill">
         <mat-card-title>Technologie</mat-card-title>
-        <mat-label>Toppings</mat-label>
-        <mat-select multiple>
-          <mat-select-trigger>
-          </mat-select-trigger>
+        <mat-select multiple >
+          <mat-option *ngFor="let item of technologies ">{{item.titre}} </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
 
     </div>
 
+    <h2>Tags</h2>
 
-    <mat-card class="tag"> <h3> Tags </h3> </mat-card>
-    <br>
-    <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Tags</mat-label>
+      <mat-select  multiple>
+        <mat-optgroup *ngFor="let group of tags" [label]="group.nomGroup">
+          <mat-option *ngFor="let tag of group.tags" [value]="tag">
+            {{tag.valeur}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
 
-      <mat-chip-list aria-label="Fish selection">
-        <mat-chip>One fish</mat-chip>
-        <mat-chip>Two fish</mat-chip>
-        <mat-chip color="primary" selected>Primary fish</mat-chip>
-        <mat-chip color="accent" selected>Accent fish</mat-chip>
-      </mat-chip-list>
 
-    </div>
+
+
+
+
+
 
 
 
