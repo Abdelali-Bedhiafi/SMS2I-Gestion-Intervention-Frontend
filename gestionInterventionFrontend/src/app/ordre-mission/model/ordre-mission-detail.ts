@@ -4,14 +4,15 @@ import {Superviseur} from "../../model/superviseur";
 import {CheckList} from "../../model/check-list";
 import {SousCategorie} from "../../model/sous-categorie";
 import {Deplacement} from "./deplacement";
+import {EtatOrdreMission} from "../../model/etat-ordre-mission";
 
 export interface OrdreMissionDetail {
   id: number;
-  etat: string;
+  etat: EtatOrdreMission;
   descriptionMission: string;
   dateMission: Date;
-  dateDebutEstime: Date;
-  dureeEstime: number;
+  dateDebutEstimee: Date;
+  dureeEstimee: number;
   retourClient: string ;
   accompteMission: number;
   retourAccompte: number;

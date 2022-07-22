@@ -1,13 +1,5 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { AjoutDepenseDialogComponent } from '../ajout-depense-dialog/ajout-depense-dialog.component';
@@ -15,6 +7,7 @@ import { Depense } from '../model/depense';
 import { CategorieDepenseService } from '../service/categorie-depense.service';
 import { DepenseService } from '../service/depense.service';
 import {ActivatedRoute} from "@angular/router";
+import {getMaxValidator} from "../app.component";
 
 export interface DataSourceElement {
   depense: Depense,
@@ -59,7 +52,7 @@ export class DepenseComponent implements OnInit{
             controls: new FormGroup({
               valeur : new FormControl<number | null>(depense.valeur,Validators.min(0)),
               valeurRemboursee : new FormControl<number | null>(depense.valeurRemboursee,Validators.min(0))
-            },this.getMaxValidator()),
+            },getMaxValidator("valeur","valeurRemboursee")),
             change: false
           };
           element.controls.valueChanges.subscribe(value =>{
@@ -74,17 +67,7 @@ export class DepenseComponent implements OnInit{
   }
 
 
-  getMaxValidator(): ValidatorFn {
-    return (control:AbstractControl) : ValidationErrors | null => {
-      const valeur = control.get("valeur");
-      const valeurRemboursee = control.get("valeurRemboursee");
-      if(valeurRemboursee?.value){
-        if(valeur?.value){
-          return (valeur.value<valeurRemboursee.value)? {"valid": false} : null;
-        } return {"valid": false};
-      } return null;
-    }
-  }
+
 
 
   onSubmit(element: DataSourceElement) {
@@ -117,7 +100,7 @@ export class DepenseComponent implements OnInit{
             controls: new FormGroup({
               valeur: new FormControl(0,{validators: Validators.min(0)}),
               valeurRemboursee: new FormControl(0,Validators.min(0))
-            }, this.getMaxValidator()),
+            }, getMaxValidator("valeur","valeurRemboursee")),
             change: false
           };
           element.controls.valueChanges.subscribe(value => {
