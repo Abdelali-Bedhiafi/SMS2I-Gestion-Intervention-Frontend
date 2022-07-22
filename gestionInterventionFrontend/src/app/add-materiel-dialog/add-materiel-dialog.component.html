@@ -1,0 +1,10 @@
+<mat-form-field appearance="fill">
+  <mat-label>materiel</mat-label>
+  <mat-select [(value)]="selected">
+    <mat-option *ngFor="let materiel of materiels" [value]="materiel">
+      {{materiel.label}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<button mat-button [mat-dialog-close]="null">Annuller</button>
+<button mat-button [mat-dialog-close]="selected" cdkFocusInitial>Ok</button>
