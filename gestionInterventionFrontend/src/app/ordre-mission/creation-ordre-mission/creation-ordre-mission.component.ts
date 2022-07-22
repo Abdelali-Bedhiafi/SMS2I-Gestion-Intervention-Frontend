@@ -63,7 +63,7 @@ export class CreationOrdreMissionComponent implements OnInit {
         dateMission: (value.dateMission)? value.dateMission : new Date()
       };
       this.ordreMission.create(ordre).subscribe(mission =>{
-        this.router.navigate(['detail', mission.id]).then(()=> console.timeLog('creation mission',mission));
+        this.router.navigate(['detail', mission.id]).then();
       });
     }
   }

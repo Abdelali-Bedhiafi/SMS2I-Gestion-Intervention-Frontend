@@ -8,7 +8,7 @@
       <mat-card-header>
         <mat-card-title>Materiel</mat-card-title>
         <span class="spacer"></span>
-        <button mat-stroked-button > <mat-icon>add_circle</mat-icon></button>
+        <button mat-stroked-button (click)="addMaterial()" > <mat-icon>add_circle</mat-icon></button>
       </mat-card-header>
       <mat-card-content>
         <mat-grid-list cols="4" rowHeight="4:3" gutterSize="5px">
@@ -19,8 +19,8 @@
           <mat-grid-tile *ngFor="let material of checklist.materiels">
             <mat-grid-tile-header>
               {{material.id}}
-              <!--span class="spacer"></span>
-                <button mat-stroked-button > <mat-icon>clear </mat-icon></button-->
+              <span class="spacer"></span>
+              <button mat-stroked-button (click)="deleteMateriel(material)" > <mat-icon>clear </mat-icon></button>
             </mat-grid-tile-header>
             {{material.label}}
           </mat-grid-tile>
@@ -32,38 +32,37 @@
       <mat-card-header>
         <mat-card-title>software</mat-card-title>
         <span class="spacer"></span>
-        <button mat-stroked-button [disabled]="notAllCategoriesChecked" > <mat-icon>add_circle</mat-icon></button>
+        <button mat-stroked-button [disabled]="uncheckedCategorie.length>0" (click)="addSoftware()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
       </mat-card-header>
       <mat-card-content>
         <mat-grid-list cols="4" rowHeight="6:5" gutterSize="5px">
-
-            <mat-grid-tile *ngFor="let software of checklist.model.softwares">
+          <mat-grid-tile *ngFor="let software of checklist.model.softwares">
+            <mat-grid-tile-header>
+              {{software.softwareLabel}}
+            </mat-grid-tile-header>
+            {{software.softwareVersion}} <br>
+            {{software.categorie}}
+          </mat-grid-tile>
+          <mat-grid-tile *ngFor="let software of checklist.softwares">
+            <mat-grid-tile-header>
+              {{software.softwareLabel}}
+              <span class="spacer"></span>
+              <button mat-stroked-button (click)="deleteSoftware(software)" > <mat-icon>clear </mat-icon></button>
+            </mat-grid-tile-header>
+            {{software.softwareVersion}} <br>
+            {{software.categorie}}
+          </mat-grid-tile>
+          <div *ngIf="uncheckedCategorie.length>0">
+            <mat-grid-tile *ngFor="let categorie of uncheckedCategorie">
               <mat-grid-tile-header>
-                {{software.softwareLabel}}
-              </mat-grid-tile-header>
-              {{software.softwareVersion}} <br>
-              {{software.categorie}}
-            </mat-grid-tile>
-
-            <mat-grid-tile *ngFor="let software of checklist.softwares">
-              <mat-grid-tile-header>
-                {{software.softwareLabel}}
-                <!--span class="spacer"></span>
-                <button mat-stroked-button > <mat-icon>clear </mat-icon></button-->
-              </mat-grid-tile-header>
-              {{software.softwareVersion}} <br>
-              {{software.categorie}}
-            </mat-grid-tile>
-
-          <div *ngIf="notAllCategoriesChecked">
-            <mat-grid-tile *ngFor="let model of softwareMap.values()">
-              <mat-grid-tile-header>
-                {{model.softwares[0].categorie}}
+                {{categorie.softwares[0].categorie}}
                 <span class="spacer"></span>
-                <button mat-stroked-button (click)="selectSoftware(model.softwares[0].categorie)" > <mat-icon>check_circle</mat-icon> </button>
+                <button mat-stroked-button (click)="selectSoftware(categorie.input)" > <mat-icon>check_circle</mat-icon> </button>
               </mat-grid-tile-header>
-              <mat-select [formControl]=model.input >
-                <mat-option *ngFor="let software of model.softwares" [value]="software">{{software.softwareLabel+"/"+software.softwareVersion}}</mat-option>
+              <mat-select [formControl]=categorie.input >
+                <mat-option *ngFor="let software of categorie.softwares" [value]="software">{{software.softwareLabel+"/"+software.softwareVersion}}</mat-option>
               </mat-select>
             </mat-grid-tile>
           </div>

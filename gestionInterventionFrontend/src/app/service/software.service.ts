@@ -10,7 +10,7 @@ export class SoftwareService {
 
   constructor(private backend: BackendService) { }
 
-  getById(id:number):Observable<Software>{
-    return this.backend.sendGetRequest<Software>("software/"+id);
+  getAll():Observable<Software[]>{
+    return this.backend.sendGetRequest<Software[]>("Software");
   }
 }

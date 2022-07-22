@@ -5,59 +5,56 @@
       {{ element.depense.categorieDepences.label}}
     </td>
   </ng-container>
-
   <ng-container matColumnDef="coutUnitaire">
     <th mat-header-cell *matHeaderCellDef>cout unitaire</th>
     <td mat-cell *matCellDef="let element">
       {{ element.depense.categorieDepences.coutUnitaire }}
     </td>
   </ng-container>
-
   <ng-container matColumnDef="plafond">
     <th mat-header-cell *matHeaderCellDef>plafond</th>
     <td mat-cell *matCellDef="let element">
       {{ element.depense.categorieDepences.plafond }}
     </td>
   </ng-container>
-
   <ng-container matColumnDef="valeur">
     <th mat-header-cell *matHeaderCellDef>valeur</th>
     <td mat-cell *matCellDef="let element">
-      <input matInput type="number"  [formControl]="element.controls.valeur" >
+      <mat-form-field appearance="legacy">
+        <input matInput type="number"  [formControl]="element.controls.get('valeur')" >
+      </mat-form-field>
     </td>
   </ng-container>
-
   <ng-container matColumnDef="valeurRemboursee">
     <th mat-header-cell *matHeaderCellDef>valeur remboursee</th>
     <td mat-cell *matCellDef="let element">
-      <input matInput  type="number" [formControl]="element.controls.valeurRemboursee">
+      <mat-form-field appearance="legacy">
+        <input matInput  type="number" [formControl]="element.controls.get('valeurRemboursee')">
+      </mat-form-field>
     </td>
   </ng-container>
-
-
-
-
   <ng-container matColumnDef="supprimer">
     <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let element">
+    <td mat-cell *matCellDef="let element; let i = index">
       <button
-        mat-fab
-        color="primary"
-        (click)="removeData(element)">
+        mat-stroked-button
+        (click)="removeData(i)">
         <mat-icon>delete</mat-icon>
       </button>
     </td>
   </ng-container>
-
   <ng-container matColumnDef="valider">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let element">
-      <button (click)="onSubmit(element)" [disabled]="!(element.controls.valeur.valid && element.controls.valeurRemboursee.valid && element.change)">Valider</button>
+      <button mat-stroked-button
+              (click)="onSubmit(element)"
+              [disabled]="!(element.change&&element.controls.valid)">
+        Valider</button>
     </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
-<button mat-mini-fab >
+<button mat-stroked-button>
   <mat-icon add-course-btn (click)="openDialog()">add</mat-icon>
 </button>

@@ -1,13 +1,29 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild} from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import {MatTable} from '@angular/material/table';
+import { MatTable } from '@angular/material/table';
 import { AjoutDepenseDialogComponent } from '../ajout-depense-dialog/ajout-depense-dialog.component';
 import { Depense } from '../model/depense';
 import { CategorieDepenseService } from '../service/categorie-depense.service';
 import { DepenseService } from '../service/depense.service';
-2
-3
+import {ActivatedRoute} from "@angular/router";
+
+export interface DataSourceElement {
+  depense: Depense,
+  controls: FormGroup<{
+    valeur: FormControl<number|null>,
+    valeurRemboursee: FormControl<number|null>
+  }>,
+  change: boolean
+}
 
 
 
@@ -16,98 +32,98 @@ import { DepenseService } from '../service/depense.service';
   templateUrl: './depense.component.html',
   styleUrls: ['./depense.component.css']
 })
-export class DepenseComponent implements OnInit {
-
-  /*form = this.fb.group({
-    valeurs: this.fb.array([]),
-    valeursRemboursees: this.fb.array([])
-});
+export class DepenseComponent implements OnInit{
 
 
+  dataSource!: DataSourceElement[];
+  @ViewChild(MatTable) table!: MatTable<DataSourceElement>;
 
-  valeurs= new FormGroup({
-    valeur: new FormControl<number>(0),
-    valeurRemboursee: new FormControl<number>(0),
-  });*/
-
-  dataSource: {
-    depense:Depense,
-    controls: {
-      valeur: FormControl<number|null>,
-      valeurRemboursee: FormControl<number|null>
-    },
-    change: boolean
-  }[]=[];
   displayedColumns: string[] = ['categorie', 'coutUnitaire', 'plafond', 'valeur', 'valeurRemboursee','supprimer','valider'];
-  @ViewChild(MatTable) table!: MatTable<Depense>;
-
+  id!: number;
   ready=false;
+
   constructor(private depense$:DepenseService,
               private fb:FormBuilder,
               public dialog: MatDialog,
-              private categorie: CategorieDepenseService){};
+              private categorie: CategorieDepenseService,
+              private route: ActivatedRoute){ }
 
 
   ngOnInit(): void {
-    this.depense$.getAllByDeplacement(1).subscribe(data=>{
-      data.forEach(depense=>{
-        const element={
-          depense:depense,
-          controls: {
-            valeur: new FormControl(depense.valeur, Validators.min(0)),
-            valeurRemboursee: new FormControl(depense.valeurRemboursee, Validators.min(0))},
-          change: false
-        }
-        element.controls.valeur.valueChanges.subscribe(newValue=>{
-          if(newValue != element.depense.valeur) element.change=true;
-          else if(element.depense.valeurRemboursee == element.controls.valeurRemboursee.value) element.change=false;
+    this.route.paramMap.subscribe(params=>{
+      this.id = Number.parseInt(<string>params.get("id"));
+      this.depense$.getAllByDeplacement(this.id).subscribe(data=>{
+        this.dataSource = data.map(depense=>{
+          const element =  {
+            depense: depense,
+            controls: new FormGroup({
+              valeur : new FormControl<number | null>(depense.valeur,Validators.min(0)),
+              valeurRemboursee : new FormControl<number | null>(depense.valeurRemboursee,Validators.min(0))
+            },this.getMaxValidator()),
+            change: false
+          };
+          element.controls.valueChanges.subscribe(value =>{
+            element.change=!(value.valeur == element.depense.valeur && value.valeurRemboursee == element.depense.valeurRemboursee);
+          });
+          return element;
         });
-        element.controls.valeurRemboursee.valueChanges.subscribe(newValue=>{
-          if(newValue != element.depense.valeurRemboursee) element.change=true;
-          else if(element.depense.valeur == element.controls.valeur.value) element.change=false;
-        });
-        this.dataSource.push(element);
+
+        this.ready=true;
       });
-      this.ready=true;
     });
   }
 
 
+  getMaxValidator(): ValidatorFn {
+    return (control:AbstractControl) : ValidationErrors | null => {
+      const valeur = control.get("valeur");
+      const valeurRemboursee = control.get("valeurRemboursee");
+      if(valeurRemboursee?.value){
+        if(valeur?.value){
+          return (valeur.value<valeurRemboursee.value)? {"valid": false} : null;
+        } return {"valid": false};
+      } return null;
+    }
+  }
 
-  onSubmit(id: string) {
-    // TODO: Use EventEmitter with form value
-    //this.depense$.update({id: id, valeur:<number>this.valeurs.value.valeur, valeurRemboursee:<number>this.valeurs.value.valeurRemboursee });
-    console.log(id);
-    console.log(this.dataSource.filter(value => value.depense.id==id)[0].depense.valeur)
-    console.log(this.dataSource.filter(value => value.depense.id==id)[0].depense.valeurRemboursee)
-    console.log(this.dataSource.filter(value => value.depense.id==id)[0].controls.valeur.value);
-    console.log(this.dataSource.filter(value => value.depense.id==id)[0].controls.valeurRemboursee.value);
 
-
+  onSubmit(element: DataSourceElement) {
+    const value = element.controls.value;
+    const depense: Depense = {
+      id: element.depense.id,
+      valeur: (value.valeur)? value.valeur : 0,
+      valeurRemboursee: (value.valeurRemboursee)? value.valeurRemboursee : 0,
+      categorieDepences: element.depense.categorieDepences
+    }
+    if(depense.id=='') this.depense$.add(depense,this.id).subscribe(()=> element.change=false);
+    else this.depense$.update(depense).subscribe(()=> element.change=false);
   }
 
 
 
   openDialog(): void {
-    let exetingCategorie: number[]=[];
-    exetingCategorie = this.dataSource.map(i => i.depense.categorieDepences.id);
+    const existingCategorie = this.dataSource.map(i => i.depense.categorieDepences.id);
     this.categorie.categories().subscribe(list=>{
-      const dialogRef = this.dialog.open(AjoutDepenseDialogComponent,{data: list.filter(e => exetingCategorie.findIndex(i=>e.id==i) < 0 )});
+      const dialogRef = this.dialog.open(AjoutDepenseDialogComponent,{data: list.filter(e => existingCategorie.findIndex(i=>e.id==i) < 0 )});
       dialogRef.afterClosed().subscribe(result => {
         if(result){
-          this.dataSource.push({
+          const element = {
             depense:{
               id: "",
               valeur: 0,
               valeurRemboursee: 0,
               categorieDepences: result
             },
-            controls: {
-              valeur: new FormControl(0),
-              valeurRemboursee: new FormControl(0)
-            },
+            controls: new FormGroup({
+              valeur: new FormControl(0,{validators: Validators.min(0)}),
+              valeurRemboursee: new FormControl(0,Validators.min(0))
+            }, this.getMaxValidator()),
             change: false
+          };
+          element.controls.valueChanges.subscribe(value => {
+            element.change=!(value.valeur == element.depense.valeur && value.valeurRemboursee == element.depense.valeurRemboursee);
           });
+          this.dataSource.push(element);
           this.table.renderRows();
         }
       });
@@ -116,17 +132,14 @@ export class DepenseComponent implements OnInit {
   }
 
 
- /*addData() {
-    const randomElementIndex = Math.floor(Math.random() * ELEMENT_DATA.length);
-    this.dataSource.push();
-    this.table.renderRows();
-  }*/
 
-  removeData(element:{depense:Depense, controls: {valeur: FormControl<number|null>,valeurRemboursee: FormControl<number|null>},change:boolean}) {
-    const i = this.dataSource.findIndex((data)=>{return data.depense.id==element.depense.id});
-    this.dataSource.splice(i,1);
-    this.table.renderRows();
+  removeData(i:number) {
+    const element=this.dataSource.splice(i,1)[0];
+    if(element.depense.id!='') this.depense$.delete(element.depense.id).subscribe(()=>this.table.renderRows())
+    else this.table.renderRows();
   }
+
+
 
 /* get valeurs() {
     return this.form.controls["valeurs"] as FormArray;
@@ -134,4 +147,21 @@ export class DepenseComponent implements OnInit {
   get valeursRemboursees() {
     return this.form.controls["valeursRemboursees"] as FormArray;
   }*/
+  /*form = this.fb.group({
+  valeurs: this.fb.array([]),
+  valeursRemboursees: this.fb.array([])
+});
+
+
+
+valeurs= new FormGroup({
+  valeur: new FormControl<number>(0),
+  valeurRemboursee: new FormControl<number>(0),
+});*/
+
+  /*addData() {
+     const randomElementIndex = Math.floor(Math.random() * ELEMENT_DATA.length);
+     this.dataSource.push();
+     this.table.renderRows();
+   }*/
 }

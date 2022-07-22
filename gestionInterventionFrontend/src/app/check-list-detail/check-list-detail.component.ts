@@ -5,8 +5,14 @@ import {FormControl} from "@angular/forms";
 import {CheckListService} from "../service/check-list.service";
 import {SoftwareCategorieService} from "../service/software-categorie.service";
 import {ActivatedRoute} from "@angular/router";
-import {Material} from "../model/material";
-import {CheckListModel} from "../model/check-list-model";
+import {Materiel} from "../model/materiel";
+import {MatDialog} from "@angular/material/dialog";
+import {AddMaterielDialogComponent} from "../add-materiel-dialog/add-materiel-dialog.component";
+import {MaterielService} from "../service/materiel.service";
+import {SoftwareService} from "../service/software.service";
+import {AddSoftwareDialogComponent} from "../add-software-dialog/add-software-dialog.component";
+
+
 
 @Component({
   selector: 'app-check-list-detail',
@@ -16,87 +22,119 @@ import {CheckListModel} from "../model/check-list-model";
 export class CheckListDetailComponent implements OnInit {
 
   checklist!: CheckList;
-  softwareMap: Map<string,{softwares:Software[],input:FormControl<Software>}> =new Map<string, {softwares: Software[]; input: FormControl<Software>}>();
-  notAllCategoriesChecked = false;
+  uncheckedCategorie!: {softwares:Software[],input:FormControl<Software>}[];
+
   ready= false;
 
   constructor(private checkList$: CheckListService,
               private categorie$: SoftwareCategorieService,
-              private route: ActivatedRoute) { }
+              private materiel$: MaterielService,
+              private software$: SoftwareService,
+              private route: ActivatedRoute,
+              private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params=>{
       let id = Number.parseInt(<string>params.get("id"));
       this.checkList$.getById(id).subscribe(checklist=>{
         this.checklist=checklist;
-        this.checkCategorie(checklist.model);
+        this.checkCategorie();
         this.ready=true;
       });
     })
 
   }
-  checkCategorie(model:CheckListModel) {
-    // aucun  software est ajoute et liste des categories n est pas vide
-    if(this.checklist.softwares.length==0 && model.softwareCategories.length!=0 ){
-      console.log("here");
-      this.notAllCategoriesChecked = true;
-      for (const category of model.softwareCategories) {
-        this.softwareMap.set(category.nom,{softwares: category.softwares,input: new FormControl()});
-      }
-    }
-    // pour que la liste des software depace celle de model tous les categorie doit etre specfiee dabord
-    else if (model.softwareCategories.length > this.checklist.softwares.length){
-      this.notAllCategoriesChecked = true;
-      // parcourir l ensemble des categories du model afin de prendre les categories non encore specifie
-      for (const categorie of model.softwareCategories) {
-        // parcourir la liste des Software du checklist si aucun de ces software a la meme categorie alors creation du form de selection software
-        let checked = false;
-        for (const software of this.checklist.softwares) {
-          if (software.categorie == categorie.nom) {
-            checked = true;
-            break;
-          }
-        }
-        if(!checked){
-          this.softwareMap.set(categorie.nom,{softwares:categorie.softwares,input: new FormControl()}) ;
-        }
-      }
-    }
-  }
-
-  selectSoftware(categorie: string){
-    let selectedSoftware =this.softwareMap.get(categorie)?.input.value;
-    // valider input
-    if (selectedSoftware != undefined){
-      // cree une copy
-      const newChecklist:CheckList = { id:this.checklist.id,materiels:this.checklist.materiels,softwares:[],model:this.checklist.model};
-      this.checklist.softwares.forEach(software =>newChecklist.softwares.push(software));
-      // ajouter le software
-      newChecklist.softwares.push(selectedSoftware);
-      // envoyer la requette
-      this.checkList$.update(this.checklist.id,newChecklist).subscribe(checkList => {
-        // en cas de validation (software ajoutee)
-        if (this.checklist.softwares.length < checkList.softwares.length) {
-          // MAJ liste des categorie a remplir et checklist
-          this.softwareMap.delete(categorie);
-          this.checklist=newChecklist;
-          if(this.softwareMap.size==0) this.notAllCategoriesChecked=false;
+  checkCategorie() {
+    this.uncheckedCategorie = this.checklist.model.softwareCategories
+      .filter( categorie =>
+        this.checklist.softwares.findIndex(software =>
+          software.categorie== categorie.nom) < 0)
+      .map(categorie => {
+        const allowedSoftware = categorie.softwares.filter(software =>
+          this.checklist.model.softwares.findIndex(s => s.id == software.id ) < 0);
+        return {
+          softwares: allowedSoftware,
+          input: new FormControl(allowedSoftware[0],{nonNullable:true})
         }
       });
-    }
+  }
+
+  addToChecklist(control?: FormControl<Software>, materiel?: Materiel, software?: Software) {
+    const checklistClone: CheckList = {
+      id: this.checklist.id,
+      softwares: this.checklist.softwares.map(s => s),
+      materiels: this.checklist.materiels.map(m => m),
+      model: this.checklist.model
+    };
+    if (control) checklistClone.softwares.push(control.value);
+    else if (materiel) checklistClone.materiels.push(materiel);
+    else if (software) checklistClone.softwares.push(software)
+    this.checkList$.update(checklistClone.id,checklistClone)
+      .subscribe(() => this.checklist=checklistClone);
+  }
+
+  removeFromChecklist(materiel?: Materiel, software?: Software){
+    const softwares = this.checklist.softwares.map(s=>s);
+    const materiels = this.checklist.materiels.map(m=>m);
+    const checklistClone: CheckList = {
+      id: this.checklist.id,
+      softwares: (software)? softwares.filter(s => s.id!=software.id):softwares,
+      materiels: (materiel)? materiels.filter(m => m.id!=materiel.id):materiels,
+      model: this.checklist.model
+    };
+    return new Promise<void>((resolve)=>{
+      this.checkList$.update(checklistClone.id,checklistClone)
+        .subscribe(()=> {
+          this.checklist=checklistClone;
+          resolve();
+        });
+    });
 
   }
 
-  addMaterial(materiel: Material):void {
-    this.checklist.materiels.push(materiel);
-    this.checkList$.update(this.checklist.id,this.checklist);
+
+
+  addMaterial():void{
+    this.materiel$.getAll().subscribe(list=>{
+      const dialogRef = this.dialog.open(AddMaterielDialogComponent,{
+        data: list
+          .filter( m => this.checklist.materiels.findIndex( i => i.id == m.id)<0)
+          .filter( m => this.checklist.model.materiels.findIndex(i => i.id== m.id)<0)
+      });
+      dialogRef.afterClosed().subscribe( m => {
+        if (m) this.addToChecklist(undefined,m);
+      });
+    });
   }
-  addSoftware(software: Software):void{
-    this.checklist.softwares.push(software);
-    this.checkList$.update(this.checklist.id,this.checklist);
+
+  addSoftware():void{
+    this.software$.getAll().subscribe(list=>{
+      const dialogRef = this.dialog.open(AddSoftwareDialogComponent,{
+        data: list
+          .filter( s => this.checklist.softwares.findIndex( i => i.id == s.id)<0)
+          .filter( s => this.checklist.model.softwares.findIndex(i => i.id == s.id)<0)
+      });
+      dialogRef.afterClosed().subscribe( m => {
+        if (m) this.addToChecklist(undefined,undefined,m);
+      });
+    });
+  }
+
+  selectSoftware(control: FormControl):void{
+    const index = this.uncheckedCategorie.findIndex(c => c.input == control);
+    this.uncheckedCategorie.splice(index,1);
+    this.addToChecklist(control);
   }
 
 
+  deleteMateriel(materiel: Materiel){
+    this.removeFromChecklist(materiel).then();
+  }
+
+  deleteSoftware(software: Software){
+    this.removeFromChecklist(undefined,software).then(()=> this.checkCategorie());
+
+  }
 }
 
 

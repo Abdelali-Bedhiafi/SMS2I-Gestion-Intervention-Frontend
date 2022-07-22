@@ -340,9 +340,9 @@ export class DetailOrdreMissionComponent implements OnInit {
       dialogRef.afterClosed().subscribe(technicien=>{
         if(technicien) this.ordreMission$.affecter(this.ordreMission.id,technicien.id).subscribe( mission =>{
           if(mission) {
-            // vide ou pas
             if (this.ordreMission.techniciens) this.ordreMission.techniciens.push(technicien);
             else this.ordreMission.techniciens=[technicien];
+            this.ordreMission.etat=mission.etat;
           }
         });
       });
@@ -390,8 +390,8 @@ export class DetailOrdreMissionComponent implements OnInit {
   selectChecklistModel() {
     const dialogRef = this.dialog.open(SelectCheckListModelDialogComponent);
     dialogRef.afterClosed().subscribe(model=>{
-      if(model) this.checklist.create(model,this.ordreMission.id).subscribe(cheklist=>{
-        if(cheklist) this.ordreMission.checklist = cheklist;
+      if(model) this.checklist.create(model,this.ordreMission.id).subscribe(checklist =>{
+        this.ordreMission.checklist = checklist;
       });
     });
   }

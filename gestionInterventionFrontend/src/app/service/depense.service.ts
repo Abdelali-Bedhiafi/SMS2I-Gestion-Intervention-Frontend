@@ -15,10 +15,30 @@ export class DepenseService {
   getAll():Observable<Depense[]>{
     return this.backend.sendGetRequest<Depense[]>("DepencesDeplacement");
   }
+
   getAllByDeplacement(id:number):Observable<Depense[]>{
     return this.backend.sendGetRequest<Depense[]>("DepencesDeplacement/search/deplacement/"+id);
   }
-  update(depense: {id: string, valeur: number, valeurRemboursee: number}):void{
-      this.backend.sendPutRequest<Depense>("DepencesDeplacement/"+depense.id,{valeur: depense.valeur,valeurRembourse: depense.valeurRemboursee});
+
+  update(depense: {id: string, valeur: number, valeurRemboursee: number}):Observable<Depense>{
+      return this.backend.sendPutRequest<Depense>("DepencesDeplacement/"+depense.id,{valeur: depense.valeur,valeurRemboursee: depense.valeurRemboursee});
+  }
+
+  add(depense: Depense,deplacementId:number,):Observable<Depense>{
+    const body={
+      valeur: depense.valeur,
+      valeurRemboursee: depense.valeurRemboursee,
+      deplacement:{
+        id: deplacementId
+      },
+      categorieDepences: {
+        id: depense.categorieDepences.id
+      }
+    };
+    return this.backend.sendPostRequest<Depense>("DepencesDeplacement",body);
+  }
+
+  delete(id:string):Observable<void>{
+    return this.backend.sendDeleteRequest<void>("DepencesDeplacement/"+id);
   }
 }

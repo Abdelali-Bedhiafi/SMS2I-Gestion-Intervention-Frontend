@@ -27,6 +27,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AddSousCategorieDialogComponent } from './add-sous-categorie-dialog/add-sous-categorie-dialog.component';
 import {MatInputModule} from "@angular/material/input";
+import { AddSoftwareDialogComponent } from './add-software-dialog/add-software-dialog.component';
+import { AddMaterielDialogComponent } from './add-materiel-dialog/add-materiel-dialog.component';
 
 
 
@@ -40,7 +42,9 @@ import {MatInputModule} from "@angular/material/input";
     CheckListDetailComponent,
     DepenseComponent,
     AjoutDepenseDialogComponent,
-    AddSousCategorieDialogComponent
+    AddSousCategorieDialogComponent,
+    AddSoftwareDialogComponent,
+    AddMaterielDialogComponent
   ],
   imports: [
     BrowserModule,

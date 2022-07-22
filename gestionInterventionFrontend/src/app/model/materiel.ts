@@ -1,4 +1,4 @@
-export interface Material {
+export interface Materiel {
   id: number;
   label: string;
 }

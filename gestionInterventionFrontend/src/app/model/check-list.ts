@@ -1,10 +1,10 @@
-import {Material} from "./material";
+import {Materiel} from "./materiel";
 import {Software} from "./software";
 import {CheckListModel} from "./check-list-model";
 
 export interface CheckList {
   id: number;
-  materiels: Material[];
+  materiels: Materiel[];
   softwares: Software[];
   model: CheckListModel;
 }
