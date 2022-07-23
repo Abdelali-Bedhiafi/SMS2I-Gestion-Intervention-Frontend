@@ -13,10 +13,7 @@ export class TagsService {
   getAllGroupe():Observable<GroupTags[]>{
     return this.backend.sendGetRequest<GroupTags[]>("groupeTags");
 
-
-
-
-
   }
+
 
 }

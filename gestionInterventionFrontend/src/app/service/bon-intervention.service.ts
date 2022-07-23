@@ -17,8 +17,7 @@ export class BonInterventionService {
 
      return this.backend.sendPutRequest<BonInterventionDetail>("bonIntervention/"+bonIntervention.id,bonIntervention);
 
-
-
-
   }
+
+
 }
