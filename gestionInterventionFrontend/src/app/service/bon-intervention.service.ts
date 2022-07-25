@@ -14,6 +14,19 @@ export class BonInterventionService {
   }
 
   update(bonIntervention:BonInterventionDetail):Observable<BonInterventionDetail>{
+    const body ={
+      tags : bonIntervention.tags.map(t => { return {id: t.id}}),
+      categories : bonIntervention.categories.map (c => {return {id : c.id}}) ,
+      mission : {id : bonIntervention.mission.id} ,
+      observationTechnicien : bonIntervention.observationTechnicien,
+      archiveUrl: bonIntervention.archiveUrl ,
+      dureeTotale: bonIntervention.dureeTotale
+
+
+
+
+
+    }
 
      return this.backend.sendPutRequest<BonInterventionDetail>("bonIntervention/"+bonIntervention.id,bonIntervention);
 
