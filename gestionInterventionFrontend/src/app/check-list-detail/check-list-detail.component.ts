@@ -64,7 +64,8 @@ export class CheckListDetailComponent implements OnInit {
       id: this.checklist.id,
       softwares: this.checklist.softwares.map(s => s),
       materiels: this.checklist.materiels.map(m => m),
-      model: this.checklist.model
+      model: this.checklist.model,
+      ordreMission: this.checklist.ordreMission
     };
     if (control) checklistClone.softwares.push(control.value);
     else if (materiel) checklistClone.materiels.push(materiel);
@@ -80,7 +81,8 @@ export class CheckListDetailComponent implements OnInit {
       id: this.checklist.id,
       softwares: (software)? softwares.filter(s => s.id!=software.id):softwares,
       materiels: (materiel)? materiels.filter(m => m.id!=materiel.id):materiels,
-      model: this.checklist.model
+      model: this.checklist.model,
+      ordreMission: this.checklist.ordreMission
     };
     return new Promise<void>((resolve)=>{
       this.checkList$.update(checklistClone.id,checklistClone)

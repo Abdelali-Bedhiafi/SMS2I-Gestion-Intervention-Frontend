@@ -1,12 +1,69 @@
 <mat-card>
-  <mat-card-title> Ordre de Mission </mat-card-title>
-
+  <mat-card-header>
+    <mat-card-title> Ordre de Mission </mat-card-title>
+    <span class="spacer"></span>
+    <mat-form-field appearance="legacy">
+      <mat-select [formControl]="etat" >
+        <mat-option *ngFor="let etat of etats" [value]="etat" >{{etat}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-card-header>
   <mat-card-content>
-    <mat-grid-list cols="4" rowHeight="200px">
+    <mat-grid-list cols="6" rowHeight="200px">
           <mat-grid-tile [routerLink]="'/detail/'+ordre.id"  *ngFor="let ordre of ordre$ | async">
           <mat-grid-tile-header> {{ordre.id}}</mat-grid-tile-header>
-
           </mat-grid-tile>
     </mat-grid-list>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Recherche Ordre Mission</mat-card-title>
+  </mat-card-header>
+  <div *ngIf="!advanced; else advancedSearch">
+    <mat-form-field appearance="legacy">
+      <input matInput type="texte"  [formControl]="idControl" >
+      <button matSuffix mat-icon-button (click)="search()"> <mat-icon>search</mat-icon> </button>
+    </mat-form-field>
+  </div>
+  <ng-template #advancedSearch>
+    <form [formGroup]="missionSearchControl" >
+      <mat-form-field appearance="legacy">
+        <mat-label>Client: </mat-label>
+        <mat-select  formControlName="client">
+          <mat-option [value]="null" >--</mat-option>
+          <mat-option *ngFor="let client of client$|async" [value]="client">{{client.nom}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="legacy">
+        <mat-label>Technicien: </mat-label>
+        <mat-select  formControlName="technicien">
+          <mat-option [value]="null" >--</mat-option>
+          <mat-option *ngFor="let technicien of technicien$|async" [value]="technicien">{{technicien.nom}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="legacy">
+        <mat-label>Date Demande:</mat-label>
+        <input matInput readonly [matDatepicker]="picker"  formControlName="date" >
+        <mat-datepicker-toggle  matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <button mat-icon-button matSuffix (click)="resetDate()"><mat-icon>highlight_off</mat-icon></button>
+      </mat-form-field>
+      <mat-form-field appearance="legacy">
+        <mat-label>Etat:</mat-label>
+        <mat-select formControlName="etat">
+          <mat-option [value]="null" >--</mat-option>
+          <mat-option *ngFor="let etat of etats" [value]="etat" >{{etat}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-icon-button [disabled]="!searchValid" (click)="advanceSearch()" ><mat-icon>saved_search</mat-icon></button>
+    </form>
+  </ng-template>
+  <span class="spacer"></span>
+  <button (click)="advanced= !advanced">v</button>
+  <mat-card-content>
+    <mat-list>
+      <a mat-list-item [routerLink]="'/detail/'+mission.id" *ngFor="let mission of searchResult"> {{ mission.id+"         "+mission.client.nom+"         "+mission.etat}} </a>
+    </mat-list>
   </mat-card-content>
 </mat-card>

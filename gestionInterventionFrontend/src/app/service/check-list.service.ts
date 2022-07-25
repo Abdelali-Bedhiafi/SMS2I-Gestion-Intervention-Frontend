@@ -27,21 +27,15 @@ export class CheckListService {
     return this.backend.sendPostRequest<CheckList>("checklist/model",{},params);
   }
 
-  idOnly(checkList: CheckList ):IdOnlyChecklist{
-    let idOnly : IdOnlyChecklist = {id:checkList.id,materiels:[],softwares:[],model:{id:checkList.model.id}};
-    for (const software of checkList.softwares) {
-      idOnly.softwares.push({id:software.id});
-    }
-    for (const materiel of checkList.materiels) {
-      idOnly.materiels.push({id:materiel.id});
-    }
-    return idOnly;
+  idOnly(checkList: CheckList ){
+    return {
+      id:checkList.id,
+      materiels:checkList.materiels.map(m =>{ return {id: m.id}; }),
+      softwares:checkList.softwares.map(s =>{ return {id: s.id}; }),
+      model:{id:checkList.model.id},
+      ordreMission:{id:checkList.ordreMission}
+    };
   }
 }
 
-interface IdOnlyChecklist{
-  id: number;
-  materiels: {id: number}[];
-  softwares: {id:number}[];
-  model: {id:number};
-}
+

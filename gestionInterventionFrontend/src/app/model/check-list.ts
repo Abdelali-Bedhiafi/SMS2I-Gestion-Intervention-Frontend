@@ -7,4 +7,5 @@ export interface CheckList {
   materiels: Materiel[];
   softwares: Software[];
   model: CheckListModel;
+  ordreMission: number;
 }

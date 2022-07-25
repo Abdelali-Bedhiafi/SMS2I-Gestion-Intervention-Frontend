@@ -4,7 +4,7 @@
     <form [formGroup]="creationOrdreForm" (ngSubmit)="onSubmit()">
       <mat-form-field>
         <mat-label>Date Demande:</mat-label>
-        <input matInput [matDatepicker]="picker"  formControlName="dateMission">
+        <input matInput readonly [matDatepicker]="picker"  formControlName="dateMission">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>

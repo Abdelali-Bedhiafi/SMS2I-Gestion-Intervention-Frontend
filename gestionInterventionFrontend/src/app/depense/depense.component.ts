@@ -78,7 +78,10 @@ export class DepenseComponent implements OnInit{
       valeurRemboursee: (value.valeurRemboursee)? value.valeurRemboursee : 0,
       categorieDepences: element.depense.categorieDepences
     }
-    if(depense.id=='') this.depense$.add(depense,this.id).subscribe(()=> element.change=false);
+    if(depense.id=='') this.depense$.add(depense,this.id).subscribe(depense=> {
+      element.change=false;
+      element.depense=depense;
+    });
     else this.depense$.update(depense).subscribe(()=> element.change=false);
   }
 

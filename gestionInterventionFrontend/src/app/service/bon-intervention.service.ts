@@ -21,4 +21,8 @@ export class BonInterventionService {
 
 
   }
+
+  add(missionId: number):Observable<BonInterventionDetail>{
+    return this.backend.sendPostRequest<BonInterventionDetail>("bonIntervention",{mission:{ id: missionId}});
+  }
 }

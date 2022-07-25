@@ -29,6 +29,9 @@ import { AddSousCategorieDialogComponent } from './add-sous-categorie-dialog/add
 import {MatInputModule} from "@angular/material/input";
 import { AddSoftwareDialogComponent } from './add-software-dialog/add-software-dialog.component';
 import { AddMaterielDialogComponent } from './add-materiel-dialog/add-materiel-dialog.component';
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatListModule} from "@angular/material/list";
 
 
 
@@ -63,7 +66,10 @@ import { AddMaterielDialogComponent } from './add-materiel-dialog/add-materiel-d
     MatTableModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatExpansionModule,
+    MatDatepickerModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -7,7 +7,7 @@ import { DetailOrdreMissionComponent } from './detail-ordre-mission/detail-ordre
 const routes: Routes = [
   { path: "detail/:id", component: DetailOrdreMissionComponent },
   { path: "creation", component: CreationOrdreMissionComponent },
-  {path:"detailBon",component:DetailBonInterventionComponent}
+  {path:"detailBon/:id",component:DetailBonInterventionComponent}
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

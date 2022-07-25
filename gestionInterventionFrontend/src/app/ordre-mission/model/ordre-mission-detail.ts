@@ -5,6 +5,7 @@ import {CheckList} from "../../model/check-list";
 import {SousCategorie} from "../../model/sous-categorie";
 import {Deplacement} from "./deplacement";
 import {EtatOrdreMission} from "../../model/etat-ordre-mission";
+import {BonIntervention} from "../../model/bon-intervention";
 
 export interface OrdreMissionDetail {
   id: number;
@@ -23,5 +24,6 @@ export interface OrdreMissionDetail {
   sousCategories: SousCategorie[];
   deplacements: Deplacement[];
   designation	:string;
+  bonIntervention: BonIntervention;
 }
 

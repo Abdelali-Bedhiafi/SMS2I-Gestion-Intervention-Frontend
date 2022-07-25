@@ -1,7 +1,7 @@
 <form [formGroup]="deplacement">
   <mat-form-field>
     <mat-label>date deplacement</mat-label>
-    <input matInput [matDatepicker]="dp" formControlName="date">
+    <input matInput readonly [matDatepicker]="dp" formControlName="date">
     <mat-hint>DD/MM/YYYY</mat-hint>
     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
     <mat-datepicker #dp></mat-datepicker>

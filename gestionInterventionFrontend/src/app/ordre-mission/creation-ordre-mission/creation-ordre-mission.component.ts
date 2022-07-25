@@ -36,7 +36,7 @@ export class CreationOrdreMissionComponent implements OnInit {
 
   ngOnInit(): void {
     this.creationOrdreForm = new FormGroup({
-      dateMission: new FormControl(new Date(),{nonNullable:true}),
+      dateMission: new FormControl(new Date(),{nonNullable:true,validators: [Validators.required,Validators.nullValidator]}),
       descriptionMission: new FormControl(''),
     });
     this.superviseur.getAll().subscribe(data=>{

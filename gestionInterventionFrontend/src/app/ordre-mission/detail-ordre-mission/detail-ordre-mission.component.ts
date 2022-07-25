@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import { FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ThemePalette} from "@angular/material/core";
 import {MatDialog} from "@angular/material/dialog";
 import {map, Observable, startWith} from "rxjs";
@@ -12,7 +12,9 @@ import {OrdreMissionDetail} from "../model/ordre-mission-detail";
 import {AffectTechnicienDialogComponent} from "../affect-technicien-dialog/affect-technicien-dialog.component";
 import {CreateDeplacementDialogComponent} from "../create-deplacement-dialog/create-deplacement-dialog.component";
 import {EditDeplacementDialogComponent} from "../edit-deplacement-dialog/edit-deplacement-dialog.component";
-import {SelectCheckListModelDialogComponent} from "../select-check-list-model-dialog/select-check-list-model-dialog.component";
+import {
+  SelectCheckListModelDialogComponent
+} from "../select-check-list-model-dialog/select-check-list-model-dialog.component";
 
 import {OrdreMissionService} from "../service/ordre-mission.service";
 import {SousCategorieService} from "../../service/sous-categorie.service";
@@ -21,6 +23,8 @@ import {CheckListService} from "../../service/check-list.service";
 import {TechnicienService} from "../../service/technicien.service";
 import {AddSousCategorieDialogComponent} from "../../add-sous-categorie-dialog/add-sous-categorie-dialog.component";
 import {getMaxValidator} from "../../app.component";
+import {EtatOrdreMission} from "../../model/etat-ordre-mission";
+import {BonInterventionService} from "../../service/bon-intervention.service";
 
 
 export interface SousCategorieData{
@@ -73,6 +77,8 @@ export class DetailOrdreMissionComponent implements OnInit {
               private checklist: CheckListService,
               private technicien: TechnicienService,
               private sousCategorie: SousCategorieService,
+              private bonIntervention: BonInterventionService,
+              private router: Router,
               private dialog: MatDialog) {
   }
 
@@ -104,7 +110,7 @@ export class DetailOrdreMissionComponent implements OnInit {
       description: new FormControl(ordre.descriptionMission, {updateOn:"blur"}),
       reclamation: new FormControl(ordre.retourClient, {updateOn:"blur"}),
     })
-    this.designationControl = new FormControl(ordre.designation, {updateOn:"blur"});
+    this.designationControl = new FormControl(ordre.designation, {updateOn:"change"});
   }
 
   setChangesHooks(){
@@ -291,7 +297,10 @@ export class DetailOrdreMissionComponent implements OnInit {
   submitAccompteChanges(){
     const value= this.accompteControl.value;
     this.ordreMission$.updateAccompte(this.ordreMission.id, (value.accompte)? value.accompte:0, (value.retour)? value.retour:0)
-      .subscribe(()=> this.accompteChanges=false);
+      .subscribe(ordre =>{
+        this.accompteChanges=false;
+        this.ordreMission.etat = ordre.etat;
+      });
   }
 
   submitInfoChanges(){
@@ -341,10 +350,13 @@ export class DetailOrdreMissionComponent implements OnInit {
           heureDebut: data.heureDebut,
           heureFin: data.heureFin
         };
-        this.deplacement$.create(deplacement,this.ordreMission.id).subscribe(ordreMission=>{
-          if(ordreMission){
-            if(this.ordreMission.deplacements) this.ordreMission.deplacements.push(deplacement);
-            else this.ordreMission.deplacements=[deplacement];
+        this.deplacement$.create(deplacement,this.ordreMission.id).subscribe(dp=>{
+          if(dp){
+            if(this.ordreMission.deplacements) {
+              this.ordreMission.deplacements.push(dp);
+              this.ordreMission.etat=EtatOrdreMission.EN_COUR;
+            }
+            else this.ordreMission.deplacements=[dp];
           }
         });
       }
@@ -415,4 +427,9 @@ export class DetailOrdreMissionComponent implements OnInit {
     });
   }
 
+  addBonIntervention() {
+    this.bonIntervention.add(this.ordreMission.id).subscribe(bon=>{
+      this.router.navigate(['/detailBon',bon.id]).then();
+    })
+  }
 }
