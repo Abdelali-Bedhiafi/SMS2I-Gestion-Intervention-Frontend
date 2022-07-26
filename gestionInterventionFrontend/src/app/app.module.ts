@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { FooterComponent } from './footer/footer.component';
-import { NavbarComponent } from './navbar/navbar.component';
 import { DepenseComponent } from './depense/depense.component';
 import { AjoutDepenseDialogComponent } from './ajout-depense-dialog/ajout-depense-dialog.component';
 import { CheckListDetailComponent } from './check-list-detail/check-list-detail.component';
@@ -40,8 +38,6 @@ import {MatListModule} from "@angular/material/list";
   declarations: [
     AppComponent,
     HomeComponent,
-    FooterComponent,
-    NavbarComponent,
     CheckListDetailComponent,
     DepenseComponent,
     AjoutDepenseDialogComponent,
