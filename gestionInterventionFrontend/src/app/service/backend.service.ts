@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams, HttpRequest} from '@angular/common/http'
+import {HttpClient, HttpEvent, HttpParams} from '@angular/common/http'
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class BackendService {
   host:string="http://localhost:8080/";
+  public rootPath="C:/Users/amani/Documents/Ahmed/SMS2iGestionIntervention/.files/";
   constructor(private http:HttpClient) { }
 
   sendGetRequest<T>(url: string, params?:HttpParams):Observable<T>{
@@ -22,4 +23,10 @@ export class BackendService {
     return this.http.delete<T>(this.host+url,{params:params});
   }
 
+  uploadFile(data: FormData,path: string):Observable<HttpEvent<Object>>{
+    return  this.http.post(this.host+path,data,{
+      reportProgress: true,
+      observe: 'events'
+    });
+  }
 }

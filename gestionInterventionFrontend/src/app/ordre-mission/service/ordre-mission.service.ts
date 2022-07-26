@@ -3,10 +3,10 @@ import { Observable } from 'rxjs';
 import { BackendService } from '../../service/backend.service';
 import { OrdreMissionCreation } from '../model/ordre-mission-creation';
 import { OrdreMissionDetail } from '../model/ordre-mission-detail';
-import {HttpParams} from "@angular/common/http";
+import {HttpEvent, HttpParams} from "@angular/common/http";
 import {OrdreMission} from "../../model/ordre-mission";
 import {SousCategorie} from "../../model/sous-categorie";
-import { BonInterventionDetail } from '../model/bon-intervention-detail';
+
 
 @Injectable({
   providedIn: 'root'
@@ -69,5 +69,20 @@ export class OrdreMissionService {
     return this.backend.sendPostRequest<OrdreMissionDetail>("mission/designation", {}, params);
   }
 
+  uploadFile(file: File, ordreMission: OrdreMissionDetail, type: string):Observable<HttpEvent<Object>> {
+    const data = new FormData();
+    data.append("file",file);
+    data.append("missionId",ordreMission.id.toString());
+    data.append("documentType",type);
+    return this.backend.uploadFile(data,"mission/file");
+  }
+
+  checkFiles(id : number):Observable<boolean[]>{
+    return this.backend.sendGetRequest<boolean[]>("mission/check/"+id);
+  }
+
+  getRootPath():string {
+    return this.backend.rootPath;
+  }
 }
 
