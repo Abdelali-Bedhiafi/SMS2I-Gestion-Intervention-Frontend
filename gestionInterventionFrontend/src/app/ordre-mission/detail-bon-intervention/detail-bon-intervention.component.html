@@ -5,7 +5,7 @@
     <div>
       <mat-card-title>Client</mat-card-title>
       <mat-form-field class="example-full-width" appearance="fill">
-        <input matInput [value]="bonIntervention.mission.client?.nom" disabled="true" >
+        <input matInput [value]="bonIntervention.mission.client?.nom" readonly="true" >
       </mat-form-field>
       <mat-card-title>Designation</mat-card-title>
       <mat-form-field class="example-full-width" appearance="fill">
@@ -13,7 +13,7 @@
       </mat-form-field>
       <mat-card-title>Superviseur</mat-card-title>
       <mat-form-field class="example-full-width" appearance="fill">
-        <input matInput [disabled]="true" [value]="bonIntervention.mission.superviseur.nom">
+        <input matInput [readonly]="true" [value]="bonIntervention.mission.superviseur.nom">
       </mat-form-field>
     </div>
     <div>
@@ -31,14 +31,15 @@
       <div>
       <form>
         <mat-form-field class="example-full-width" appearance="fill">
-          <textarea matInput name="test" placeholder="your observation...." [(ngModel)]="bonIntervention.observationTechnicien" ></textarea>
+          <textarea matInput name="test" placeholder="your observation...."
+          [(ngModel)]="bonIntervention.observationTechnicien" ></textarea>
         </mat-form-field>
       </form>
       </div>
 
 
-      <br>
 
+      <br>
 
     </div>
     <div>
@@ -47,10 +48,8 @@
 
       <mat-form-field appearance="fill">
         <mat-card-title>Action</mat-card-title>
-        <mat-label>Toppings</mat-label>
-        <mat-select multiple>
-          <mat-select-trigger>
-          </mat-select-trigger>
+        <mat-select multiple [(ngModel)]="choix">
+          <mat-option *ngFor="let item of actions" [value]="item">{{item.titre}} </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -59,8 +58,8 @@
 
       <mat-form-field appearance="fill">
         <mat-card-title>Reseau</mat-card-title>
-        <mat-select multiple>
-          <mat-option *ngFor="let item of actions ">{{item.titre}} </mat-option>
+        <mat-select multiple [(ngModel)]="choixreseau">
+          <mat-option *ngFor="let item of resaux " [value]="item">{{item.titre}} </mat-option>
         </mat-select>
 
       </mat-form-field>
@@ -70,29 +69,37 @@
 
       <mat-form-field appearance="fill">
         <mat-card-title>Technologie</mat-card-title>
-        <mat-label>Toppings</mat-label>
-        <mat-select multiple>
-          <mat-select-trigger>
-          </mat-select-trigger>
+        <mat-select multiple  [(ngModel)]="choixtech">
+          <mat-option *ngFor="let item of technologies " [value]="item">{{item.titre}} </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
 
     </div>
 
-
-    <mat-card class="tag"> <h3> Tags </h3> </mat-card>
-    <br>
     <div>
-
-      <mat-chip-list aria-label="Fish selection">
-        <mat-chip>One fish</mat-chip>
-        <mat-chip>Two fish</mat-chip>
-        <mat-chip color="primary" selected>Primary fish</mat-chip>
-        <mat-chip color="accent" selected>Accent fish</mat-chip>
-      </mat-chip-list>
-
+      <button class="btnsv" mat-stroked-button (click)="submitchange()" >Valider
+      </button>
     </div>
+
+
+    <h2>Tags</h2>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tags</mat-label>
+      <mat-select  multiple [(ngModel)]="choixtags">
+        <mat-optgroup *ngFor="let group of tags" [label]="group.nomGroup">
+          <mat-option *ngFor="let tag of group.tags" [value]="tag">
+            {{tag.valeur}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
+
+    <div>
+        <button class="btnsv" mat-stroked-button (click)="submitchange()" >Valider
+        </button>
+      </div>
 
 
 
@@ -113,10 +120,6 @@
 
       <br>
 
-      <div>
-        <button class="btnsv" mat-stroked-button (click)="submitchange()" >Valider
-        </button>
-      </div>
 
 
 
