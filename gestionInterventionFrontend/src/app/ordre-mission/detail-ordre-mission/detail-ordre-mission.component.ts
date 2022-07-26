@@ -1,30 +1,34 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ThemePalette} from "@angular/material/core";
-import {MatDialog} from "@angular/material/dialog";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
 import {map, Observable, startWith} from "rxjs";
+
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { ThemePalette } from "@angular/material/core";
+import { MatDialog } from "@angular/material/dialog";
+
 
 import {SousCategorie} from "../../model/sous-categorie";
 import {Deplacement} from "../model/deplacement";
 import {OrdreMissionDetail} from "../model/ordre-mission-detail";
+import {EtatOrdreMission} from "../../model/etat-ordre-mission";
 
 import {AffectTechnicienDialogComponent} from "../affect-technicien-dialog/affect-technicien-dialog.component";
 import {CreateDeplacementDialogComponent} from "../create-deplacement-dialog/create-deplacement-dialog.component";
 import {EditDeplacementDialogComponent} from "../edit-deplacement-dialog/edit-deplacement-dialog.component";
-import {
-  SelectCheckListModelDialogComponent
-} from "../select-check-list-model-dialog/select-check-list-model-dialog.component";
+import { SelectCheckListModelDialogComponent } from "../select-check-list-model-dialog/select-check-list-model-dialog.component";
+import {AddSousCategorieDialogComponent} from "../../add-sous-categorie-dialog/add-sous-categorie-dialog.component";
 
 import {OrdreMissionService} from "../service/ordre-mission.service";
 import {SousCategorieService} from "../../service/sous-categorie.service";
 import {DeplacementService} from "../service/deplacement.service";
 import {CheckListService} from "../../service/check-list.service";
 import {TechnicienService} from "../../service/technicien.service";
-import {AddSousCategorieDialogComponent} from "../../add-sous-categorie-dialog/add-sous-categorie-dialog.component";
-import {getMaxValidator} from "../../app.component";
-import {EtatOrdreMission} from "../../model/etat-ordre-mission";
 import {BonInterventionService} from "../../service/bon-intervention.service";
+
+import {getMaxValidator} from "../../app.component";
+
+
+
 
 
 export interface SousCategorieData{
@@ -70,6 +74,13 @@ export class DetailOrdreMissionComponent implements OnInit {
   infoChanges = false;
   designationChanges= false;
 
+  rootPath!: string;
+
+  bonSortieEmpty!: boolean;
+  bonRetourEmpty!: boolean;
+  ordreMissionEmpty!: boolean;
+
+
   constructor(private route: ActivatedRoute,
               private ordreMission$: OrdreMissionService,
               private objet$: SousCategorieService,
@@ -84,8 +95,14 @@ export class DetailOrdreMissionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllSousCategorie();
+    this.rootPath= this.ordreMission$.getRootPath();
     this.route.paramMap.subscribe(params=>{
       const id = Number.parseInt(<string>params.get("id"));
+      this.ordreMission$.checkFiles(id).subscribe(list =>{
+        this.bonSortieEmpty=!list[0];
+        this.bonRetourEmpty=!list[1];
+        this.ordreMissionEmpty=!list[3];
+      });
       this.ordreMission$.getById(id).subscribe(ordre => {
         this.ordreMission=ordre;
         this.setSelectedCategorie(this.ordreMission.sousCategories);
@@ -230,6 +247,7 @@ export class DetailOrdreMissionComponent implements OnInit {
     }
     this.checkChanges();
   };
+
 
   checkChanges(){
     if(this.objetChanges){
@@ -430,6 +448,29 @@ export class DetailOrdreMissionComponent implements OnInit {
   addBonIntervention() {
     this.bonIntervention.add(this.ordreMission.id).subscribe(bon=>{
       this.router.navigate(['/detailBon',bon.id]).then();
-    })
+    });
+  }
+
+  loadFile($event: Event, file: string) {
+    const files = (<HTMLInputElement>$event.target).files;
+    if((files?.length == 1)  && file) {
+      this.ordreMission$.uploadFile(files[0], this.ordreMission, file).subscribe();
+      switch (file) {
+        case 'OrdreMission':
+          this.ordreMissionEmpty=false;
+          break;
+        case 'BonSortie':
+          this.bonSortieEmpty=false;
+          break;
+        case 'BonRetour':
+          this.bonRetourEmpty=false;
+          break;
+      }
+    }
+  }
+
+
+  getPath():string {
+    return this.ordreMission.client.nom+"_"+this.ordreMission.designation+"_"+this.ordreMission.dateMission.toString().slice(0,10);
   }
 }

@@ -27,6 +27,8 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { CreateDeplacementDialogComponent } from './create-deplacement-dialog/create-deplacement-dialog.component';
 import { EditDeplacementDialogComponent } from './edit-deplacement-dialog/edit-deplacement-dialog.component';
 import { SelectCheckListModelDialogComponent } from './select-check-list-model-dialog/select-check-list-model-dialog.component';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {ClipboardModule} from "@angular/cdk/clipboard";
 
 
 
@@ -62,7 +64,9 @@ import { SelectCheckListModelDialogComponent } from './select-check-list-model-d
     MatAutocompleteModule,
     MatChipsModule,
     MatCheckboxModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressBarModule,
+    ClipboardModule
   ]
 })
 export class OrdreMissionModule { }

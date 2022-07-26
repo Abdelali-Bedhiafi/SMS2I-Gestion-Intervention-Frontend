@@ -31,7 +31,9 @@ export  function getMaxValidator(sup:string,controlName:string): ValidatorFn {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
   constructor(private _adapter: DateAdapter<any>){
     this._adapter.setLocale('tn');
   }
+
 }
