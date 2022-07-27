@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
+
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -10,7 +11,7 @@ import { OrdreMissionModule } from './ordre-mission/ordre-mission.module';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http'
+import {HttpClient, HttpClientModule} from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -30,6 +31,7 @@ import { AddMaterielDialogComponent } from './add-materiel-dialog/add-materiel-d
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatListModule} from "@angular/material/list";
+import {ConfigService} from "./service/config.service";
 
 
 
@@ -67,7 +69,19 @@ import {MatListModule} from "@angular/material/list";
     MatDatepickerModule,
     MatListModule
   ],
-  providers: [],
+  providers: [
+    ConfigService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: AppConfigurationFactory,
+      deps: [ConfigService,HttpClient], multi: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function AppConfigurationFactory(
+  appConfig: ConfigService) {
+  return () => appConfig.load();
+}

@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 import {map, Observable, startWith} from "rxjs";
 
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ThemePalette } from "@angular/material/core";
-import { MatDialog } from "@angular/material/dialog";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {ThemePalette} from "@angular/material/core";
+import {MatDialog} from "@angular/material/dialog";
 
 
 import {SousCategorie} from "../../model/sous-categorie";
@@ -15,7 +15,9 @@ import {EtatOrdreMission} from "../../model/etat-ordre-mission";
 import {AffectTechnicienDialogComponent} from "../affect-technicien-dialog/affect-technicien-dialog.component";
 import {CreateDeplacementDialogComponent} from "../create-deplacement-dialog/create-deplacement-dialog.component";
 import {EditDeplacementDialogComponent} from "../edit-deplacement-dialog/edit-deplacement-dialog.component";
-import { SelectCheckListModelDialogComponent } from "../select-check-list-model-dialog/select-check-list-model-dialog.component";
+import {
+  SelectCheckListModelDialogComponent
+} from "../select-check-list-model-dialog/select-check-list-model-dialog.component";
 import {AddSousCategorieDialogComponent} from "../../add-sous-categorie-dialog/add-sous-categorie-dialog.component";
 
 import {OrdreMissionService} from "../service/ordre-mission.service";
@@ -26,9 +28,7 @@ import {TechnicienService} from "../../service/technicien.service";
 import {BonInterventionService} from "../../service/bon-intervention.service";
 
 import {getMaxValidator} from "../../app.component";
-
-
-
+import {Categorie} from "../../model/categorie";
 
 
 export interface SousCategorieData{
@@ -48,11 +48,11 @@ export class DetailOrdreMissionComponent implements OnInit {
   ordreMission!: OrdreMissionDetail;
 
   actions: SousCategorieData[]=[];
-  reseaux: SousCategorieData[]=[];
+  keywords: SousCategorieData[]=[];
   technologies: SousCategorieData[]=[];
 
   actionSelectControl = new FormControl();
-  reseauSelectControl = new FormControl();
+  keywordSelectControl = new FormControl();
   technologieSelectControl = new FormControl();
   accompteControl!: FormGroup<{accompte: FormControl<number|null>, retour: FormControl<number|null> }>;
   estimationControl!: FormGroup<{date: FormControl<Date|null>, duree: FormControl<number|null>}>;
@@ -60,11 +60,11 @@ export class DetailOrdreMissionComponent implements OnInit {
   designationControl!: FormControl<string|null>;
 
   filteredActions!: Observable<SousCategorieData[]>;
-  filteredReseaux!: Observable<SousCategorieData[]>;
+  filteredKeywords!: Observable<SousCategorieData[]>;
   filteredTechnologies!: Observable<SousCategorieData[]>;
 
   actionReady!: Promise<boolean>;
-  reseauReady!: Promise<boolean>;
+  keywordReady!: Promise<boolean>;
   technologieReady!: Promise<boolean>;
 
   ready = false;
@@ -74,16 +74,16 @@ export class DetailOrdreMissionComponent implements OnInit {
   infoChanges = false;
   designationChanges= false;
 
-  rootPath!: string;
+  root_path!: string;
 
-  bonSortieEmpty!: boolean;
-  bonRetourEmpty!: boolean;
-  ordreMissionEmpty!: boolean;
+  bonSortieEmpty=true;
+  bonRetourEmpty=true;
+  ordreMissionEmpty=true;
 
 
+  categorie = Categorie
   constructor(private route: ActivatedRoute,
               private ordreMission$: OrdreMissionService,
-              private objet$: SousCategorieService,
               private deplacement$: DeplacementService,
               private checklist: CheckListService,
               private technicien: TechnicienService,
@@ -95,7 +95,7 @@ export class DetailOrdreMissionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllSousCategorie();
-    this.rootPath= this.ordreMission$.getRootPath();
+    this.root_path= this.ordreMission$.getRootPath();
     this.route.paramMap.subscribe(params=>{
       const id = Number.parseInt(<string>params.get("id"));
       this.ordreMission$.checkFiles(id).subscribe(list =>{
@@ -138,11 +138,11 @@ export class DetailOrdreMissionComponent implements OnInit {
         map(filter => this.filter(this.actions,filter))
       );
     });
-    this.reseauReady.then(()=>{
-      this.filteredReseaux = this.reseauSelectControl.valueChanges.pipe(
+    this.keywordReady.then(()=>{
+      this.filteredKeywords = this.keywordSelectControl.valueChanges.pipe(
         startWith<string>(''),
         map(value=> typeof value === 'string' ? value : ''),
-        map(filter => this.filter(this.reseaux,filter))
+        map(filter => this.filter(this.keywords,filter))
       );
     });
     this.technologieReady.then(()=>{
@@ -168,19 +168,19 @@ export class DetailOrdreMissionComponent implements OnInit {
 
   getAllSousCategorie(){
     this.actionReady= new Promise<boolean>((resolve)=>{
-      this.objet$.getAllByCategorie("ActionOrdre").subscribe( data =>{
+      this.sousCategorie.getAllByCategorie(Categorie.ACTION_ORDRE).subscribe( data =>{
         data.forEach(sousCategorie => this.actions.push({sousCategorie: sousCategorie, selected: false, color: 'warn'}));
         resolve(true);
       });
     });
-    this.reseauReady= new Promise<boolean>((resolve)=>{
-      this.objet$.getAllByCategorie("Reseau").subscribe( data =>{
-        data.forEach(sousCategorie => this.reseaux.push({sousCategorie: sousCategorie, selected: false, color: 'warn'}));
+    this.keywordReady= new Promise<boolean>((resolve)=>{
+      this.sousCategorie.getAllByCategorie(Categorie.KEYWORDS).subscribe( data =>{
+        data.forEach(sousCategorie => this.keywords.push({sousCategorie: sousCategorie, selected: false, color: 'warn'}));
         resolve(true);
       });
     });
     this.technologieReady= new Promise<boolean>((resolve)=>{
-      this.objet$.getAllByCategorie("Technologie").subscribe( data =>{
+      this.sousCategorie.getAllByCategorie(Categorie.TECHNOLOGIE).subscribe( data =>{
         data.forEach(sousCategorie => this.technologies.push({sousCategorie: sousCategorie, selected: false, color: 'warn'}));
         resolve(true);
       });
@@ -210,8 +210,8 @@ export class DetailOrdreMissionComponent implements OnInit {
         });
       });
     });
-    this.reseauReady.then(()=>{
-      this.reseaux.forEach(item=>{
+    this.keywordReady.then(()=>{
+      this.keywords.forEach(item=>{
         sousCategories.forEach(sousCategorie =>{
           if (sousCategorie.id==item.sousCategorie.id){
             item.selected = true;
@@ -257,7 +257,7 @@ export class DetailOrdreMissionComponent implements OnInit {
           return;
         }
       }
-      for(const item of this.reseaux){
+      for(const item of this.keywords){
         if ((item.color == 'primary' && !item.selected)||(item.color=="warn"&&item.selected)){
           return;
         }
@@ -276,7 +276,7 @@ export class DetailOrdreMissionComponent implements OnInit {
         }
       }
       if (this.objetChanges) return;
-      for(const item of this.reseaux){
+      for(const item of this.keywords){
         if ((item.color == 'primary' && !item.selected)||(item.color=="warn"&&item.selected)){
           this.objetChanges=true;
           break;
@@ -296,7 +296,7 @@ export class DetailOrdreMissionComponent implements OnInit {
     this.actions.forEach(item => {
       if(!item.selected) item.color='warn';
     });
-    this.reseaux.forEach(item => {
+    this.keywords.forEach(item => {
       if(!item.selected) item.color='warn';
     });
     this.technologies.forEach(item => {
@@ -420,28 +420,30 @@ export class DetailOrdreMissionComponent implements OnInit {
     );
   }
 
-  addCategorie(categorie: string){
-    const dialogRef = this.dialog.open(AddSousCategorieDialogComponent,{data:categorie});
-    dialogRef.afterClosed().subscribe(data=>{
-      const body: SousCategorie={
-        id:0,
-        titre: data.titre,
-        description: data.description,
-        categorie: categorie
-      };
-      this.sousCategorie.add(body).subscribe(s =>{
-        switch (categorie){
-          case "ActionOrdre":
-            this.actions.push({sousCategorie:s,selected:false,color:"warn"});
-            break;
-          case "Reseau":
-            this.reseaux.push({sousCategorie:s,selected:false,color:"warn"});
-            break;
-          case "Technologie":
-            this.technologies.push({sousCategorie:s,selected:false,color:"warn"});
-            break;
-        }
-      });
+  addCategorie(categorie: Categorie){
+    const dialogRef = this.dialog.open(AddSousCategorieDialogComponent,{data:categorie.split('_')[0].toLowerCase()});
+    dialogRef.afterClosed().subscribe(data=> {
+      if (data) {
+        const body: SousCategorie={
+          id:0,
+          titre: data.titre,
+          description: data.description,
+          categorie: categorie
+        };
+        this.sousCategorie.add(body).subscribe(s => {
+          switch (categorie) {
+            case Categorie.ACTION_ORDRE:
+              this.actions.push({sousCategorie: s, selected: false, color: "warn"});
+              break;
+            case Categorie.TECHNOLOGIE:
+              this.technologies.push({sousCategorie: s, selected: false, color: "warn"});
+              break;
+            case Categorie.KEYWORDS:
+              this.keywords.push({sousCategorie: s, selected: false, color: "warn"});
+              break;
+          }
+        });
+      }
     });
   }
 

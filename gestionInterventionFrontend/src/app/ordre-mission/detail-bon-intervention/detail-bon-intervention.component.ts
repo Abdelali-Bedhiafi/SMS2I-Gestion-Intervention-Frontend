@@ -1,13 +1,12 @@
-import { ListKeyManager } from '@angular/cdk/a11y';
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { GroupTags } from 'src/app/model/group-tags';
-import { SousCategorie } from 'src/app/model/sous-categorie';
-import { Tags } from 'src/app/model/tags';
-import { BonInterventionService } from 'src/app/service/bon-intervention.service';
-import { SousCategorieService } from 'src/app/service/sous-categorie.service';
-import { TagsService } from 'src/app/service/tags.service';
-import { BonInterventionDetail } from '../model/bon-intervention-detail';
+import {Component, OnInit} from '@angular/core';
+import {GroupTags} from 'src/app/model/group-tags';
+import {SousCategorie} from 'src/app/model/sous-categorie';
+import {Tags} from 'src/app/model/tags';
+import {BonInterventionService} from 'src/app/service/bon-intervention.service';
+import {SousCategorieService} from 'src/app/service/sous-categorie.service';
+import {TagsService} from 'src/app/service/tags.service';
+import {BonInterventionDetail} from '../model/bon-intervention-detail';
+import {Categorie} from "../../model/categorie";
 
 @Component({
   selector: 'app-detail-bon-intervention',
@@ -32,16 +31,16 @@ export class DetailBonInterventionComponent implements OnInit {
     private sousCategori$: SousCategorieService , private grouptag:TagsService) { }
 
   ngOnInit(): void {
-    this.sousCategori$.getAllByCategorie("action").subscribe(list=>{
+    this.sousCategori$.getAllByCategorie(Categorie.ACTION_RAPPORT).subscribe(list=>{
       this.actions=list;
     })
 
-    this.sousCategori$.getAllByCategorie("technologie").subscribe(list=>{
+    this.sousCategori$.getAllByCategorie(Categorie.TECHNOLOGIE).subscribe(list=>{
       this.technologies=list;
 
     })
 
-    this.sousCategori$.getAllByCategorie("reseau").subscribe(list=>{this.resaux=list;
+    this.sousCategori$.getAllByCategorie(Categorie.KEYWORDS).subscribe(list=>{this.resaux=list;
     })
 
 
@@ -51,9 +50,9 @@ export class DetailBonInterventionComponent implements OnInit {
 
     this.bonintervention.getById(1).subscribe((data)=>{
       this.bonIntervention = data;
-      this.choix= this.bonIntervention.categories.filter(c => c.categorie=='action');
-      this.choixreseau=this.bonIntervention.categories.filter(r => r.categorie=='reseau');
-      this.choixtech=this.bonIntervention.categories.filter(t => t.categorie=='technologie');
+      this.choix= this.bonIntervention.categories.filter(c => c.categorie==Categorie.ACTION_ORDRE);
+      this.choixreseau=this.bonIntervention.categories.filter(r => r.categorie==Categorie.KEYWORDS);
+      this.choixtech=this.bonIntervention.categories.filter(t => t.categorie==Categorie.TECHNOLOGIE);
       this.bonIntervention.tags.forEach( tag =>{
         let list = this.tagMap.get(tag.groupe);
         if(list) list.push(tag);

@@ -82,7 +82,7 @@ export class OrdreMissionService {
   }
 
   getRootPath():string {
-    return this.backend.rootPath;
+    return this.backend.config$.root_path;
   }
 }
 

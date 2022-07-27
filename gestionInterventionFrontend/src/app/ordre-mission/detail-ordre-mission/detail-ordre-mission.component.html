@@ -149,7 +149,7 @@
                     </mat-checkbox>
                   </div>
                 </mat-option>
-                <mat-option (click)="addCategorie('ActionOrdre')">
+                <mat-option (click)="addCategorie(categorie.ACTION_ORDRE)">
                   <mat-icon>add_circle</mat-icon>
                   ajouter
                 </mat-option>
@@ -173,33 +173,33 @@
             <mat-grid-tile-header>
               <mat-form-field>
                 <input matInput type="text" placeholder="reseaux"
-                       [matAutocomplete]="autoReseau"
-                       [formControl]="reseauSelectControl">
+                       [matAutocomplete]="autoKeyword"
+                       [formControl]="keywordSelectControl">
               </mat-form-field>
-              <mat-autocomplete #autoReseau="matAutocomplete" [displayWith]="displayFn">
-                <mat-option *ngFor="let reseau of filteredReseaux | async">
+              <mat-autocomplete #autoKeyword="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let keyword of filteredKeywords | async">
                   <div>
-                    <mat-checkbox [checked]="reseau.selected"
-                                  (change)="toggleSelection(reseau)"
+                    <mat-checkbox [checked]="keyword.selected"
+                                  (change)="toggleSelection(keyword)"
                                   (click)="$event.stopPropagation()"
-                                  [color]="reseau.color">
-                      {{ reseau.sousCategorie.titre }}
+                                  [color]="keyword.color">
+                      {{ keyword.sousCategorie.titre }}
                     </mat-checkbox>
                   </div>
                 </mat-option>
-                <mat-option (click)="addCategorie('Reseau')">
+                <mat-option (click)="addCategorie(categorie.KEYWORDS)">
                   <mat-icon>add_circle</mat-icon>
                   ajouter
                 </mat-option>
               </mat-autocomplete>
             </mat-grid-tile-header>
             <mat-chip-list>
-              <div *ngFor="let reseau of reseaux">
-                <mat-chip *ngIf="reseau.selected"
-                          [color]="reseau.color"
+              <div *ngFor="let keyword of keywords">
+                <mat-chip *ngIf="keyword.selected"
+                          [color]="keyword.color"
                           [selected]="true"
-                          (removed)="toggleSelection(reseau)">
-                  {{reseau.sousCategorie.titre}}
+                          (removed)="toggleSelection(keyword)">
+                  {{keyword.sousCategorie.titre}}
                   <button matChipRemove>
                     <mat-icon>cancel</mat-icon>
                   </button>
@@ -225,7 +225,7 @@
                     </mat-checkbox>
                   </div>
                 </mat-option>
-                <mat-option (click)="addCategorie('Technologie')">
+                <mat-option (click)="addCategorie(categorie.TECHNOLOGIE)">
                   <mat-icon>add_circle</mat-icon>
                   ajouter
                 </mat-option>
@@ -312,41 +312,41 @@
       </mat-form-field>
     </mat-card-content>
   </mat-card>
-  <mat-grid-list cols="4" rowHeight="50px" gutterSize="5px">
+  <mat-grid-list cols="4" rowHeight="37px" gutterSize="5px">
     <mat-grid-tile>
-      <div *ngIf="bonSortieEmpty;else BonSortieLink">
+      <div *ngIf="bonSortieEmpty;else BonSortieLink" class="file-upload">
         <input type="file"  (change)="loadFile($event,'BonSortie')" class="file-input" #BonSortieUpload>
-        <button mat-stroked-button (click)="BonSortieUpload.click()">
+        <button mat-stroked-button class="file-upload" (click)="BonSortieUpload.click()">
           Bon Sortie
           <mat-icon>attach_file</mat-icon>
         </button>
       </div>
       <ng-template #BonSortieLink>
-        <a [href]="'file:///'+rootPath+getPath()+'/BonSortie'"> bon sortie</a>
+        <a [href]="'file:///'+root_path+getPath()+'/BonSortie'"> bon sortie</a>
       </ng-template>
     </mat-grid-tile>
     <mat-grid-tile>
-      <div *ngIf="bonRetourEmpty;else BonRetourLink">
+      <div *ngIf="bonRetourEmpty;else BonRetourLink" class="file-upload">
         <input type="file"  (change)="loadFile($event,'BonRetour')" class="file-input" #BonRetourUpload>
-        <button mat-stroked-button (click)="BonRetourUpload.click()">
+        <button mat-stroked-button class="file-upload" (click)="BonRetourUpload.click()">
           Bon Retour
           <mat-icon>attach_file</mat-icon>
         </button>
       </div>
       <ng-template #BonRetourLink>
-        <a [href]="'file:///'+rootPath+getPath()+'/BonRetour'"> bon retour</a>
+        <a [href]="'file:///'+root_path+getPath()+'/BonRetour'"> bon retour</a>
       </ng-template>
     </mat-grid-tile>
     <mat-grid-tile>
-      <div *ngIf="ordreMissionEmpty;else OrdreMissionLink">
+      <div *ngIf="ordreMissionEmpty;else OrdreMissionLink" class="file-upload">
         <input type="file"  (change)="loadFile($event,'OrdreMission')" class="file-input" #OrdreMissionUpload>
-        <button mat-stroked-button (click)="OrdreMissionUpload.click()">
+        <button mat-stroked-button class="file-upload" (click)="OrdreMissionUpload.click()">
           Ordre Mission
           <mat-icon>attach_file</mat-icon>
         </button>
       </div>
       <ng-template #OrdreMissionLink>
-        <a [href]="'file:///'+rootPath+getPath()+'/OrdreMission'"> ordre mission</a>
+        <a [href]="'file:///'+root_path+getPath()+'/OrdreMission'"> ordre mission</a>
       </ng-template>
     </mat-grid-tile>
   </mat-grid-list>

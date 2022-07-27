@@ -29,6 +29,9 @@ textarea{
 .file-input{
   display: none;
 }
+.file-upload{
+  width: 100%;
+}
 
 
 
