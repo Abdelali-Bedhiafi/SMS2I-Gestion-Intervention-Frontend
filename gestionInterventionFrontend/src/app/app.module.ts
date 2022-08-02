@@ -24,14 +24,25 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AddSousCategorieDialogComponent } from './add-sous-categorie-dialog/add-sous-categorie-dialog.component';
+import { AddSousCategorieDialogComponent } from './dialog/add-sous-categorie-dialog/add-sous-categorie-dialog.component';
 import {MatInputModule} from "@angular/material/input";
-import { AddSoftwareDialogComponent } from './add-software-dialog/add-software-dialog.component';
-import { AddMaterielDialogComponent } from './add-materiel-dialog/add-materiel-dialog.component';
+import { AddSoftwareDialogComponent } from './dialog/add-software-dialog/add-software-dialog.component';
+import { AddMaterielDialogComponent } from './dialog/add-materiel-dialog/add-materiel-dialog.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatListModule} from "@angular/material/list";
 import {ConfigService} from "./service/config.service";
+import { AdminComponent } from './admin/admin.component';
+import { ClientListComponent } from './client-list/client-list.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
+import { AddClientDialogComponent } from './dialog/add-client-dialog/add-client-dialog.component';
+import { AgnetAdministratifListComponent } from './agnet-administratif-list/agnet-administratif-list.component';
+import { AddAgentDialogComponent } from './dialog/add-agent-dialog/add-agent-dialog.component';
+import { EditAgentDialogComponent } from './dialog/edit-agent-dialog/edit-agent-dialog.component';
+import { EditClientDialogComponent } from './dialog/edit-client-dialog/edit-client-dialog.component';
+import { TechnicienListComponent } from './technicien-list/technicien-list.component';
+import { AddTechnicienDialogComponent } from './dialog/add-technicien-dialog/add-technicien-dialog.component';
+import { EditTechnicienDialogComponent } from './dialog/edit-technicien-dialog/edit-technicien-dialog.component';
 
 
 
@@ -45,30 +56,41 @@ import {ConfigService} from "./service/config.service";
     AjoutDepenseDialogComponent,
     AddSousCategorieDialogComponent,
     AddSoftwareDialogComponent,
-    AddMaterielDialogComponent
+    AddMaterielDialogComponent,
+    AdminComponent,
+    ClientListComponent,
+    AddClientDialogComponent,
+    AgnetAdministratifListComponent,
+    AddAgentDialogComponent,
+    EditAgentDialogComponent,
+    EditClientDialogComponent,
+    TechnicienListComponent,
+    AddTechnicienDialogComponent,
+    EditTechnicienDialogComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    OrdreMissionModule,
-    AppRoutingModule,
-    HttpClientModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
-    MatGridListModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    MatTableModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatExpansionModule,
-    MatDatepickerModule,
-    MatListModule
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        OrdreMissionModule,
+        AppRoutingModule,
+        HttpClientModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatCardModule,
+        MatGridListModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        MatTableModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatExpansionModule,
+        MatDatepickerModule,
+        MatListModule,
+        MatPaginatorModule
+    ],
   providers: [
     ConfigService,
     {

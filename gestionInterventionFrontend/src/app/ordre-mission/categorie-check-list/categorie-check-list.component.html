@@ -1,0 +1,43 @@
+<mat-card>
+  <mat-card-header>
+    <mat-form-field appearance="legacy">
+      <input matInput type="text" [placeholder]="palaceHolder"
+             [matAutocomplete]="auto"
+             [formControl]="selectControl">
+    </mat-form-field>
+  </mat-card-header>
+  <mat-card-content>
+
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of filtered | async">
+        <div (click)="optionClicked($event, option)">
+          <mat-checkbox [checked]="option.selected"
+                        (change)="toggleSelection(option)"
+                        (click)="$event.stopPropagation()"
+                        [color]="option.color">
+            {{ view(option.sousCategorie) }}
+          </mat-checkbox>
+        </div>
+      </mat-option>
+      <mat-option (click)="add()">
+        <mat-icon>add_circle</mat-icon>
+        ajouter
+      </mat-option>
+    </mat-autocomplete>
+
+    <mat-chip-list>
+      <div *ngFor="let categorie of categories">
+        <mat-chip *ngIf="categorie.selected"
+                  [color]="categorie.color"
+                  [selected]="true"
+                  (removed)="toggleSelection(categorie)">
+          {{view(categorie.sousCategorie)}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+      </div>
+    </mat-chip-list>
+  </mat-card-content>
+</mat-card>
+

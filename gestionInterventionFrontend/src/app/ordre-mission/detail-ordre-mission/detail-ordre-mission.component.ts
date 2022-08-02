@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {map, Observable, startWith} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ThemePalette} from "@angular/material/core";
@@ -18,10 +18,8 @@ import {EditDeplacementDialogComponent} from "../edit-deplacement-dialog/edit-de
 import {
   SelectCheckListModelDialogComponent
 } from "../select-check-list-model-dialog/select-check-list-model-dialog.component";
-import {AddSousCategorieDialogComponent} from "../../add-sous-categorie-dialog/add-sous-categorie-dialog.component";
 
 import {OrdreMissionService} from "../service/ordre-mission.service";
-import {SousCategorieService} from "../../service/sous-categorie.service";
 import {DeplacementService} from "../service/deplacement.service";
 import {CheckListService} from "../../service/check-list.service";
 import {TechnicienService} from "../../service/technicien.service";
@@ -47,25 +45,11 @@ export class DetailOrdreMissionComponent implements OnInit {
 
   ordreMission!: OrdreMissionDetail;
 
-  actions: SousCategorieData[]=[];
-  keywords: SousCategorieData[]=[];
-  technologies: SousCategorieData[]=[];
-
-  actionSelectControl = new FormControl();
-  keywordSelectControl = new FormControl();
-  technologieSelectControl = new FormControl();
   accompteControl!: FormGroup<{accompte: FormControl<number|null>, retour: FormControl<number|null> }>;
   estimationControl!: FormGroup<{date: FormControl<Date|null>, duree: FormControl<number|null>}>;
   infoControl!: FormGroup<{description: FormControl<string|null>, reclamation: FormControl<string|null>}>;
   designationControl!: FormControl<string|null>;
 
-  filteredActions!: Observable<SousCategorieData[]>;
-  filteredKeywords!: Observable<SousCategorieData[]>;
-  filteredTechnologies!: Observable<SousCategorieData[]>;
-
-  actionReady!: Promise<boolean>;
-  keywordReady!: Promise<boolean>;
-  technologieReady!: Promise<boolean>;
 
   ready = false;
   objetChanges = false;
@@ -80,21 +64,29 @@ export class DetailOrdreMissionComponent implements OnInit {
   bonRetourEmpty=true;
   ordreMissionEmpty=true;
 
+  actionChanges=false;
+  technologieChanges=false;
+  keywordsChanges=false;
+
+  actions!: Subject<SousCategorie[]>;
+  technologies!: Subject<SousCategorie[]>;
+  keywords!: Subject<SousCategorie[]>;
+
 
   categorie = Categorie
+
   constructor(private route: ActivatedRoute,
               private ordreMission$: OrdreMissionService,
               private deplacement$: DeplacementService,
               private checklist: CheckListService,
               private technicien: TechnicienService,
-              private sousCategorie: SousCategorieService,
               private bonIntervention: BonInterventionService,
               private router: Router,
               private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
-    this.getAllSousCategorie();
+
     this.root_path= this.ordreMission$.getRootPath();
     this.route.paramMap.subscribe(params=>{
       const id = Number.parseInt(<string>params.get("id"));
@@ -105,7 +97,9 @@ export class DetailOrdreMissionComponent implements OnInit {
       });
       this.ordreMission$.getById(id).subscribe(ordre => {
         this.ordreMission=ordre;
-        this.setSelectedCategorie(this.ordreMission.sousCategories);
+        this.actions = new BehaviorSubject(ordre.sousCategories.filter(c => c.categorie==Categorie.ACTION_ORDRE));
+        this.technologies = new BehaviorSubject(ordre.sousCategories.filter(c => c.categorie==Categorie.TECHNOLOGIE));
+        this.keywords = new BehaviorSubject(ordre.sousCategories.filter(c => c.categorie==Categorie.KEYWORDS));
         this.initControl(ordre);
         this.setChangesHooks();
         this.ready=true;
@@ -114,7 +108,6 @@ export class DetailOrdreMissionComponent implements OnInit {
   }
 
   initControl(ordre: OrdreMissionDetail){
-
     this.accompteControl = new FormGroup({
       accompte: new FormControl(ordre.accompteMission, {validators: Validators.min(0),updateOn:"blur"}),
       retour: new FormControl(ordre.retourAccompte, {validators: Validators.min(0),updateOn:"blur"})
@@ -131,27 +124,6 @@ export class DetailOrdreMissionComponent implements OnInit {
   }
 
   setChangesHooks(){
-    this.actionReady.then(()=>{
-      this.filteredActions = this.actionSelectControl.valueChanges.pipe(
-        startWith<string>('') ,
-        map(value=> typeof value === 'string' ? value : ''),
-        map(filter => this.filter(this.actions,filter))
-      );
-    });
-    this.keywordReady.then(()=>{
-      this.filteredKeywords = this.keywordSelectControl.valueChanges.pipe(
-        startWith<string>(''),
-        map(value=> typeof value === 'string' ? value : ''),
-        map(filter => this.filter(this.keywords,filter))
-      );
-    });
-    this.technologieReady.then(()=>{
-      this.filteredTechnologies = this.technologieSelectControl.valueChanges.pipe(
-        startWith<string>(''),
-        map(value=> typeof value === 'string' ? value : ''),
-        map(filter => this.filter(this.technologies,filter))
-      );
-    });
     this.accompteControl.valueChanges.subscribe(value => {
       this.accompteChanges = this.ordreMission.accompteMission!= value.accompte || this.ordreMission.retourAccompte != value.retour;
     });
@@ -166,149 +138,16 @@ export class DetailOrdreMissionComponent implements OnInit {
     );
   }
 
-  getAllSousCategorie(){
-    this.actionReady= new Promise<boolean>((resolve)=>{
-      this.sousCategorie.getAllByCategorie(Categorie.ACTION_ORDRE).subscribe( data =>{
-        data.forEach(sousCategorie => this.actions.push({sousCategorie: sousCategorie, selected: false, color: 'warn'}));
-        resolve(true);
-      });
-    });
-    this.keywordReady= new Promise<boolean>((resolve)=>{
-      this.sousCategorie.getAllByCategorie(Categorie.KEYWORDS).subscribe( data =>{
-        data.forEach(sousCategorie => this.keywords.push({sousCategorie: sousCategorie, selected: false, color: 'warn'}));
-        resolve(true);
-      });
-    });
-    this.technologieReady= new Promise<boolean>((resolve)=>{
-      this.sousCategorie.getAllByCategorie(Categorie.TECHNOLOGIE).subscribe( data =>{
-        data.forEach(sousCategorie => this.technologies.push({sousCategorie: sousCategorie, selected: false, color: 'warn'}));
-        resolve(true);
-      });
-    });
-  }
-
-  filter(data:SousCategorieData[], filter: string):SousCategorieData[]{
-    if(filter.length > 0){
-      return data.filter(option => {
-        return option.sousCategorie.titre.toLowerCase().indexOf(filter.toLowerCase()) >=0;
-      });
-    }else{
-      return data;
-    }
-  }
-
-  displayFn = (): string => '';
-
-  setSelectedCategorie(sousCategories: SousCategorie[]){
-    this.actionReady.then(()=>{
-      this.actions.forEach(item=>{
-        sousCategories.forEach(sousCategorie =>{
-          if (sousCategorie.id==item.sousCategorie.id) {
-            item.selected = true;
-            item.color = 'primary'
-          }
-        });
-      });
-    });
-    this.keywordReady.then(()=>{
-      this.keywords.forEach(item=>{
-        sousCategories.forEach(sousCategorie =>{
-          if (sousCategorie.id==item.sousCategorie.id){
-            item.selected = true;
-            item.color = 'primary'
-          }
-        });
-      });
-    });
-    this.technologieReady.then(()=>{
-      this.technologies.forEach(item=>{
-        sousCategories.forEach(sousCategorie =>{
-          if (sousCategorie.id==item.sousCategorie.id) {
-            item.selected = true;
-            item.color = 'primary'
-          }
-        });
-      });
-    });
-  }
-
-  optionClicked = (event: Event, data: SousCategorieData): void => {
-    event.stopPropagation();
-    this.toggleSelection(data);
-  };
-
-  toggleSelection = (data: SousCategorieData): void => {
-    data.selected = !data.selected;
-    if (data.selected) {
-      this.ordreMission.sousCategories.push(data.sousCategorie);
-    } else {
-      const i = this.ordreMission.sousCategories.findIndex(value => value.id === data.sousCategorie.id);
-      this.ordreMission.sousCategories.splice(i, 1);
-    }
-    this.checkChanges();
-  };
-
-
-  checkChanges(){
-    if(this.objetChanges){
-      //all primary are selected and all warm are not selected
-      for(const item of this.actions){
-        if ((item.color == 'primary' && !item.selected)||(item.color=="warn"&&item.selected)){
-          return;
-        }
-      }
-      for(const item of this.keywords){
-        if ((item.color == 'primary' && !item.selected)||(item.color=="warn"&&item.selected)){
-          return;
-        }
-      }
-      for(const item of this.technologies){
-        if ((item.color == 'primary' && !item.selected)||(item.color=="warn"&&item.selected)){
-          return;
-        }
-      }
-      this.objetChanges=false;
-    }else{
-      for(const item of this.actions){
-        if ((item.color == 'primary' && !item.selected)||(item.color=="warn"&&item.selected)){
-          this.objetChanges=true;
-          break;
-        }
-      }
-      if (this.objetChanges) return;
-      for(const item of this.keywords){
-        if ((item.color == 'primary' && !item.selected)||(item.color=="warn"&&item.selected)){
-          this.objetChanges=true;
-          break;
-        }
-      }
-      if (this.objetChanges) return;
-      for(const item of this.technologies){
-        if ((item.color == 'primary' && !item.selected)||(item.color=="warn"&&item.selected)){
-          this.objetChanges=true;
-          break;
-        }
-      }
-    }
-  }
-
-  initColor(){
-    this.actions.forEach(item => {
-      if(!item.selected) item.color='warn';
-    });
-    this.keywords.forEach(item => {
-      if(!item.selected) item.color='warn';
-    });
-    this.technologies.forEach(item => {
-      if(!item.selected) item.color='warn';
-    });
-  }
+  view = (c: SousCategorie):string => c.titre;
 
   submitObjetChanges(){
     this.ordreMission$.updateObject(this.ordreMission.sousCategories,this.ordreMission.id).subscribe(detail=>{
-      this.initColor();
-      this.setSelectedCategorie(detail.sousCategories);
-      this.objetChanges=false;
+      this.actionChanges=false;
+      this.keywordsChanges=false;
+      this.technologieChanges=false;
+      this.actions.next(detail.sousCategories.filter(c => c.categorie== Categorie.ACTION_ORDRE));
+      this.technologies.next(detail.sousCategories.filter(c => c.categorie== Categorie.TECHNOLOGIE));
+      this.keywords.next(detail.sousCategories.filter(c => c.categorie== Categorie.KEYWORDS));
     });
   }
 
@@ -338,9 +177,7 @@ export class DetailOrdreMissionComponent implements OnInit {
       (value.date)? value.date :null,
       (value.duree)? value.duree : 0
     ).subscribe(()=>this.estimationChanges=false);
-
   }
-
 
   affecterTechnicien() {
     const affectedTechnicien = this.ordreMission.techniciens.map( tech => tech.id);
@@ -412,39 +249,11 @@ export class DetailOrdreMissionComponent implements OnInit {
     return time?.slice(0,5);
   }
 
-
   submitDesignation() {
     const designation = (this.designationControl.value)? this.designationControl.value : ''
     this.ordreMission$.updateDesignation(this.ordreMission.id, designation).subscribe(
       () => this.designationChanges = false
     );
-  }
-
-  addCategorie(categorie: Categorie){
-    const dialogRef = this.dialog.open(AddSousCategorieDialogComponent,{data:categorie.split('_')[0].toLowerCase()});
-    dialogRef.afterClosed().subscribe(data=> {
-      if (data) {
-        const body: SousCategorie={
-          id:0,
-          titre: data.titre,
-          description: data.description,
-          categorie: categorie
-        };
-        this.sousCategorie.add(body).subscribe(s => {
-          switch (categorie) {
-            case Categorie.ACTION_ORDRE:
-              this.actions.push({sousCategorie: s, selected: false, color: "warn"});
-              break;
-            case Categorie.TECHNOLOGIE:
-              this.technologies.push({sousCategorie: s, selected: false, color: "warn"});
-              break;
-            case Categorie.KEYWORDS:
-              this.keywords.push({sousCategorie: s, selected: false, color: "warn"});
-              break;
-          }
-        });
-      }
-    });
   }
 
   addBonIntervention() {
@@ -471,8 +280,25 @@ export class DetailOrdreMissionComponent implements OnInit {
     }
   }
 
-
   getPath():string {
     return this.ordreMission.client.nom+"_"+this.ordreMission.designation+"_"+this.ordreMission.dateMission.toString().slice(0,10);
+  }
+
+  objetChangesHandler($event: { changes:boolean,sousCategorie: SousCategorie, event: "ADD"|"REMOVE" }) {
+    if($event.event==="ADD") this.ordreMission.sousCategories.push($event.sousCategorie);
+    else if ($event.event === "REMOVE"){
+      const i = this.ordreMission.sousCategories.findIndex(value => value.id === $event.sousCategorie.id);
+      this.ordreMission.sousCategories.splice(i, 1);
+    }
+    switch ($event.sousCategorie.categorie) {
+      case Categorie.ACTION_ORDRE:
+        this.actionChanges=$event.changes;
+        break;
+      case Categorie.TECHNOLOGIE:
+        this.technologieChanges=$event.changes;
+        break;
+      case Categorie.KEYWORDS:
+        this.keywordsChanges=$event.changes;
+    }
   }
 }

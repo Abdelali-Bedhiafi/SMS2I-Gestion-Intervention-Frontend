@@ -1,0 +1,13 @@
+<form [formGroup]="clientControl">
+  <mat-form-field appearance="legacy">
+    <mat-label> nom </mat-label>
+    <input matInput formControlName="nom">
+  </mat-form-field>
+  <mat-form-field appearance="legacy">
+    <mat-label>address</mat-label>
+    <input matInput formControlName="address">
+  </mat-form-field>
+</form>
+
+<button mat-button [mat-dialog-close]="null">Annuller</button>
+<button mat-button [disabled]="!clientControl.valid" [mat-dialog-close]="clientControl.value" cdkFocusInitial>Ok</button>

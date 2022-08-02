@@ -11,4 +11,12 @@ export class ClientService {
   getAll():Observable<Client[]>{
     return this.backend.sendGetRequest<Client[]>("client");
   }
+
+  add(client: Client): Observable<Client> {
+    return this.backend.sendPostRequest<Client>("client",client);
+  }
+
+  update(client: Client):Observable<Client> {
+    return this.backend.sendPutRequest<Client>("client/"+client.id,client);
+  }
 }

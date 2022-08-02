@@ -7,10 +7,10 @@ import {SoftwareCategorieService} from "../service/software-categorie.service";
 import {ActivatedRoute} from "@angular/router";
 import {Materiel} from "../model/materiel";
 import {MatDialog} from "@angular/material/dialog";
-import {AddMaterielDialogComponent} from "../add-materiel-dialog/add-materiel-dialog.component";
+import {AddMaterielDialogComponent} from "../dialog/add-materiel-dialog/add-materiel-dialog.component";
 import {MaterielService} from "../service/materiel.service";
 import {SoftwareService} from "../service/software.service";
-import {AddSoftwareDialogComponent} from "../add-software-dialog/add-software-dialog.component";
+import {AddSoftwareDialogComponent} from "../dialog/add-software-dialog/add-software-dialog.component";
 
 
 

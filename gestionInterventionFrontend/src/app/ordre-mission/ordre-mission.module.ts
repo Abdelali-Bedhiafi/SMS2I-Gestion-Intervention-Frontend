@@ -29,6 +29,7 @@ import { EditDeplacementDialogComponent } from './edit-deplacement-dialog/edit-d
 import { SelectCheckListModelDialogComponent } from './select-check-list-model-dialog/select-check-list-model-dialog.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {ClipboardModule} from "@angular/cdk/clipboard";
+import { CategorieCheckListComponent } from './categorie-check-list/categorie-check-list.component';
 
 
 
@@ -43,7 +44,8 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
     AffectTechnicienDialogComponent,
     CreateDeplacementDialogComponent,
     EditDeplacementDialogComponent,
-    SelectCheckListModelDialogComponent
+    SelectCheckListModelDialogComponent,
+    CategorieCheckListComponent
   ],
   imports: [
     CommonModule,

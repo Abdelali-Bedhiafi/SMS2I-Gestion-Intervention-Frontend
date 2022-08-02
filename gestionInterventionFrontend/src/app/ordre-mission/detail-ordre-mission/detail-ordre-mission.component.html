@@ -125,125 +125,35 @@
       <mat-card-header>
         <mat-card-title>Objet Mission</mat-card-title>
         <span class="spacer"></span>
-        <button mat-button mat-stroked-button [disabled]="!objetChanges" (click)="submitObjetChanges()">
+        <button mat-button mat-stroked-button [disabled]="!(actionChanges||technologieChanges||keywordsChanges)" (click)="submitObjetChanges()">
           <mat-icon>check_circle</mat-icon>
         </button>
       </mat-card-header>
       <mat-card-content>
         <mat-grid-list cols="3" rowHeight="10:6" gutterSize="5px">
           <mat-grid-tile>
-            <mat-grid-tile-header>
-              <mat-form-field >
-                <input matInput type="text" placeholder="actions"
-                       [matAutocomplete]="autoAction"
-                       [formControl]="actionSelectControl">
-              </mat-form-field>
-              <mat-autocomplete #autoAction="matAutocomplete" [displayWith]="displayFn">
-                <mat-option *ngFor="let action of filteredActions | async">
-                  <div (click)="optionClicked($event, action)">
-                    <mat-checkbox [checked]="action.selected"
-                                  (change)="toggleSelection(action)"
-                                  (click)="$event.stopPropagation()"
-                                  [color]="action.color">
-                      {{ action.sousCategorie.titre }}
-                    </mat-checkbox>
-                  </div>
-                </mat-option>
-                <mat-option (click)="addCategorie(categorie.ACTION_ORDRE)">
-                  <mat-icon>add_circle</mat-icon>
-                  ajouter
-                </mat-option>
-              </mat-autocomplete>
-            </mat-grid-tile-header>
-            <mat-chip-list>
-              <div *ngFor="let action of actions">
-                <mat-chip *ngIf="action.selected"
-                          [color]="action.color"
-                          [selected]="true"
-                          (removed)="toggleSelection(action)">
-                  {{action.sousCategorie.titre}}
-                  <button matChipRemove>
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </mat-chip>
-              </div>
-            </mat-chip-list>
+            <app-categorie-check-list [palaceHolder]="'Actions'"
+                                      [categorie]="categorie.ACTION_ORDRE"
+                                      [selected]="actions"
+                                      [view]="view"
+                                      (changeEmitter)="objetChangesHandler($event)">
+            </app-categorie-check-list>
           </mat-grid-tile>
           <mat-grid-tile>
-            <mat-grid-tile-header>
-              <mat-form-field>
-                <input matInput type="text" placeholder="reseaux"
-                       [matAutocomplete]="autoKeyword"
-                       [formControl]="keywordSelectControl">
-              </mat-form-field>
-              <mat-autocomplete #autoKeyword="matAutocomplete" [displayWith]="displayFn">
-                <mat-option *ngFor="let keyword of filteredKeywords | async">
-                  <div>
-                    <mat-checkbox [checked]="keyword.selected"
-                                  (change)="toggleSelection(keyword)"
-                                  (click)="$event.stopPropagation()"
-                                  [color]="keyword.color">
-                      {{ keyword.sousCategorie.titre }}
-                    </mat-checkbox>
-                  </div>
-                </mat-option>
-                <mat-option (click)="addCategorie(categorie.KEYWORDS)">
-                  <mat-icon>add_circle</mat-icon>
-                  ajouter
-                </mat-option>
-              </mat-autocomplete>
-            </mat-grid-tile-header>
-            <mat-chip-list>
-              <div *ngFor="let keyword of keywords">
-                <mat-chip *ngIf="keyword.selected"
-                          [color]="keyword.color"
-                          [selected]="true"
-                          (removed)="toggleSelection(keyword)">
-                  {{keyword.sousCategorie.titre}}
-                  <button matChipRemove>
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </mat-chip>
-              </div>
-            </mat-chip-list>
+            <app-categorie-check-list [palaceHolder]="'Keywords'"
+                                      [categorie]="categorie.KEYWORDS"
+                                      [selected]="keywords"
+                                      [view]="view"
+                                      (changeEmitter)="objetChangesHandler($event)">
+            </app-categorie-check-list>
           </mat-grid-tile>
           <mat-grid-tile>
-            <mat-grid-tile-header>
-              <mat-form-field >
-                <input matInput type="text" placeholder="technologies"
-                       [matAutocomplete]="autoTechnologie"
-                       [formControl]="technologieSelectControl">
-              </mat-form-field>
-              <mat-autocomplete #autoTechnologie="matAutocomplete" [displayWith]="displayFn">
-                <mat-option *ngFor="let technologie of filteredTechnologies | async">
-                  <div>
-                    <mat-checkbox [checked]="technologie.selected"
-                                  (change)="toggleSelection(technologie)"
-                                  (click)="$event.stopPropagation()"
-                                  [color]="technologie.color">
-                      {{ technologie.sousCategorie.titre }}
-                    </mat-checkbox>
-                  </div>
-                </mat-option>
-                <mat-option (click)="addCategorie(categorie.TECHNOLOGIE)">
-                  <mat-icon>add_circle</mat-icon>
-                  ajouter
-                </mat-option>
-              </mat-autocomplete>
-            </mat-grid-tile-header>
-            <mat-chip-list>
-              <div *ngFor="let technologie of technologies">
-                <mat-chip *ngIf="technologie.selected"
-                          [color]="technologie.color"
-                          [selected]="true"
-                          (removed)="toggleSelection(technologie)">
-                  {{technologie.sousCategorie.titre}}
-                  <button matChipRemove>
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </mat-chip>
-              </div>
-            </mat-chip-list>
+            <app-categorie-check-list [palaceHolder]="'Technologie'"
+                                      [categorie]="categorie.TECHNOLOGIE"
+                                      [selected]="technologies"
+                                      [view]="view"
+                                      (changeEmitter)="objetChangesHandler($event)">
+            </app-categorie-check-list>
           </mat-grid-tile>
         </mat-grid-list>
       </mat-card-content>
@@ -252,7 +162,7 @@
       <mat-card-header>
         <mat-card-title>Techniciens</mat-card-title>
         <span class="spacer"></span>
-        <button mat-button mat-stroked-button add-course-btn (click)="affecterTechnicien()"> <mat-icon>add_circle</mat-icon></button>
+        <button mat-button mat-stroked-button (click)="affecterTechnicien()"> <mat-icon>add_circle</mat-icon></button>
       </mat-card-header>
       <mat-card-content>
         <mat-grid-list cols="4" rowHeight="10:6" gutterSize="5px" >
@@ -280,7 +190,6 @@
                 <mat-icon>edit</mat-icon>
               </button>
             </mat-grid-tile-header>
-
               {{timeFormat(deplacement.heureDebut)}} ->
               {{timeFormat(deplacement.heureFin)}}
             <mat-grid-tile-footer>
@@ -353,5 +262,6 @@
 </mat-card-content>
 
 </mat-card>
+
 
 

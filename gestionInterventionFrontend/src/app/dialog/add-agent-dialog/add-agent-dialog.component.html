@@ -1,0 +1,13 @@
+<form [formGroup]="agentControl">
+  <mat-form-field appearance="legacy">
+    <mat-label> nom </mat-label>
+    <input matInput formControlName="nom">
+  </mat-form-field>
+  <mat-form-field appearance="legacy">
+    <mat-label>prenom</mat-label>
+    <input matInput formControlName="prenom">
+  </mat-form-field>
+</form>
+
+<button mat-button [mat-dialog-close]="null">Annuller</button>
+<button mat-button [disabled]="!agentControl.valid" [mat-dialog-close]="agentControl.value">Ok</button>

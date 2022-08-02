@@ -14,4 +14,11 @@ export class TechnicienService {
     return this.backend.sendGetRequest<Technicien[]>("technicien");
   }
 
+  add(technicien: Technicien):Observable<Technicien> {
+    return this.backend.sendPostRequest<Technicien>("technicien",technicien);
+  }
+
+  update(tech: Technicien):Observable<Technicien> {
+    return this.backend.sendPutRequest<Technicien>("technicien/"+tech.id,tech);
+  }
 }

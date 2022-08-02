@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {Software} from "../model/software";
+import {Software} from "../../model/software";
 
 @Component({
   selector: 'app-add-software-dialog',
