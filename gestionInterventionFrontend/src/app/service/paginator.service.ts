@@ -1,0 +1,13 @@
+import { Injectable } from '@angular/core';
+import {MatPaginatorIntl} from "@angular/material/paginator";
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PaginatorService extends MatPaginatorIntl{
+
+  override getRangeLabel = (page: number, pageSize: number, length: number) => {
+    return page.toString();
+  }
+}

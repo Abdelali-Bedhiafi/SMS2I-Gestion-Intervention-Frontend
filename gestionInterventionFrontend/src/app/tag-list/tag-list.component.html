@@ -1,0 +1,25 @@
+<table mat-table [dataSource]="tags">
+  <mat-text-column name="id"></mat-text-column>
+  <mat-text-column name="valeur"></mat-text-column>
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let tag">
+      <button mat-icon-button (click)="edit(tag)" >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let tag">
+      <button mat-icon-button (click)="delete(tag)" >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="['id', 'valeur','edit','delete']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['id', 'valeur', 'edit','delete'];"></tr>
+</table>
+<button mat-icon-button (click)="add()"><mat-icon>add_circle</mat-icon></button>
+<mat-paginator  pageSize="5" showFirstLastButtons hidePageSize></mat-paginator>
+

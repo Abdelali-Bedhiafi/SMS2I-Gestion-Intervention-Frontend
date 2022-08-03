@@ -33,7 +33,7 @@ import {MatListModule} from "@angular/material/list";
 import {ConfigService} from "./service/config.service";
 import { AdminComponent } from './admin/admin.component';
 import { ClientListComponent } from './client-list/client-list.component';
-import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
 import { AddClientDialogComponent } from './dialog/add-client-dialog/add-client-dialog.component';
 import { AgnetAdministratifListComponent } from './agnet-administratif-list/agnet-administratif-list.component';
 import { AddAgentDialogComponent } from './dialog/add-agent-dialog/add-agent-dialog.component';
@@ -48,6 +48,13 @@ import { SuperviseurListComponent } from './superviseur-list/superviseur-list.co
 import { CategorieListComponent } from './categorie-list/categorie-list.component';
 import { SousCategorieListComponent } from './sous-categorie-list/sous-categorie-list.component';
 import { EditSousCategorieDialogComponent } from './dialog/edit-sous-categorie-dialog/edit-sous-categorie-dialog.component';
+import { AddTagGroupDialogComponent } from './dialog/add-tag-group-dialog/add-tag-group-dialog.component';
+import { AddTagDialogComponent } from './dialog/add-tag-dialog/add-tag-dialog.component';
+import { EditTagGroupDialogComponent } from './dialog/edit-tag-group-dialog/edit-tag-group-dialog.component';
+import { EditTagDialogComponent } from './dialog/edit-tag-dialog/edit-tag-dialog.component';
+import { TagListComponent } from './tag-list/tag-list.component';
+import { TagGroupListComponent } from './tag-group-list/tag-group-list.component';
+import {PaginatorService} from "./service/paginator.service";
 
 
 
@@ -77,7 +84,13 @@ import { EditSousCategorieDialogComponent } from './dialog/edit-sous-categorie-d
     SuperviseurListComponent,
     CategorieListComponent,
     SousCategorieListComponent,
-    EditSousCategorieDialogComponent
+    EditSousCategorieDialogComponent,
+    AddTagGroupDialogComponent,
+    AddTagDialogComponent,
+    EditTagGroupDialogComponent,
+    EditTagDialogComponent,
+    TagListComponent,
+    TagGroupListComponent
   ],
     imports: [
         BrowserModule,
@@ -109,6 +122,7 @@ import { EditSousCategorieDialogComponent } from './dialog/edit-sous-categorie-d
       useFactory: AppConfigurationFactory,
       deps: [ConfigService,HttpClient], multi: true
     },
+    { provide: MatPaginatorIntl, useClass: PaginatorService}
   ],
   bootstrap: [AppComponent]
 })

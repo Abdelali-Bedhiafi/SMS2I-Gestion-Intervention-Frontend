@@ -1,4 +1,3 @@
-import { group } from "@angular/animations";
 import { Tags } from "./tags";
 
 export interface GroupTags {

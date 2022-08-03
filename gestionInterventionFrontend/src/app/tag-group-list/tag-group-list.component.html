@@ -1,0 +1,16 @@
+<mat-grid-list *ngIf="ready" cols="3" rowHeight="466px" gutterSize="5px">
+  <mat-grid-tile *ngFor="let group of tags">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{group.nomGroup}}</mat-card-title>
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="edit(group)" > <mat-icon>edit</mat-icon></button>
+        <button mat-icon-button (click)="delete(group)" > <mat-icon>delete</mat-icon></button>
+      </mat-card-header>
+      <mat-card-content>
+        <app-tag-list [group]="group"></app-tag-list>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+<button mat-icon-button (click)="add()"><mat-icon>add_circle</mat-icon></button>

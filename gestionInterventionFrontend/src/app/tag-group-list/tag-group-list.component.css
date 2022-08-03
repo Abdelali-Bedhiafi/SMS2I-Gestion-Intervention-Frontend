@@ -1,0 +1,7 @@
+mat-card{
+  height:92%;
+  width: 92%;
+}
+.spacer {
+  flex: 1 1 auto;
+}
