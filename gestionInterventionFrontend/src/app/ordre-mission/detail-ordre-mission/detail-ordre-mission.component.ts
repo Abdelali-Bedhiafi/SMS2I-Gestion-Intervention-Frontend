@@ -12,12 +12,12 @@ import {Deplacement} from "../model/deplacement";
 import {OrdreMissionDetail} from "../model/ordre-mission-detail";
 import {EtatOrdreMission} from "../../model/etat-ordre-mission";
 
-import {AffectTechnicienDialogComponent} from "../affect-technicien-dialog/affect-technicien-dialog.component";
-import {CreateDeplacementDialogComponent} from "../create-deplacement-dialog/create-deplacement-dialog.component";
-import {EditDeplacementDialogComponent} from "../edit-deplacement-dialog/edit-deplacement-dialog.component";
+import {AffectTechnicienDialogComponent} from "../dialog/affect-technicien-dialog/affect-technicien-dialog.component";
+import {CreateDeplacementDialogComponent} from "../dialog/create-deplacement-dialog/create-deplacement-dialog.component";
+import {EditDeplacementDialogComponent} from "../dialog/edit-deplacement-dialog/edit-deplacement-dialog.component";
 import {
   SelectCheckListModelDialogComponent
-} from "../select-check-list-model-dialog/select-check-list-model-dialog.component";
+} from "../dialog/select-check-list-model-dialog/select-check-list-model-dialog.component";
 
 import {OrdreMissionService} from "../service/ordre-mission.service";
 import {DeplacementService} from "../service/deplacement.service";

@@ -4,7 +4,7 @@ import {APP_INITIALIZER, NgModule} from '@angular/core';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { DepenseComponent } from './depense/depense.component';
-import { AjoutDepenseDialogComponent } from './ajout-depense-dialog/ajout-depense-dialog.component';
+import { AjoutDepenseDialogComponent } from './dialog/ajout-depense-dialog/ajout-depense-dialog.component';
 import { CheckListDetailComponent } from './check-list-detail/check-list-detail.component';
 
 import { OrdreMissionModule } from './ordre-mission/ordre-mission.module';
@@ -43,6 +43,9 @@ import { EditClientDialogComponent } from './dialog/edit-client-dialog/edit-clie
 import { TechnicienListComponent } from './technicien-list/technicien-list.component';
 import { AddTechnicienDialogComponent } from './dialog/add-technicien-dialog/add-technicien-dialog.component';
 import { EditTechnicienDialogComponent } from './dialog/edit-technicien-dialog/edit-technicien-dialog.component';
+import { AddSuperviseurDialogComponent } from './dialog/add-superviseur-dialog/add-superviseur-dialog.component';
+import { EditSuperviseurDialogComponent } from './dialog/edit-superviseur-dialog/edit-superviseur-dialog.component';
+import { SuperviseurListComponent } from './superviseur-list/superviseur-list.component';
 
 
 
@@ -66,7 +69,10 @@ import { EditTechnicienDialogComponent } from './dialog/edit-technicien-dialog/e
     EditClientDialogComponent,
     TechnicienListComponent,
     AddTechnicienDialogComponent,
-    EditTechnicienDialogComponent
+    EditTechnicienDialogComponent,
+    AddSuperviseurDialogComponent,
+    EditSuperviseurDialogComponent,
+    SuperviseurListComponent
   ],
     imports: [
         BrowserModule,

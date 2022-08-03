@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {Technicien} from "../../model/technicien";
+import {Technicien} from "../../../model/technicien";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 
 

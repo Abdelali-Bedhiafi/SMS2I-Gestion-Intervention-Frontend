@@ -1,0 +1,14 @@
+<table mat-table [dataSource]="superviseurs">
+  <mat-text-column name="id"></mat-text-column>
+  <mat-text-column name="nom"></mat-text-column>
+  <mat-text-column name="prenom"></mat-text-column>
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let superviseur"> <button mat-icon-button (click)="edit(superviseur)" > <mat-icon>edit</mat-icon></button> </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['id', 'nom', 'prenom','edit']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['id', 'nom', 'prenom','edit'];"></tr>
+</table>
+<button mat-icon-button (click)="add()"><mat-icon>add_circle</mat-icon></button>
+<mat-paginator pageSize="5" showFirstLastButtons> </mat-paginator>

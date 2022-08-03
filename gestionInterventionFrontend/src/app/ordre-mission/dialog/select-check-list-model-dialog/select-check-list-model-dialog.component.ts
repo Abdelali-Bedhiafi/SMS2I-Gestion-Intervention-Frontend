@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {CheckListModel} from "../../model/check-list-model";
-import {CheckListModelService} from "../../service/check-list-model.service";
+import {CheckListModel} from "../../../model/check-list-model";
+import {CheckListModelService} from "../../../service/check-list-model.service";
 import {Observable} from "rxjs";
 
 @Component({

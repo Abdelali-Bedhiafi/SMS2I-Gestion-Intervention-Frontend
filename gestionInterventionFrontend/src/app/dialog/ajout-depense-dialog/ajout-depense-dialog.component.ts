@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { CategorieDepense } from '../model/categorie-depense';
-import { CategorieDepenseService } from '../service/categorie-depense.service';
+import { CategorieDepense } from '../../model/categorie-depense';
+import { CategorieDepenseService } from '../../service/categorie-depense.service';
 
 @Component({
   selector: 'app-ajout-depense-dialog',

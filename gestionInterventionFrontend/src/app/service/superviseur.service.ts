@@ -14,4 +14,12 @@ export class SuperviseurService {
    getAll():Observable<Superviseur[]>{
     return this.backend.sendGetRequest<Superviseur[]>("superviseur");
    }
+
+   add(superviseur: Superviseur):Observable<Superviseur>{
+    return this.backend.sendPostRequest<Superviseur>("superviseur",superviseur);
+   }
+
+  update(superviseur: Superviseur): Observable<Superviseur> {
+    return this.backend.sendPutRequest<Superviseur>("superviseur/"+superviseur.id,superviseur);
+  }
 }

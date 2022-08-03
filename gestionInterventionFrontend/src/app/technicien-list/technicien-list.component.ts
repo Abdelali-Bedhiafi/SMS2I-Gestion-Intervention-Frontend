@@ -6,7 +6,6 @@ import {TechnicienService} from "../service/technicien.service";
 
 import {MatDialog} from "@angular/material/dialog";
 import {AddTechnicienDialogComponent} from "../dialog/add-technicien-dialog/add-technicien-dialog.component";
-import {EditAgentDialogComponent} from "../dialog/edit-agent-dialog/edit-agent-dialog.component";
 import {EditTechnicienDialogComponent} from "../dialog/edit-technicien-dialog/edit-technicien-dialog.component";
 
 @Component({

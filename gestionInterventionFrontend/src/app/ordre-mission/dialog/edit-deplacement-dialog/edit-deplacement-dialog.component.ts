@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {Deplacement} from "../model/deplacement";
+import {Deplacement} from "../../model/deplacement";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Time} from "@angular/common";
 

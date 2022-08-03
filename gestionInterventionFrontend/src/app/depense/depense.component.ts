@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
-import { AjoutDepenseDialogComponent } from '../ajout-depense-dialog/ajout-depense-dialog.component';
+import { AjoutDepenseDialogComponent } from '../dialog/ajout-depense-dialog/ajout-depense-dialog.component';
 import { Depense } from '../model/depense';
 import { CategorieDepenseService } from '../service/categorie-depense.service';
 import { DepenseService } from '../service/depense.service';

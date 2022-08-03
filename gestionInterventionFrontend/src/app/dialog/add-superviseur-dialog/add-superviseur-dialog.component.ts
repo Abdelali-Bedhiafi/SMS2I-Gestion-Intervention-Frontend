@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
-  selector: 'app-add-technicien-dialog',
+  selector: 'app-add-superviseur-dialog',
   template: `
-    <form [formGroup]="technicienControl">
+    <form [formGroup]="superviseurControl">
       <mat-form-field appearance="legacy">
         <mat-label> nom </mat-label>
         <input matInput formControlName="nom">
@@ -15,17 +15,17 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
       </mat-form-field>
     </form>
     <button mat-button [mat-dialog-close]="null">Annuller</button>
-    <button mat-button [disabled]="!technicienControl.valid" [mat-dialog-close]="technicienControl.value">Ok</button>
+    <button mat-button [disabled]="!superviseurControl.valid" [mat-dialog-close]="superviseurControl.value">Ok</button>
   `,
   styles: ['']
 })
-export class AddTechnicienDialogComponent implements OnInit {
-  technicienControl!:  FormGroup<{nom: FormControl, prenom: FormControl}>;
+export class AddSuperviseurDialogComponent implements OnInit {
+  superviseurControl!: FormGroup<{nom: FormControl, prenom: FormControl}>;
 
   constructor() { }
 
   ngOnInit(): void {
-    this.technicienControl= new FormGroup({
+    this.superviseurControl= new FormGroup({
       nom: new FormControl(null,{validators: Validators.required,updateOn:"change"}),
       prenom: new FormControl(null,{validators: Validators.required, updateOn:"change"})
     });
