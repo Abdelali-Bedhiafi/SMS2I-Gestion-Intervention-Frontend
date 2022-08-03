@@ -19,4 +19,11 @@ export class SousCategorieService {
     return this.backend.sendPostRequest<SousCategorie>("sousCategorie",sousCategorie);
   }
 
+  update(categorie: SousCategorie):Observable<SousCategorie> {
+    return this.backend.sendPutRequest<SousCategorie>("sousCategorie/"+categorie.id,categorie);
+  }
+
+  delete(categorie: SousCategorie):Observable<void> {
+    return this.backend.sendDeleteRequest<void>("sousCategorie/"+categorie.id);
+  }
 }

@@ -5,8 +5,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {AddClientDialogComponent} from "../dialog/add-client-dialog/add-client-dialog.component";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
-import {AgentAdministratif} from "../model/agent-administratif";
-import {EditAgentDialogComponent} from "../dialog/edit-agent-dialog/edit-agent-dialog.component";
 import {EditClientDialogComponent} from "../dialog/edit-client-dialog/edit-client-dialog.component";
 
 

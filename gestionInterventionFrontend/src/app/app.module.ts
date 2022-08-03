@@ -1,6 +1,5 @@
 import {APP_INITIALIZER, NgModule} from '@angular/core';
 
-
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { DepenseComponent } from './depense/depense.component';
@@ -46,6 +45,9 @@ import { EditTechnicienDialogComponent } from './dialog/edit-technicien-dialog/e
 import { AddSuperviseurDialogComponent } from './dialog/add-superviseur-dialog/add-superviseur-dialog.component';
 import { EditSuperviseurDialogComponent } from './dialog/edit-superviseur-dialog/edit-superviseur-dialog.component';
 import { SuperviseurListComponent } from './superviseur-list/superviseur-list.component';
+import { CategorieListComponent } from './categorie-list/categorie-list.component';
+import { SousCategorieListComponent } from './sous-categorie-list/sous-categorie-list.component';
+import { EditSousCategorieDialogComponent } from './dialog/edit-sous-categorie-dialog/edit-sous-categorie-dialog.component';
 
 
 
@@ -72,7 +74,10 @@ import { SuperviseurListComponent } from './superviseur-list/superviseur-list.co
     EditTechnicienDialogComponent,
     AddSuperviseurDialogComponent,
     EditSuperviseurDialogComponent,
-    SuperviseurListComponent
+    SuperviseurListComponent,
+    CategorieListComponent,
+    SousCategorieListComponent,
+    EditSousCategorieDialogComponent
   ],
     imports: [
         BrowserModule,

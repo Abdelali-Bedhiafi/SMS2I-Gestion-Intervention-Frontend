@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
-import {F} from "@angular/cdk/keycodes";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 
 @Component({
@@ -20,7 +19,7 @@ export class AddSousCategorieDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.sousCategorieControl = new FormGroup({
-      titre: new FormControl('',{nonNullable:true}),
+      titre: new FormControl('',{validators: Validators.required,nonNullable:true}),
       description: new FormControl('',{nonNullable:true})
     });
   }
