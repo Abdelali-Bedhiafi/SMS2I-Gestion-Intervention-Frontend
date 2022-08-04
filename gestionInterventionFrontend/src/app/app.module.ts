@@ -58,6 +58,12 @@ import {PaginatorService} from "./service/paginator.service";
 import { MaterielListComponent } from './materiel-list/materiel-list.component';
 import { AddMaterielDialogComponent } from './dialog/add-materiel-dialog/add-materiel-dialog.component';
 import { EditMaterielDialogComponent } from './dialog/edit-materiel-dialog/edit-materiel-dialog.component';
+import { AddSoftwareDialogComponent } from './dialog/add-software-dialog/add-software-dialog.component';
+import { EditSoftwareDialogComponent } from './dialog/edit-software-dialog/edit-software-dialog.component';
+import { AddSoftwareCategorieDialogComponent } from './dialog/add-software-categorie-dialog/add-software-categorie-dialog.component';
+import { EditSoftwareCategorieDialogComponent } from './dialog/edit-software-categorie-dialog/edit-software-categorie-dialog.component';
+import { SoftwareListComponent } from './software-list/software-list.component';
+import { SoftwareCategorieListComponent } from './software-categorie-list/software-categorie-list.component';
 
 
 
@@ -96,7 +102,13 @@ import { EditMaterielDialogComponent } from './dialog/edit-materiel-dialog/edit-
     TagGroupListComponent,
     MaterielListComponent,
     AddMaterielDialogComponent,
-    EditMaterielDialogComponent
+    EditMaterielDialogComponent,
+    AddSoftwareDialogComponent,
+    EditSoftwareDialogComponent,
+    AddSoftwareCategorieDialogComponent,
+    EditSoftwareCategorieDialogComponent,
+    SoftwareListComponent,
+    SoftwareCategorieListComponent
   ],
     imports: [
         BrowserModule,

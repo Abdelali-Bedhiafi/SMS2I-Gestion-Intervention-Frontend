@@ -13,4 +13,20 @@ export class SoftwareCategorieService {
   getById(id: number):Observable<SoftwareCategorie>{
     return this.backend.sendGetRequest<SoftwareCategorie>("softwareCategorie/"+id);
   }
+
+  getAll():Observable<SoftwareCategorie[]>{
+    return this.backend.sendGetRequest<SoftwareCategorie[]>("softwareCategorie")
+  }
+
+  add(categorie: { id: number, nom: string }):Observable<SoftwareCategorie> {
+    return this.backend.sendPostRequest<SoftwareCategorie>("softwareCategorie",categorie);
+  }
+
+  update(categorie: { id: number, nom: string }):Observable<SoftwareCategorie> {
+    return this.backend.sendPutRequest<SoftwareCategorie>("softwareCategorie/"+categorie.id,categorie);
+  }
+
+  delete(categorie: SoftwareCategorie) {
+    return this.backend.sendDeleteRequest<void>("softwareCategorie/"+categorie.id);
+  }
 }

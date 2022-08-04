@@ -1,0 +1,26 @@
+<table mat-table [dataSource]="softwares">
+  <mat-text-column name="id"></mat-text-column>
+  <mat-text-column name="softwareLabel"></mat-text-column>
+  <mat-text-column name="softwareVersion"></mat-text-column>
+  <mat-text-column name="categorie"></mat-text-column>
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let software">
+      <button mat-icon-button (click)="edit(software)" >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let software">
+      <button mat-icon-button (click)="delete(software)" >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="['id','softwareLabel','softwareVersion','categorie','edit','delete']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['id','softwareLabel','softwareVersion','categorie','edit','delete'];"></tr>
+</table>
+<button mat-icon-button (click)="add()"><mat-icon>add_circle</mat-icon></button>
+<mat-paginator pageSize="5" showFirstLastButtons> </mat-paginator>

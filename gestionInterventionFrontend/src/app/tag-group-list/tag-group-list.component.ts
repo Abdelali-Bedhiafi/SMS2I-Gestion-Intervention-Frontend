@@ -14,7 +14,6 @@ import {EditTagGroupDialogComponent} from "../dialog/edit-tag-group-dialog/edit-
 export class TagGroupListComponent implements OnInit {
 
   tags!: GroupTags[];
-  ready = false;
 
   constructor(private tag$: TagsService,
               private dialog: MatDialog) { }
@@ -22,7 +21,6 @@ export class TagGroupListComponent implements OnInit {
   ngOnInit(): void {
     this.tag$.getAllGroupe().subscribe(list=>{
       this.tags=list;
-      this.ready= true;
     });
   }
 
