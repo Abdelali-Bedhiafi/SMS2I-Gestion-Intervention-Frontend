@@ -89,7 +89,7 @@ export class DetailOrdreMissionComponent implements OnInit {
 
     this.root_path= this.ordreMission$.getRootPath();
     this.route.paramMap.subscribe(params=>{
-      const id = Number.parseInt(<string>params.get("id"));
+      const id = Number(<string>params.get("id"));
       this.ordreMission$.checkFiles(id).subscribe(list =>{
         this.bonSortieEmpty=!list[0];
         this.bonRetourEmpty=!list[1];

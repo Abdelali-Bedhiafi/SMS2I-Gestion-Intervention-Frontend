@@ -55,7 +55,7 @@ export class SoftwareListComponent implements OnInit,AfterViewInit {
   }
 
   add() {
-    const dialogRef = this.dialog.open(AddSoftwareDialogComponent);
+    const dialogRef = this.dialog.open(AddSoftwareDialogComponent,{data:this.categorie.nom});
     dialogRef.afterClosed().subscribe(_s =>{
       if(_s){
         _s.categorie={id:this.categorie.id};

@@ -57,9 +57,9 @@
           <div *ngIf="uncheckedCategorie.length>0">
             <mat-grid-tile *ngFor="let categorie of uncheckedCategorie">
               <mat-grid-tile-header>
-                {{categorie.softwares[0].categorie}}
+                {{categorie.categorie}}
                 <span class="spacer"></span>
-                <button mat-stroked-button (click)="selectSoftware(categorie.input)" > <mat-icon>check_circle</mat-icon> </button>
+                <button mat-stroked-button [disabled]="!categorie.input.valid" (click)="selectSoftware(categorie.input)" > <mat-icon>check_circle</mat-icon> </button>
               </mat-grid-tile-header>
               <mat-select [formControl]=categorie.input >
                 <mat-option *ngFor="let software of categorie.softwares" [value]="software">{{software.softwareLabel+"/"+software.softwareVersion}}</mat-option>

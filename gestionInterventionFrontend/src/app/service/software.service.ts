@@ -23,7 +23,7 @@ export class SoftwareService {
   }
 
   delete(software: Software):Observable<void> {
-    return this.backend.sendDeleteRequest<void>("software/"+software.id);
+    return this.backend.sendDeleteRequest<void>("Software/"+software.id);
   }
 
 }

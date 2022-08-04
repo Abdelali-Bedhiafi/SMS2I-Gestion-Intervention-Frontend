@@ -64,6 +64,9 @@ import { AddSoftwareCategorieDialogComponent } from './dialog/add-software-categ
 import { EditSoftwareCategorieDialogComponent } from './dialog/edit-software-categorie-dialog/edit-software-categorie-dialog.component';
 import { SoftwareListComponent } from './software-list/software-list.component';
 import { SoftwareCategorieListComponent } from './software-categorie-list/software-categorie-list.component';
+import { CheckListModelListComponent } from './check-list-model-list/check-list-model-list.component';
+import { CheckListModelDetailComponent } from './check-list-model-detail/check-list-model-detail.component';
+import { AjoutSoftwareCategorieDialogComponent } from './dialog/ajout-software-categorie-dialog/ajout-software-categorie-dialog.component';
 
 
 
@@ -108,7 +111,10 @@ import { SoftwareCategorieListComponent } from './software-categorie-list/softwa
     AddSoftwareCategorieDialogComponent,
     EditSoftwareCategorieDialogComponent,
     SoftwareListComponent,
-    SoftwareCategorieListComponent
+    SoftwareCategorieListComponent,
+    CheckListModelListComponent,
+    CheckListModelDetailComponent,
+    AjoutSoftwareCategorieDialogComponent
   ],
     imports: [
         BrowserModule,

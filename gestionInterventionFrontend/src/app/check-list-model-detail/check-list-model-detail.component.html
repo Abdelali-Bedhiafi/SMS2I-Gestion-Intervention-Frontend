@@ -1,0 +1,76 @@
+<form *ngIf="ready" [formGroup]="modelControl">
+  <mat-form-field appearance="legacy">
+    <mat-label>nom</mat-label>
+    <input matInput formControlName="nom">
+  </mat-form-field>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Materiel</mat-card-title>
+      <span class="spacer"></span>
+      <button mat-stroked-button (click)="addMaterial()" >
+        <mat-icon>add_circle</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-grid-list cols="4" rowHeight="4:3" gutterSize="5px">
+        <mat-grid-tile *ngFor="let material of modelControl.controls.materiels.value">
+          <mat-grid-tile-header>
+            {{material.id}}
+            <span class="spacer"></span>
+            <button mat-stroked-button (click)="deleteMateriel(material)" >
+              <mat-icon>clear </mat-icon>
+            </button>
+          </mat-grid-tile-header>
+          {{material.label}}
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>software</mat-card-title>
+      <span class="spacer"></span>
+      <button mat-stroked-button (click)="addSoftware()">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-grid-list cols="4" rowHeight="6:5" gutterSize="5px">
+        <mat-grid-tile *ngFor="let software of modelControl.controls.softwares.value">
+          <mat-grid-tile-header>
+            {{software.softwareLabel}}
+            <span class="spacer"></span>
+            <button mat-stroked-button (click)="deleteSoftware(software)" >
+              <mat-icon>clear </mat-icon>
+            </button>
+          </mat-grid-tile-header>
+          {{software.softwareVersion}} <br>
+          {{software.categorie}}
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title> categorie software</mat-card-title>
+      <span class="spacer"></span>
+      <button mat-stroked-button (click)="addCategorie()">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-grid-list cols="4" rowHeight="6:5" gutterSize="5px">
+        <mat-grid-tile *ngFor="let categorie of modelControl.controls.softwareCategories.value">
+          <mat-grid-tile-header>
+            {{categorie.nom}}
+            <span class="spacer"></span>
+            <button mat-stroked-button (click)="deleteCategorie(categorie)" >
+              <mat-icon>clear </mat-icon>
+            </button>
+          </mat-grid-tile-header>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
+  </mat-card>
+  <button mat-stroked-button [disabled]="!(modelControl.valid&&changes)" (click)="update()"> valider <mat-icon>check</mat-icon></button>
+</form>

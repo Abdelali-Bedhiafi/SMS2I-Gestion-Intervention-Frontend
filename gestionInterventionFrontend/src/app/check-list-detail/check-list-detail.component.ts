@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CheckList} from "../model/check-list";
 import {Software} from "../model/software";
-import {FormControl} from "@angular/forms";
+import {FormControl, Validators} from "@angular/forms";
 import {CheckListService} from "../service/check-list.service";
 import {SoftwareCategorieService} from "../service/software-categorie.service";
 import {ActivatedRoute} from "@angular/router";
@@ -22,7 +22,7 @@ import {AjoutSoftwareDialogComponent} from "../dialog/ajout-software-dialog/ajou
 export class CheckListDetailComponent implements OnInit {
 
   checklist!: CheckList;
-  uncheckedCategorie!: {softwares:Software[],input:FormControl<Software>}[];
+  uncheckedCategorie!: {categorie: string, softwares:Software[], input:FormControl<Software|null>}[];
 
   ready= false;
 
@@ -50,11 +50,11 @@ export class CheckListDetailComponent implements OnInit {
         this.checklist.softwares.findIndex(software =>
           software.categorie== categorie.nom) < 0)
       .map(categorie => {
-        const allowedSoftware = categorie.softwares.filter(software =>
-          this.checklist.model.softwares.findIndex(s => s.id == software.id ) < 0);
+        const allowedSoftware = categorie.softwares.filter(software => this.checklist.model.softwares.findIndex(s => s.id == software.id ) < 0);
         return {
+          categorie: categorie.nom,
           softwares: allowedSoftware,
-          input: new FormControl(allowedSoftware[0],{nonNullable:true})
+          input: new FormControl(allowedSoftware[0],{validators: Validators.required})
         }
       });
   }
