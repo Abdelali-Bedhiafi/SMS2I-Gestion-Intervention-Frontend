@@ -1,19 +1,30 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {Materiel} from "../../model/materiel";
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import { Component, OnInit } from '@angular/core';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-add-materiel-dialog',
-  templateUrl: './add-materiel-dialog.component.html',
-  styleUrls: ['./add-materiel-dialog.component.css']
+  template: `
+    <form [formGroup]="materielControl">
+      <mat-form-field>
+        <mat-label>label</mat-label>
+        <input matInput formControlName="label">
+      </mat-form-field>
+    </form>
+    <button mat-button [mat-dialog-close]="null">Annuller</button>
+    <button mat-button [disabled]="!materielControl.valid" [mat-dialog-close]="materielControl.value">Ok</button>
+  `,
+  styles: []
 })
 export class AddMaterielDialogComponent implements OnInit {
+  materielControl!: FormGroup;
 
-  selected!: Materiel;
-
-  constructor(@Inject(MAT_DIALOG_DATA)public materiels: Materiel[]) { }
+  constructor() { }
 
   ngOnInit(): void {
+    this.materielControl = new FormGroup({
+      id: new FormControl(0),
+      label: new FormControl<string|null>(null,Validators.required)
+    });
   }
 
 }

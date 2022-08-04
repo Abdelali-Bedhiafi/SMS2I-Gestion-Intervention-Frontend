@@ -13,4 +13,17 @@ export class MaterielService {
   getAll():Observable<Materiel[]>{
     return this.backend.sendGetRequest<Materiel[]>("materiel");
   }
+
+  add(materiel: Materiel):Observable<Materiel> {
+    return this.backend.sendPostRequest<Materiel>("materiel",materiel);
+  }
+
+
+  update(materiel: Materiel):Observable<Materiel> {
+    return this.backend.sendPutRequest<Materiel>("materiel/"+materiel.id,materiel);
+  }
+
+  delete(materiel: Materiel):Observable<void> {
+    return this.backend.sendDeleteRequest<void>("materiel/"+materiel.id);
+  }
 }

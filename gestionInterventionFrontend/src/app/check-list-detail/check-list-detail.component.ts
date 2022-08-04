@@ -7,10 +7,10 @@ import {SoftwareCategorieService} from "../service/software-categorie.service";
 import {ActivatedRoute} from "@angular/router";
 import {Materiel} from "../model/materiel";
 import {MatDialog} from "@angular/material/dialog";
-import {AddMaterielDialogComponent} from "../dialog/add-materiel-dialog/add-materiel-dialog.component";
+import {AjoutMaterielDialogComponent} from "../dialog/ajout-materiel-dialog/ajout-materiel-dialog.component";
 import {MaterielService} from "../service/materiel.service";
 import {SoftwareService} from "../service/software.service";
-import {AddSoftwareDialogComponent} from "../dialog/add-software-dialog/add-software-dialog.component";
+import {AjoutSoftwareDialogComponent} from "../dialog/ajout-software-dialog/ajout-software-dialog.component";
 
 
 
@@ -98,7 +98,7 @@ export class CheckListDetailComponent implements OnInit {
 
   addMaterial():void{
     this.materiel$.getAll().subscribe(list=>{
-      const dialogRef = this.dialog.open(AddMaterielDialogComponent,{
+      const dialogRef = this.dialog.open(AjoutMaterielDialogComponent,{
         data: list
           .filter( m => this.checklist.materiels.findIndex( i => i.id == m.id)<0)
           .filter( m => this.checklist.model.materiels.findIndex(i => i.id== m.id)<0)
@@ -111,7 +111,7 @@ export class CheckListDetailComponent implements OnInit {
 
   addSoftware():void{
     this.software$.getAll().subscribe(list=>{
-      const dialogRef = this.dialog.open(AddSoftwareDialogComponent,{
+      const dialogRef = this.dialog.open(AjoutSoftwareDialogComponent,{
         data: list
           .filter( s => this.checklist.softwares.findIndex( i => i.id == s.id)<0)
           .filter( s => this.checklist.model.softwares.findIndex(i => i.id == s.id)<0)

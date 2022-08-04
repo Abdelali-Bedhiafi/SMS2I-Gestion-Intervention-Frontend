@@ -25,8 +25,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AddSousCategorieDialogComponent } from './dialog/add-sous-categorie-dialog/add-sous-categorie-dialog.component';
 import {MatInputModule} from "@angular/material/input";
-import { AddSoftwareDialogComponent } from './dialog/add-software-dialog/add-software-dialog.component';
-import { AddMaterielDialogComponent } from './dialog/add-materiel-dialog/add-materiel-dialog.component';
+import { AjoutSoftwareDialogComponent } from './dialog/ajout-software-dialog/ajout-software-dialog.component';
+import { AjoutMaterielDialogComponent } from './dialog/ajout-materiel-dialog/ajout-materiel-dialog.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatListModule} from "@angular/material/list";
@@ -55,6 +55,9 @@ import { EditTagDialogComponent } from './dialog/edit-tag-dialog/edit-tag-dialog
 import { TagListComponent } from './tag-list/tag-list.component';
 import { TagGroupListComponent } from './tag-group-list/tag-group-list.component';
 import {PaginatorService} from "./service/paginator.service";
+import { MaterielListComponent } from './materiel-list/materiel-list.component';
+import { AddMaterielDialogComponent } from './dialog/add-materiel-dialog/add-materiel-dialog.component';
+import { EditMaterielDialogComponent } from './dialog/edit-materiel-dialog/edit-materiel-dialog.component';
 
 
 
@@ -67,8 +70,8 @@ import {PaginatorService} from "./service/paginator.service";
     DepenseComponent,
     AjoutDepenseDialogComponent,
     AddSousCategorieDialogComponent,
-    AddSoftwareDialogComponent,
-    AddMaterielDialogComponent,
+    AjoutSoftwareDialogComponent,
+    AjoutMaterielDialogComponent,
     AdminComponent,
     ClientListComponent,
     AddClientDialogComponent,
@@ -90,7 +93,10 @@ import {PaginatorService} from "./service/paginator.service";
     EditTagGroupDialogComponent,
     EditTagDialogComponent,
     TagListComponent,
-    TagGroupListComponent
+    TagGroupListComponent,
+    MaterielListComponent,
+    AddMaterielDialogComponent,
+    EditMaterielDialogComponent
   ],
     imports: [
         BrowserModule,

@@ -4,10 +4,10 @@ import {Software} from "../../model/software";
 
 @Component({
   selector: 'app-add-software-dialog',
-  templateUrl: './add-software-dialog.component.html',
-  styleUrls: ['./add-software-dialog.component.css']
+  templateUrl: './ajout-software-dialog.component.html',
+  styleUrls: ['./ajout-software-dialog.component.css']
 })
-export class AddSoftwareDialogComponent implements OnInit {
+export class AjoutSoftwareDialogComponent implements OnInit {
   selected!: Software;
   categories!: {categorie:string, softwares: Software[]}[];
   constructor(@Inject(MAT_DIALOG_DATA) public softwares: Software[]) { }
