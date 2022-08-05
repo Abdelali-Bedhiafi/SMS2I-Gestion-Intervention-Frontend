@@ -89,7 +89,7 @@ export class DepenseComponent implements OnInit{
 
   openDialog(): void {
     const existingCategorie = this.dataSource.map(i => i.depense.categorieDepences.id);
-    this.categorie.categories().subscribe(list=>{
+    this.categorie.getAll().subscribe(list=>{
       const dialogRef = this.dialog.open(AjoutDepenseDialogComponent,{data: list.filter(e => existingCategorie.findIndex(i=>e.id==i) < 0 )});
       dialogRef.afterClosed().subscribe(result => {
         if(result){

@@ -157,6 +157,8 @@ export class DetailOrdreMissionComponent implements OnInit {
       .subscribe(ordre =>{
         this.accompteChanges=false;
         this.ordreMission.etat = ordre.etat;
+        this.ordreMission.accompteMission=ordre.accompteMission;
+        this.ordreMission.retourAccompte=ordre.retourAccompte;
       });
   }
 
@@ -167,7 +169,11 @@ export class DetailOrdreMissionComponent implements OnInit {
       {
         description: (value.description)? value.description:"",
         reclamation: (value.reclamation)? value.reclamation:""}
-    ).subscribe(()=>this.infoChanges=false);
+    ).subscribe(ordre=> {
+      this.ordreMission.descriptionMission=ordre.descriptionMission;
+      this.ordreMission.retourClient=ordre.retourClient;
+      this.infoChanges = false;
+    });
   }
 
   submitEstimationChanges(){
@@ -176,7 +182,11 @@ export class DetailOrdreMissionComponent implements OnInit {
       this.ordreMission.id,
       (value.date)? value.date :null,
       (value.duree)? value.duree : 0
-    ).subscribe(()=>this.estimationChanges=false);
+    ).subscribe(ordre=> {
+      this.ordreMission.dureeEstimee=ordre.dureeEstimee;
+      this.ordreMission.dateDebutEstimee=ordre.dateDebutEstimee;
+      this.estimationChanges = false;
+    });
   }
 
   affecterTechnicien() {
@@ -250,10 +260,11 @@ export class DetailOrdreMissionComponent implements OnInit {
   }
 
   submitDesignation() {
-    const designation = (this.designationControl.value)? this.designationControl.value : ''
-    this.ordreMission$.updateDesignation(this.ordreMission.id, designation).subscribe(
-      () => this.designationChanges = false
-    );
+    const designation = <string> this.designationControl.value;
+    this.ordreMission$.updateDesignation(this.ordreMission.id, designation).subscribe(ordre=>{
+      this.ordreMission.designation=ordre.designation;
+      this.designationChanges = false ;
+    });
   }
 
   addBonIntervention() {

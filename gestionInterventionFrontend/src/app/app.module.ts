@@ -67,6 +67,9 @@ import { SoftwareCategorieListComponent } from './software-categorie-list/softwa
 import { CheckListModelListComponent } from './check-list-model-list/check-list-model-list.component';
 import { CheckListModelDetailComponent } from './check-list-model-detail/check-list-model-detail.component';
 import { AjoutSoftwareCategorieDialogComponent } from './dialog/ajout-software-categorie-dialog/ajout-software-categorie-dialog.component';
+import { CategorieDepenseListComponent } from './categorie-depense-list/categorie-depense-list.component';
+import { AddCategorieDepenseDialogComponent } from './dialog/add-categorie-depense-dialog/add-categorie-depense-dialog.component';
+import { EditCategorieDepenseDialogComponent } from './dialog/edit-categorie-depense-dialog/edit-categorie-depense-dialog.component';
 
 
 
@@ -114,7 +117,10 @@ import { AjoutSoftwareCategorieDialogComponent } from './dialog/ajout-software-c
     SoftwareCategorieListComponent,
     CheckListModelListComponent,
     CheckListModelDetailComponent,
-    AjoutSoftwareCategorieDialogComponent
+    AjoutSoftwareCategorieDialogComponent,
+    CategorieDepenseListComponent,
+    AddCategorieDepenseDialogComponent,
+    EditCategorieDepenseDialogComponent
   ],
     imports: [
         BrowserModule,
