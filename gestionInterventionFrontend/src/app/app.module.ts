@@ -70,6 +70,8 @@ import { AjoutSoftwareCategorieDialogComponent } from './dialog/ajout-software-c
 import { CategorieDepenseListComponent } from './categorie-depense-list/categorie-depense-list.component';
 import { AddCategorieDepenseDialogComponent } from './dialog/add-categorie-depense-dialog/add-categorie-depense-dialog.component';
 import { EditCategorieDepenseDialogComponent } from './dialog/edit-categorie-depense-dialog/edit-categorie-depense-dialog.component';
+import { LoginComponent } from './login/login.component';
+import { LayoutComponent } from './layout/layout.component';
 
 
 
@@ -120,7 +122,9 @@ import { EditCategorieDepenseDialogComponent } from './dialog/edit-categorie-dep
     AjoutSoftwareCategorieDialogComponent,
     CategorieDepenseListComponent,
     AddCategorieDepenseDialogComponent,
-    EditCategorieDepenseDialogComponent
+    EditCategorieDepenseDialogComponent,
+    LoginComponent,
+    LayoutComponent
   ],
     imports: [
         BrowserModule,
