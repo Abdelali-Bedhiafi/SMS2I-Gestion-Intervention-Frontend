@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { OrdreMissionRoutingModule } from './ordre-mission-routing.module';
 import { CreationOrdreMissionComponent } from './creation-ordre-mission/creation-ordre-mission.component';
 import { DetailOrdreMissionComponent } from './detail-ordre-mission/detail-ordre-mission.component';
 
@@ -30,13 +28,12 @@ import { SelectCheckListModelDialogComponent } from './dialog/select-check-list-
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import { CategorieCheckListComponent } from './categorie-check-list/categorie-check-list.component';
+import {RouterModule} from "@angular/router";
 
 
 
 
 @NgModule({
-
-
   declarations: [
     CreationOrdreMissionComponent,
     DetailOrdreMissionComponent,
@@ -55,7 +52,6 @@ import { CategorieCheckListComponent } from './categorie-check-list/categorie-ch
     MatCardModule,
     MatToolbarModule,
     MatGridListModule,
-    OrdreMissionRoutingModule,
     MatListModule,
     MatSelectModule,
     MatDatepickerModule,
@@ -68,7 +64,13 @@ import { CategorieCheckListComponent } from './categorie-check-list/categorie-ch
     MatCheckboxModule,
     MatDialogModule,
     MatProgressBarModule,
-    ClipboardModule
+    ClipboardModule,
+    RouterModule
+  ],
+  exports: [
+    CreationOrdreMissionComponent,
+    DetailOrdreMissionComponent,
+    DetailBonInterventionComponent
   ]
 })
 export class OrdreMissionModule { }

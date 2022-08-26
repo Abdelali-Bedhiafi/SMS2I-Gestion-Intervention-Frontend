@@ -10,7 +10,7 @@ import { OrdreMissionModule } from './ordre-mission/ordre-mission.module';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {HttpClient, HttpClientModule} from '@angular/common/http'
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -126,29 +126,29 @@ import { LayoutComponent } from './layout/layout.component';
     LoginComponent,
     LayoutComponent
   ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        OrdreMissionModule,
-        AppRoutingModule,
-        HttpClientModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatButtonModule,
-        MatCardModule,
-        MatGridListModule,
-        MatSelectModule,
-        ReactiveFormsModule,
-        MatTableModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatExpansionModule,
-        MatDatepickerModule,
-        MatListModule,
-        MatPaginatorModule
-    ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    OrdreMissionModule,
+    HttpClientModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatCardModule,
+    MatGridListModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatExpansionModule,
+    MatDatepickerModule,
+    MatListModule,
+    MatPaginatorModule,
+    AppRoutingModule
+  ],
   providers: [
     ConfigService,
     {

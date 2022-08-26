@@ -8,6 +8,11 @@ import {CheckListModelDetailComponent} from "./check-list-model-detail/check-lis
 import {LoginComponent} from "./login/login.component";
 import {LayoutComponent} from "./layout/layout.component";
 import {AuthService} from "./service/auth.service";
+import {DetailOrdreMissionComponent} from "./ordre-mission/detail-ordre-mission/detail-ordre-mission.component";
+import {CreationOrdreMissionComponent} from "./ordre-mission/creation-ordre-mission/creation-ordre-mission.component";
+import {
+  DetailBonInterventionComponent
+} from "./ordre-mission/detail-bon-intervention/detail-bon-intervention.component";
 
 
 const routes: Routes = [
@@ -17,6 +22,9 @@ const routes: Routes = [
       { path:"depense/:id", component: DepenseComponent },
       { path:"admin", component: AdminComponent },
       { path:"checkListModel/:id", component:CheckListModelDetailComponent },
+      { path: "detail/:id", component: DetailOrdreMissionComponent },
+      { path: "creation", component: CreationOrdreMissionComponent },
+      { path:"detailBon/:id",component: DetailBonInterventionComponent}
     ]},
   { path:"login", component:LoginComponent }
 ];
