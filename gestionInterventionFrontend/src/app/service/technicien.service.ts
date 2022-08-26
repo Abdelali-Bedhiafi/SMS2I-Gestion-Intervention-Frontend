@@ -14,7 +14,7 @@ export class TechnicienService {
     return this.backend.sendGetRequest<Technicien[]>("technicien");
   }
 
-  add(technicien: Technicien):Observable<Technicien> {
+  add(technicien: Technicien & { password: string }):Observable<Technicien> {
     return this.backend.sendPostRequest<Technicien>("technicien",technicien);
   }
 

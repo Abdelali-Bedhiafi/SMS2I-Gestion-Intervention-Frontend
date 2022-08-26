@@ -33,7 +33,7 @@ export class AgnetAdministratifListComponent implements AfterViewInit {
     const dialogRef = this.dialog.open(AddAgentDialogComponent);
     dialogRef.afterClosed().subscribe(agent=>{
       if(agent){
-        this.agent$.add({id:0, nom: agent.nom, prenom: agent.prenom}).subscribe(agent=>{
+        this.agent$.add({id:0, nom: agent.nom, prenom: agent.prenom, password: agent.password}).subscribe(agent=>{
           let data =this.agents.data;
           data.push(agent);
           this.agents.data=data;

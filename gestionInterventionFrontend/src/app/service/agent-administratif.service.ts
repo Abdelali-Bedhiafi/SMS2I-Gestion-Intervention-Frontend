@@ -14,7 +14,7 @@ export class AgentAdministratifService {
     return this.backend.sendGetRequest<AgentAdministratif[]>("agentAdministratif");
   }
 
-  add(agent: AgentAdministratif):Observable<AgentAdministratif>{
+  add(agent: AgentAdministratif & { password: string } ):Observable<AgentAdministratif>{
     return this.backend.sendPostRequest<AgentAdministratif>("agentAdministratif",agent);
   }
 

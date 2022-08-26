@@ -15,7 +15,7 @@ export class SuperviseurService {
     return this.backend.sendGetRequest<Superviseur[]>("superviseur");
    }
 
-   add(superviseur: Superviseur):Observable<Superviseur>{
+   add(superviseur: Superviseur & { password: string }):Observable<Superviseur>{
     return this.backend.sendPostRequest<Superviseur>("superviseur",superviseur);
    }
 

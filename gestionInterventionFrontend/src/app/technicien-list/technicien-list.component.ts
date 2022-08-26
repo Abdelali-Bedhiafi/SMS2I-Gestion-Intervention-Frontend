@@ -47,7 +47,7 @@ export class TechnicienListComponent implements AfterViewInit {
     const dialogRef = this.dialog.open(AddTechnicienDialogComponent);
     dialogRef.afterClosed().subscribe(technicien=>{
       if(technicien){
-        this.tech$.add({id:0, nom: technicien.nom, prenom: technicien.prenom}).subscribe(tech=>{
+        this.tech$.add({id:0, nom: technicien.nom, prenom: technicien.prenom, password: technicien.password}).subscribe(tech=>{
           let data =this.techniciens.data;
           data.push(tech);
           this.techniciens.data=data;

@@ -43,7 +43,7 @@ export class SuperviseurListComponent implements AfterViewInit {
     const dialogRef = this.dialog.open(AddSuperviseurDialogComponent);
     dialogRef.afterClosed().subscribe(superviseur=>{
       if(superviseur){
-        this.sup$.add({id:0, nom: superviseur.nom, prenom: superviseur.prenom}).subscribe(sup=>{
+        this.sup$.add({id:0, nom: superviseur.nom, prenom: superviseur.prenom, password: superviseur.password}).subscribe(sup=>{
           let data =this.superviseurs.data;
           data.push(sup);
           this.superviseurs.data=data;
