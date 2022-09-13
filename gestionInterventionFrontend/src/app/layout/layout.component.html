@@ -1,23 +1,22 @@
 <div class="container">
   <header>
     <mat-toolbar>
-      <button routerLink="home" mat-icon-button >
+      <button routerLink="home" mat-flat-button >
         <mat-icon>home</mat-icon>
+        <span>SMS2i</span>
       </button>
-      <span>SMS2i</span>
-      <button routerLink="creation" mat-icon-button >
+
+      <button *ngIf="role=='AGENT'" mat-flat-button routerLink="creation" >
         <mat-icon>post_add</mat-icon>
+        <span>nouveau ordre mission</span>
       </button>
-      <span>nouveau ordre mission</span>
+
 
       <span class="spacer"></span>
 
 
-      <button mat-icon-button routerLink="/admin" >
+      <button *ngIf="role=='ADMIN'" mat-icon-button routerLink="/admin" >
         <mat-icon>settings</mat-icon>
-      </button>
-      <button mat-icon-button >
-        <mat-icon>info</mat-icon>
       </button>
     </mat-toolbar>
   </header>

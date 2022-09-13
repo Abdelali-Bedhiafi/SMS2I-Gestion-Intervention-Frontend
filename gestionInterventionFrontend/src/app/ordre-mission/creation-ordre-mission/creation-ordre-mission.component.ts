@@ -7,6 +7,7 @@ import {Superviseur} from "../../model/superviseur";
 import {Client} from "../../model/client";
 import {OrdreMissionService} from "../service/ordre-mission.service";
 import {Router} from "@angular/router";
+import {AuthService} from "../../service/auth.service";
 
 export interface OrdreMissionCreationForm{
   descriptionMission: FormControl<string|null>;
@@ -32,6 +33,7 @@ export class CreationOrdreMissionComponent implements OnInit {
   constructor(private client : ClientService,
               private superviseur : SuperviseurService,
               private ordreMission : OrdreMissionService,
+              private auth: AuthService,
               private router : Router) { }
 
   ngOnInit(): void {
@@ -60,7 +62,8 @@ export class CreationOrdreMissionComponent implements OnInit {
         client: (value.client)? value.client : this.clients[0],
         superviseur: (value.superviseur)? value.superviseur : this.superviseurs[0],
         descriptionMission: (value.descriptionMission)? value.descriptionMission : '',
-        dateMission: (value.dateMission)? value.dateMission : new Date()
+        dateMission: (value.dateMission)? value.dateMission : new Date(),
+        agentAdministratif: {id: this.auth.getId()}
       };
       this.ordreMission.create(ordre).subscribe(mission =>{
         this.router.navigate(['detail', mission.id]).then();

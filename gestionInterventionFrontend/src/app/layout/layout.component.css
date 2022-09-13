@@ -17,6 +17,9 @@ header {
 header mat-toolbar{
   background: #f5eeee;
 }
+header button{
+  background: #f5eeee;
+}
 
 .content{
   flex-shrink: 1;

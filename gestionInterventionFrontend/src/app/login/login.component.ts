@@ -10,7 +10,7 @@ import {AuthService} from "../service/auth.service";
 })
 export class LoginComponent implements OnInit {
   loginControl= new FormGroup({
-    id: new FormControl('',Validators.required),
+    id: new FormControl<number|null>(null,Validators.required),
     password: new FormControl('',Validators.required)
   });
 
@@ -21,8 +21,9 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.auth.login(this.loginControl.value as {id:string,password:string}).subscribe(respond =>{
-      if(respond){
+    this.auth.login(this.loginControl.value as {id:number,password:string}).subscribe(respond =>{
+      console.log(respond);
+      if(respond!="INVALID"){
         this.router.navigate(['/home']).then();
       }
       else{

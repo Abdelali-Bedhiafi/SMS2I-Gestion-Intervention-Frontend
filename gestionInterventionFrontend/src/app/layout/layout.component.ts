@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from "../service/auth.service";
 
 @Component({
   selector: 'app-layout',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./layout.component.css']
 })
 export class LayoutComponent implements OnInit {
-
-  constructor() { }
+  role = "";
+  constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
+    this.role = this.auth.getRole();
   }
 
 }

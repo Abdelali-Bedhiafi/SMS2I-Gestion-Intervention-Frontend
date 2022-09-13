@@ -13,6 +13,7 @@ import {CreationOrdreMissionComponent} from "./ordre-mission/creation-ordre-miss
 import {
   DetailBonInterventionComponent
 } from "./ordre-mission/detail-bon-intervention/detail-bon-intervention.component";
+import {AdminGuard} from "./service/admin.guard";
 
 
 const routes: Routes = [
@@ -20,7 +21,7 @@ const routes: Routes = [
       { path:"home", component: HomeComponent },
       { path:"checkListDetail/:id", component:CheckListDetailComponent },
       { path:"depense/:id", component: DepenseComponent },
-      { path:"admin", component: AdminComponent },
+      { path:"admin", canActivate:[AdminGuard], component: AdminComponent },
       { path:"checkListModel/:id", component:CheckListModelDetailComponent },
       { path: "detail/:id", component: DetailOrdreMissionComponent },
       { path: "creation", component: CreationOrdreMissionComponent },
