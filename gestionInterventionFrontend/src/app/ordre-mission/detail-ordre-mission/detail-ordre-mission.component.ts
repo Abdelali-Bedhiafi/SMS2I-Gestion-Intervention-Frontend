@@ -27,6 +27,7 @@ import {BonInterventionService} from "../../service/bon-intervention.service";
 
 import {getMaxValidator} from "../../app.component";
 import {Categorie} from "../../model/categorie";
+import {AuthService} from "../../service/auth.service";
 
 
 export interface SousCategorieData{
@@ -52,7 +53,6 @@ export class DetailOrdreMissionComponent implements OnInit {
 
 
   ready = false;
-  objetChanges = false;
   accompteChanges = false;
   estimationChanges = false;
   infoChanges = false;
@@ -82,6 +82,7 @@ export class DetailOrdreMissionComponent implements OnInit {
               private technicien: TechnicienService,
               private bonIntervention: BonInterventionService,
               private router: Router,
+              private auth: AuthService,
               private dialog: MatDialog) {
   }
 
@@ -312,4 +313,17 @@ export class DetailOrdreMissionComponent implements OnInit {
         this.keywordsChanges=$event.changes;
     }
   }
+
+  technicienAssocie() {
+    return this.ordreMission.techniciens.findIndex(tech => tech.id == this.auth.getId()) != -1;
+  }
+
+  agent(){
+    return this.auth.getRole()== "AGENT";
+  }
+
+  superviseurAssocie(): boolean {
+    return this.auth.getId()==this.ordreMission.superviseur.id;
+  }
+
 }
